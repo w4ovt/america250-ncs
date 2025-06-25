@@ -207,13 +207,12 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 2rem;
   text-align: center;
   width: 120px;
-  padding: 0.75rem;
+  padding: 0.5em;
   border: 2px solid var(--bronze);
   border-radius: 8px;
   background: var(--parchment);
   color: var(--mahogany);
-  letter-spacing: 0.5em;
-  text-indent: 0.5em;
+  letter-spacing: 0.2em;
 }
 
 .pin-input:focus {
@@ -233,7 +232,7 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--parchment);
   border: none;
   border-radius: 8px;
-  padding: 1rem 2rem;
+  padding: 0.75em 2em;
   font-size: 1.1rem;
   cursor: pointer;
   transition: background 0.2s;
@@ -249,28 +248,27 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .error-message {
-  background: #dc3545;
-  color: white;
-  padding: 0.75rem;
+  background: #fee;
+  color: #c33;
+  padding: 0.75em;
   border-radius: 6px;
+  border: 1px solid #fcc;
   font-family: 'librebaskerville-regular', serif;
-  font-size: 0.9rem;
+  margin: 1rem 0;
 }
 
 .attempts-warning {
-  background: #ffc107;
-  color: var(--mahogany);
-  padding: 0.75rem;
-  border-radius: 6px;
+  color: #c33;
   font-family: 'librebaskerville-regular', serif;
   font-size: 0.9rem;
+  margin-top: 0.5rem;
 }
 
 /* Volunteer Dashboard Styles */
 .volunteer-dashboard {
-  min-height: 100vh;
-  padding: 1rem;
-  background: var(--parchment);
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
 }
 
 .dashboard-header {
@@ -291,18 +289,17 @@ h1, h2, h3, h4, h5, h6 {
 
 .logout-btn {
   font-family: 'librebaskerville-bold', serif;
-  background: var(--mahogany);
-  color: var(--parchment);
+  background: #c33;
+  color: white;
   border: none;
   border-radius: 6px;
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
+  padding: 0.5em 1em;
   cursor: pointer;
   transition: background 0.2s;
 }
 
 .logout-btn:hover {
-  background: #4d2e0f;
+  background: #a22;
 }
 
 .volunteer-info {
@@ -310,63 +307,57 @@ h1, h2, h3, h4, h5, h6 {
   padding: 1.5rem;
   border-radius: 8px;
   margin-bottom: 2rem;
-  box-shadow: 0 2px 8px rgba(104, 63, 27, 0.05);
 }
 
 .welcome-text {
   font-family: 'librebaskerville-bold', serif;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   color: var(--mahogany);
   margin-bottom: 1rem;
 }
 
 .volunteer-details {
   font-family: 'librebaskerville-regular', serif;
-  color: var(--mahogany);
 }
 
 .volunteer-details p {
   margin: 0.5rem 0;
-  font-size: 1rem;
 }
 
 .volunteer-details strong {
-  font-family: 'librebaskerville-bold', serif;
+  color: var(--mahogany);
 }
 
 .activation-form {
   background: var(--linen);
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(104, 63, 27, 0.05);
 }
 
 .activation-active {
   background: var(--linen);
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(104, 63, 27, 0.05);
   text-align: center;
 }
 
 .activation-active p {
   font-family: 'librebaskerville-regular', serif;
-  color: var(--mahogany);
   margin-bottom: 1.5rem;
-  font-size: 1.1rem;
+  color: var(--mahogany);
 }
 
 .form-title {
   font-family: 'librebaskerville-bold', serif;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   color: var(--mahogany);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .activation-form-content {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .form-group {
@@ -378,13 +369,12 @@ h1, h2, h3, h4, h5, h6 {
 .form-group label {
   font-family: 'librebaskerville-bold', serif;
   color: var(--mahogany);
-  font-size: 1rem;
 }
 
 .form-input,
 .form-select {
   font-family: 'librebaskerville-regular', serif;
-  padding: 0.75rem;
+  padding: 0.75em;
   border: 2px solid var(--bronze);
   border-radius: 6px;
   background: var(--parchment);
@@ -401,11 +391,11 @@ h1, h2, h3, h4, h5, h6 {
 
 .start-btn {
   font-family: 'librebaskerville-bold', serif;
-  background: var(--mahogany);
-  color: var(--parchment);
+  background: #28a745;
+  color: white;
   border: none;
-  border-radius: 8px;
-  padding: 1rem 2rem;
+  border-radius: 6px;
+  padding: 0.75em 1.5em;
   font-size: 1.1rem;
   cursor: pointer;
   transition: background 0.2s;
@@ -413,7 +403,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .start-btn:hover:not(:disabled) {
-  background: #4d2e0f;
+  background: #218838;
 }
 
 .start-btn:disabled {
@@ -426,8 +416,8 @@ h1, h2, h3, h4, h5, h6 {
   background: #dc3545;
   color: white;
   border: none;
-  border-radius: 8px;
-  padding: 1rem 2rem;
+  border-radius: 6px;
+  padding: 0.75em 1.5em;
   font-size: 1.1rem;
   cursor: pointer;
   transition: background 0.2s;
@@ -437,11 +427,142 @@ h1, h2, h3, h4, h5, h6 {
   background: #c82333;
 }
 
-/* Mobile Responsive */
+/* Admin Dashboard Styles */
+.admin-dashboard {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 2px solid var(--bronze);
+}
+
+.admin-title {
+  font-family: 'librebaskerville-bold', serif;
+  font-size: 1.8rem;
+  color: var(--mahogany);
+  margin-bottom: 1.5rem;
+}
+
+.pin-create-form {
+  background: var(--linen);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.form-row .form-select {
+  flex: 1;
+  max-width: 200px;
+}
+
+.create-btn {
+  font-family: 'librebaskerville-bold', serif;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.75em 1.5em;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.create-btn:hover:not(:disabled) {
+  background: #0056b3;
+}
+
+.create-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.success-message {
+  background: #d4edda;
+  color: #155724;
+  padding: 0.75em;
+  border-radius: 6px;
+  border: 1px solid #c3e6cb;
+  font-family: 'librebaskerville-regular', serif;
+  margin: 1rem 0;
+}
+
+.pins-table-wrapper {
+  background: var(--linen);
+  border-radius: 8px;
+  padding: 1.5rem;
+  overflow-x: auto;
+}
+
+.pins-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 400px;
+}
+
+.pins-table th,
+.pins-table td {
+  padding: 0.6em 0.8em;
+  text-align: left;
+  border-bottom: 1px solid var(--bronze);
+}
+
+.pins-table th {
+  background: var(--parchment);
+  font-family: 'librebaskerville-bold', serif;
+  color: var(--mahogany);
+  letter-spacing: 0.08em;
+}
+
+.pins-table td {
+  font-family: 'librebaskerville-regular', serif;
+  color: var(--mahogany);
+}
+
+.pins-table tr:last-child td {
+  border-bottom: none;
+}
+
+.delete-btn {
+  font-family: 'librebaskerville-bold', serif;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.4em 0.8em;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.delete-btn:hover:not(:disabled) {
+  background: #c82333;
+}
+
+.delete-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.reserved-badge {
+  font-family: 'librebaskerville-bold', serif;
+  background: var(--bronze);
+  color: var(--mahogany);
+  padding: 0.3em 0.6em;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
 @media (max-width: 600px) {
   .auth-container {
     padding: 1.5rem;
-    margin: 1rem;
+    margin: 0 0.5rem;
   }
   
   .auth-title {
@@ -449,8 +570,8 @@ h1, h2, h3, h4, h5, h6 {
   }
   
   .pin-input {
-    font-size: 1.5rem;
     width: 100px;
+    font-size: 1.5rem;
   }
   
   .dashboard-header {
@@ -470,6 +591,24 @@ h1, h2, h3, h4, h5, h6 {
   }
   
   .welcome-text {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+  }
+  
+  .form-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .form-row .form-select {
+    max-width: none;
+  }
+  
+  .pins-table {
+    font-size: 0.9rem;
+  }
+  
+  .pins-table th,
+  .pins-table td {
+    padding: 0.4em 0.6em;
   }
 } 
