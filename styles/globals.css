@@ -341,6 +341,21 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 2px 8px rgba(104, 63, 27, 0.05);
 }
 
+.activation-active {
+  background: var(--linen);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(104, 63, 27, 0.05);
+  text-align: center;
+}
+
+.activation-active p {
+  font-family: 'librebaskerville-regular', serif;
+  color: var(--mahogany);
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+}
+
 .form-title {
   font-family: 'librebaskerville-bold', serif;
   font-size: 1.3rem;
@@ -397,8 +412,29 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 1rem;
 }
 
-.start-btn:hover {
+.start-btn:hover:not(:disabled) {
   background: #4d2e0f;
+}
+
+.start-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.end-btn {
+  font-family: 'librebaskerville-bold', serif;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.end-btn:hover {
+  background: #c82333;
 }
 
 /* Mobile Responsive */
@@ -428,7 +464,8 @@ h1, h2, h3, h4, h5, h6 {
   }
   
   .volunteer-info,
-  .activation-form {
+  .activation-form,
+  .activation-active {
     padding: 1rem;
   }
   
