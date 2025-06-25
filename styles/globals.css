@@ -1,0 +1,68 @@
+@font-face {
+  font-family: 'librebaskerville-bold';
+  src: url('/fonts/librebaskerville-bold.woff2') format('woff2'),
+       url('/fonts/librebaskerville-bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'librebaskerville-regular';
+  src: url('/fonts/librebaskerville-regular.woff2') format('woff2'),
+       url('/fonts/librebaskerville-regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --mahogany: #683f1b;
+  --parchment: #f7ecd2;
+  --linen: #f7f1e2;
+  --bronze: #c7a159;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'librebaskerville-regular', serif;
+  background: var(--parchment);
+  color: var(--mahogany);
+  min-height: 100vh;
+}
+
+body {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  box-sizing: border-box;
+  background: var(--parchment);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'librebaskerville-bold', serif;
+  color: var(--mahogany);
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--parchment);
+  box-shadow: 0 2px 8px rgba(104, 63, 27, 0.05);
+  border-radius: 8px;
+  padding: 1.5rem 1rem;
+}
+
+@media (max-width: 600px) {
+  body, .container {
+    padding: 0 0.5rem;
+  }
+  h1 {
+    font-size: 2rem;
+  }
+} 
