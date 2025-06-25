@@ -131,8 +131,10 @@ export default function VolunteerPage() {
                 <option value="CW">CW</option>
                 <option value="FT8">FT8</option>
                 <option value="FT4">FT4</option>
-                <option value="PSK31">PSK31</option>
-                <option value="RTTY">RTTY</option>
+                <option value="FM">FM</option>
+                <option value="AM">AM</option>
+                <option value="EchoLink">EchoLink</option>
+                <option value="Other">Other</option>
               </select>
             </div>
 
