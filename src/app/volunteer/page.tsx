@@ -27,6 +27,7 @@ export default function VolunteerPage() {
   const [volunteerData, setVolunteerData] = useState<AuthResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isActivating, setIsActivating] = useState(false);
+  const [isEnding, setIsEnding] = useState(false);
   const [currentActivationId, setCurrentActivationId] = useState<number | null>(null);
   const [activationForm, setActivationForm] = useState<ActivationForm>({
     frequency: '',
@@ -94,6 +95,7 @@ export default function VolunteerPage() {
     setPin('');
     setCurrentActivationId(null);
     setIsActivating(false);
+    setIsEnding(false);
   };
 
   const handleActivationSubmit = async (e: React.FormEvent) => {
@@ -136,9 +138,36 @@ export default function VolunteerPage() {
     }
   };
 
-  const handleEndActivation = () => {
-    setCurrentActivationId(null);
+  const handleEndActivation = async () => {
+    if (!currentActivationId) {
+      setErrorMessage('No active activation to end');
+      return;
+    }
+
+    setIsEnding(true);
     setErrorMessage('');
+
+    try {
+      const response = await fetch('/api/activations/end', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ activationId: currentActivationId }),
+      });
+
+      if (response.ok) {
+        setCurrentActivationId(null);
+        setErrorMessage('');
+      } else {
+        const errorData = await response.json();
+        setErrorMessage(errorData.error || 'Failed to end activation');
+      }
+    } catch {
+      setErrorMessage('Network error. Please try again.');
+    } finally {
+      setIsEnding(false);
+    }
   };
 
   // If authenticated, show volunteer form
@@ -169,8 +198,17 @@ export default function VolunteerPage() {
           <div className="activation-active">
             <h3 className="form-title">Activation Active</h3>
             <p>Your activation (ID: {currentActivationId}) is now live and visible on the homepage.</p>
-            <button onClick={handleEndActivation} className="end-btn">
-              End Activation
+            {errorMessage && (
+              <div className="error-message">
+                {errorMessage}
+              </div>
+            )}
+            <button 
+              onClick={handleEndActivation} 
+              className="end-btn"
+              disabled={isEnding}
+            >
+              {isEnding ? 'Ending...' : 'End Activation'}
             </button>
           </div>
         ) : (
