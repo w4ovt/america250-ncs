@@ -1,3 +1,5 @@
+import GuideButton from './GuideButton';
+
 export default function HomePage() {
   return (
     <main>
@@ -7,12 +9,7 @@ export default function HomePage() {
       <h2 className="homepage-subtitle">
         Volunteer Dashboard & QRZ Integration
       </h2>
-      <button
-        className="guide-btn"
-        onClick={() => window.open('/ncs-guide.pdf', '_blank', 'noopener,noreferrer')}
-      >
-        K4A NCS Guide
-      </button>
+      <GuideButton />
       <section style={{ marginTop: '2em' }}>
         <h3 className="activations-title">
           Live Activations
