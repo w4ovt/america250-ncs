@@ -5,6 +5,6 @@ import { neon } from '@neondatabase/serverless';
 // Load environment variables from .env.local
 config({ path: '.env.local' });
 
-const sql = neon(process.env.NEON_DATABASE_URL!);
+const sql = neon(process.env.DATABASE_URL!);
 
 export const db = drizzle(sql); 
