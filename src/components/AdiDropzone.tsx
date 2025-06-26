@@ -12,6 +12,8 @@ export default function AdiDropzone({ disabled = false }: AdiDropzoneProps) {
         <p>Upload your ADI logbook file to submit QSO records to QRZ.</p>
         <input
           type="file"
+          id="adi-file-input"
+          name="adi-file-input"
           accept=".adi,.ADI"
           className={`file-input ${disabled ? 'disabled' : ''}`}
           disabled={disabled}

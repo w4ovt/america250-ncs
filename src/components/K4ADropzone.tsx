@@ -143,6 +143,8 @@ export default function K4ADropzone({ disabled = false, volunteerData }: K4ADrop
       <input
         ref={fileInputRef}
         type="file"
+        id="k4a-file-input"
+        name="k4a-file-input"
         accept=".adi,.ADI"
         onChange={handleFileInputChange}
         style={{ display: 'none' }}

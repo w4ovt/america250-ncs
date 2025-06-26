@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 interface Activation {
   activationId: number;
-  frequencyMhz: number;
+  frequencyMhz: string | number;
   mode: string;
   startedAt: string;
   name: string;
@@ -46,7 +46,7 @@ export default function ActivationTable() {
     return activation ? (
       <tr key={activation.activationId}>
         <td>{activation.activationId}</td>
-        <td>{activation.frequencyMhz.toFixed(3)}</td>
+        <td>{Number(activation.frequencyMhz).toFixed(3)}</td>
         <td>{activation.mode}</td>
         <td>{activation.name}</td>
         <td>{activation.callsign}</td>

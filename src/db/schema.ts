@@ -1,4 +1,4 @@
-import { pgTable, serial, varchar, integer, timestamp } from 'drizzle-orm/pg-core';
+import { pgTable, serial, varchar, integer, timestamp, decimal } from 'drizzle-orm/pg-core';
 
 export const pins = pgTable('pins', {
   pinId: serial('pin_id').primaryKey(),
@@ -19,7 +19,7 @@ export const volunteers = pgTable('volunteers', {
 export const activations = pgTable('activations', {
   activationId: serial('activation_id').primaryKey(),
   volunteerId: integer('volunteer_id').references(() => volunteers.volunteerId),
-  frequencyMhz: integer('frequency_mhz').notNull(),
+  frequencyMhz: decimal('frequency_mhz', { precision: 6, scale: 3 }).notNull(),
   mode: varchar('mode', { length: 16 }).notNull(),
   startedAt: timestamp('started_at').defaultNow(),
   endedAt: timestamp('ended_at'),

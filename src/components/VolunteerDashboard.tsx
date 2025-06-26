@@ -220,17 +220,19 @@ export default function VolunteerDashboard({ disabled = false, volunteerData, on
             <p>This dashboard allows volunteers to start and manage activations.</p>
             <div className="placeholder-form">
               <div className="form-group">
-                <label>Frequency (MHz)</label>
+                <label htmlFor="placeholder-frequency">Frequency (MHz)</label>
                 <input
                   type="text"
+                  id="placeholder-frequency"
+                  name="placeholder-frequency"
                   className="form-input disabled"
                   placeholder="e.g., 7.074"
                   disabled
                 />
               </div>
               <div className="form-group">
-                <label>Mode</label>
-                <select className="form-select disabled" disabled>
+                <label htmlFor="placeholder-mode">Mode</label>
+                <select id="placeholder-mode" name="placeholder-mode" className="form-select disabled" disabled>
                   <option>Select Mode</option>
                 </select>
               </div>

@@ -120,14 +120,19 @@ export default function AdminDashboard() {
       <div className="pin-create-form">
         <h3 className="form-title">Create New PIN</h3>
         <div className="form-row">
-          <select
-            value={selectedRole}
-            onChange={(e) => setSelectedRole(e.target.value)}
-            className="form-select"
-          >
-            <option value="volunteer">Volunteer</option>
-            <option value="admin">Admin</option>
-          </select>
+          <div className="form-group">
+            <label htmlFor="role-select">Role</label>
+            <select
+              id="role-select"
+              name="role-select"
+              value={selectedRole}
+              onChange={(e) => setSelectedRole(e.target.value)}
+              className="form-select"
+            >
+              <option value="volunteer">Volunteer</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
           <button
             onClick={handleCreatePin}
             className="create-btn"
