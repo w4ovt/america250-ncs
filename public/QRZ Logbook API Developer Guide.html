@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 25.2.4.3 (MacOSX)"/>
+	<meta name="author" content="Marc Bowen"/>
+	<meta name="created" content="2025-06-26T02:23:47.382525000"/>
+	<meta name="changedby" content="Marc Bowen"/>
+	<meta name="changed" content="2025-06-26T02:25:01.670139000"/>
+	<style type="text/css">
+		@page { margin: 0.79in }
+		p { margin-bottom: 0.1in }
+	</style>
+</head>
+<body lang="en-US" dir="ltr"><h2 style="font-weight: normal; font-style: normal; letter-spacing: normal; font-variant: normal">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">QRZ
+Logbook API Developer Guide</font></font></font></h2>
+<p style="widows: 2; letter-spacing: normal; orphans: 2; font-style: normal; font-weight: normal; font-variant: normal">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">This
+guide will help you develop applications or scripts that interact
+with a QRZ logbook using our API.</font></font></font></p>
+<h3 style="letter-spacing: normal; font-style: normal; widows: 2; orphans: 2; font-weight: normal; font-variant: normal">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">INTRODUCTION</font></font></font></h3>
+<p style="widows: 2; font-style: normal; orphans: 2; letter-spacing: normal; margin-left: 0.42in; font-weight: normal; font-variant: normal">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">This
+API provides methods for external programs to interact with the QRZ
+Logbook using an HTTP REST interface. The QRZ Logbook is a
+combination free and paid subscription service of QRZ. Some advanced
+features require a valid subscription while the majority of
+operations are free to all QRZ members. All users of the QRZ Logbook,
+regardless of their subscription status, may access, edit, update,
+and view their complete logs online at the QRZ website.</font></font></font></p>
+<h3 style="letter-spacing: normal; font-style: normal; widows: 2; orphans: 2; font-weight: normal; font-variant: normal">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">LOGBOOK
+MODEL</font></font></font></h3>
+<p style="widows: 2; font-style: normal; orphans: 2; letter-spacing: normal; margin-left: 0.42in; font-weight: normal; font-variant: normal">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">A
+QRZ Logbook is a collection of QSO records that share common
+attributes.&nbsp; Every QSO in the QRZ Logbook has its own unique
+integer&nbsp;<i><b>logid</b></i>&nbsp;which is used as a unique
+selector for that log record. In addition, every logbook has its own
+integer&nbsp;<i><b>bookid</b></i>, and belongs to a specific QRZ
+member.&nbsp; Logbook attributes govern which QSO’s are included in
+the ‘book’.&nbsp; Every QSO record contains set of key attributes
+which must be provided in order to be inserted into a given user’s
+logbook.&nbsp; These are: a bookid, the sending station’s callsign,
+the receiving station’s callsign, the date and time of the QSO, the
+frequency band, and the transmission mode.</font></font></font></p>
+<p style="widows: 2; font-style: normal; orphans: 2; letter-spacing: normal; margin-left: 0.42in; font-weight: normal; font-variant: normal">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">A
+given QRZ logbook serves just one callsign. Every character in a
+callsign is significant including mobile or portable identifiers such
+as /M or /P. For example, XX1XX and XX1XX/M are treated as separate
+callsigns, each requiring its own logbook. When a user has a callsign
+change, a new logbook is opened for the new callsign, and thereafter
+the user has at least two logbooks, one for the old callsign and one
+for the new.</font></font></font></p>
+<p style="widows: 2; font-style: normal; orphans: 2; letter-spacing: normal; margin-left: 0.42in; font-weight: normal; font-variant: normal">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">Each
+QRZ logbook has a configurable date range. The date range includes
+the dates over which the given callsign was or will be active. For
+example, if a license was issued in 2012-04-01, its date range will
+start in on that date and its end date will coincide with the
+published expiration date of their license. QSO reports that are
+received outside the configured date range will be rejected.</font></font></font></p>
+<p style="widows: 2; font-style: normal; orphans: 2; letter-spacing: normal; margin-left: 0.42in; font-weight: normal; font-variant: normal">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">A
+QRZ member may have or have access to multiple logbooks, each having
+a unique bookid. Bookid’s are not transmitted in the API but rather
+are conveyed by an opaque API ACCESS KEY that is provided by QRZ. The
+unique access key for a given logbook is available to users on the
+QRZ website. The access key conveys both the user identification and
+QSO routing necessary to connect an external program to the correct
+QRZ logbook.</font></font></font></p>
+<h3 style="letter-spacing: normal; font-style: normal; widows: 2; orphans: 2; font-weight: normal; font-variant: normal">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">APPLICATION
+IDENTIFICATION REQUIREMENTS</font></font></font></h3>
+<p style="margin-left: 0.42in; orphans: 2; widows: 2"><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">All
+applications accessing the Logbook API *</span></span></span></font></font></font></span><strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">MUST</span></span></span></font></font></font></span></strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">*
+provide an identifiable&nbsp;<a href="https://en.wikipedia.org/wiki/User-Agent_header">user
+agent</a>&nbsp;header.</span></span></span></font></font></font></span></p>
+<p style="margin-left: 0.42in; orphans: 2; widows: 2"><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">For
+individuals writing scripts for personal use please include your
+callsign and a unique (to you) name for your script so that it can be
+identified if we need to contact you. For
+example&nbsp;</span></span></span></font></font></font></span><em><span style="font-variant: normal"><font color="#000000"><font face="Courier New, Courier, monospace"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">MyCoolUploadScript.py/1.0.0
+(VA7STV)</span></span></span></font></font></font></span></em><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">&nbsp;or&nbsp;</span></span></span></font></font></font></span><em><span style="font-variant: normal"><font color="#000000"><font face="Courier New, Courier, monospace"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">MyUploadScriptIsCoolerThanYours.py/1.0.1
+(KF8KI)</span></span></span></font></font></font></span></em></p>
+<p style="margin-left: 0.42in; orphans: 2; widows: 2"><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">For
+application developers or widely distributed scripts we suggest using
+the format&nbsp;</span></span></span></font></font></font></span><em><span style="font-variant: normal"><font color="#000000"><font face="Courier New, Courier, monospace"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">ApplicationName/1.20.2112</span></span></span></font></font></font></span></em><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">&nbsp;(where
+the second component is a version number or date of release)</span></span></span></font></font></font></span></p>
+<p style="margin-left: 0.42in; orphans: 2; widows: 2"><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">Applications
+making requests without providing a user agent or that provide a
+generic user agent such as&nbsp;</span></span></span></font></font></font></span><em><span style="font-variant: normal"><font color="#000000"><font face="Courier New, Courier, monospace"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">node-fetch</span></span></span></font></font></font></span></em><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">&nbsp;or&nbsp;</span></span></span></font></font></font></span><em><span style="font-variant: normal"><font color="#000000"><font face="Courier New, Courier, monospace"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">python-requests</span></span></span></font></font></font></span></em><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">&nbsp;could
+be subject to rate limiting or other restrictions.</span></span></span></font></font></font></span></p>
+<p style="widows: 2; font-style: normal; orphans: 2; letter-spacing: normal; margin-left: 0.42in; font-weight: normal; font-variant: normal">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">User
+agents should be 128 characters or less.</font></font></font></p>
+<h3 style="letter-spacing: normal; font-style: normal; widows: 2; orphans: 2; font-weight: normal; font-variant: normal">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">API
+END POINT</font></font></font></h3>
+<p style="widows: 2; font-style: normal; orphans: 2; letter-spacing: normal; margin-left: 0.42in; font-weight: normal; font-variant: normal">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">Requests
+should be made to</font></font></font></p>
+<pre style="widows: 2; font-style: normal; orphans: 2; margin-bottom: 0.2in; font-variant: normal; letter-spacing: normal; margin-left: 0.42in; font-weight: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">https://logbook.qrz.com/api</font></font></font></pre><h3 style="widows: 2; orphans: 2; letter-spacing: normal; font-variant: normal; font-weight: normal; font-style: normal">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">API
+INTERFACE</font></font></font></h3>
+<p style="widows: 2; font-style: normal; orphans: 2; letter-spacing: normal; margin-left: 0.42in; font-weight: normal; font-variant: normal">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">The
+API uses a name=value pair, HTTP POST interface for both input and
+output response. QSO data is conveyed in ADIF format as an argument
+to an ADIF=… parameter.</font></font></font></p>
+<p style="widows: 2; font-style: normal; orphans: 2; letter-spacing: normal; margin-left: 0.42in; font-weight: normal; font-variant: normal">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">Below
+is an example transaction that inserts a new QSO record.</font></font></font></p>
+<p style="margin-left: 0.42in; orphans: 2; widows: 2"><strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">POST
+DATA:</span></span></span></font></font></font></span></strong></p>
+<pre style="widows: 2; font-style: normal; orphans: 2; letter-spacing: normal; font-variant: normal; margin-left: 0.42in; font-weight: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">KEY=ABCD-0A0B-1C1D-2E2F<font color="#ff0000">&amp;</font></font></font></font>
+<code><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">ACTION=INSERT</span></span></span></font></font></font></span></code><code><span style="font-variant: normal"><font color="#ff0000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">&amp;</span></span></span></font></font></font></span></code>
+<code><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">ADIF=&lt;band:3&gt;80m&lt;mode:3&gt;SSB&lt;call:4&gt;XX1X&lt;qso_date:8&gt;20140121&lt;station_callsign:5&gt;AA7BQ&lt;time_on:4&gt;0346&lt;eor&gt;</span></span></span></font></font></font></span></code></pre><p style="widows: 2; font-style: normal; orphans: 2; letter-spacing: normal; margin-left: 0.42in; font-weight: normal; font-variant: normal">
+<font color="#ff0000"><font face="Times"><font size="2" style="font-size: 9pt">Note
+that line breaks shown above are used for illustration only and are
+typically not present in the protocol. In practice, all post data is
+URL encoded into a single string.</font></font></font></p>
+<p style="margin-left: 0.42in; orphans: 2; widows: 2"><strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">RESPONSE:</span></span></span></font></font></font></span></strong></p>
+<pre style="orphans: 2; widows: 2; margin-left: 0.42in; margin-bottom: 0.2in"><code><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">RESULT=OK&amp;LOGIDS=130877825&amp;COUNT=1</span></span></span></font></font></font></span></code></pre><h3 style="letter-spacing: normal; font-style: normal; widows: 2; orphans: 2; font-weight: normal; font-variant: normal">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">API
+REQUESTS</font></font></font></h3>
+<p style="widows: 2; font-style: normal; orphans: 2; letter-spacing: normal; margin-left: 0.42in; font-weight: normal; font-variant: normal">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">Every
+API interaction with the QRZ server must include the following
+fields: KEY and ACTION. Other named parameters are either optional or
+dependent upon the action specified. The server will reject requests
+containing unrecognized parameters.</font></font></font></p>
+<p style="margin-left: 0.42in; orphans: 2; widows: 2"><strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">API
+REQUEST PARAMETERS TYPES</span></span></span></font></font></font></span></strong></p>
+<table cellpadding="2" cellspacing="1">
+	<tr>
+		<td style="border-top: 1px double #808080; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding: 0.02in"><p>
+			KEY</p>
+		</td>
+		<td style="border-top: 1px double #808080; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding: 0.02in"><p>
+			A QRZ supplied logbook access key</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			ACTION</p>
+		</td>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			Type of request, i.e. INSERT, DELETE, UPLOAD, etc.</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			ADIF</p>
+		</td>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			ADIF formatted input data</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			OPTION</p>
+		</td>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			Action-specific options</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			LOGIDS</p>
+		</td>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			A comma separated list of integer logid values</p>
+		</td>
+	</tr>
+</table>
+<p style="orphans: 2; letter-spacing: normal; font-variant: normal; widows: 2">
+<font color="#000000">&nbsp;</font></p>
+<p style="margin-left: 0.42in; orphans: 2; widows: 2"><strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">API
+RESPONSE TYPES</span></span></span></font></font></font></span></strong></p>
+<table cellpadding="2" cellspacing="1">
+	<tr>
+		<td style="border-top: 1px double #808080; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding: 0.02in"><p>
+			RESULT</p>
+		</td>
+		<td style="border-top: 1px double #808080; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding: 0.02in"><p>
+			<strong>OK&nbsp;</strong>when the operation succeeds,&nbsp;<strong>FAIL&nbsp;</strong>when
+			the operation failed,&nbsp;<strong>AUTH&nbsp;</strong>when API
+			Access lacked sufficient privileges for the operation, or other
+			action-specific codes</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			REASON</p>
+		</td>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			Used with&nbsp;<strong>RESULT=FAIL</strong>&nbsp;to describe the
+			specific reason for failure</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			LOGIDS</p>
+		</td>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			A comma separated list of&nbsp;<strong>logid&nbsp;</strong>values
+			that were affected by the action</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			LOGID</p>
+		</td>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			The&nbsp;<strong>logid&nbsp;</strong>value of the record that was
+			inserted or replaced. (Singular “<strong>LOGID</strong>”
+			response only used by&nbsp;<strong>INSERT&nbsp;</strong>as it is a
+			single record operation.)</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			COUNT</p>
+		</td>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			The number of QSO records that were affected by the action</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			DATA</p>
+		</td>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			Used for action-specific data such as status reports</p>
+		</td>
+	</tr>
+</table>
+<p style="orphans: 2; letter-spacing: normal; font-variant: normal; widows: 2">
+<font color="#000000">&nbsp;</font></p>
+<h3 style="letter-spacing: normal; font-style: normal; widows: 2; orphans: 2; font-weight: normal; font-variant: normal">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">API
+COMMANDS</font></font></font></h3>
+<p style="orphans: 2; letter-spacing: normal; font-variant: normal; widows: 2">
+<font color="#000000">&nbsp;</font></p>
+<h4 style="widows: 2; font-style: normal; orphans: 2; letter-spacing: normal; font-variant: normal; font-weight: normal; margin-left: 0.42in">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">INSERT
+ACTION&nbsp; &nbsp;&nbsp;<font color="#ff0000"><font size="2" style="font-size: 9pt">(Note:
+subscription required)</font></font></font></font></font></h4>
+<p style="widows: 2; font-style: normal; orphans: 2; letter-spacing: normal; margin-left: 0.42in; font-weight: normal; font-variant: normal">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">This
+action inserts one record into the logbook selected by the API Access
+Key.</font></font></font></p>
+<p style="margin-left: 0.42in; orphans: 2; widows: 2"><strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">REQUEST</span></span></span></font></font></font></span></strong></p>
+<table cellpadding="2" cellspacing="1">
+	<tr>
+		<td style="border-top: 1px double #808080; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding: 0.02in"><p>
+			ACTION</p>
+		</td>
+		<td style="border-top: 1px double #808080; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding: 0.02in"><p>
+			<strong>INSERT</strong></p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			ADIF</p>
+		</td>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			The ADIF data to be inserted</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			OPTION</p>
+		</td>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			<strong>REPLACE&nbsp;</strong>To automatically overwrite any
+			existing duplicate QSOs.<br/>
+<font color="#ff0000"><font size="2" style="font-size: 9pt">(WARNING:
+			This WILL overwrite confirmed QSOs with the supplied unconfirmed
+			QSO until the new QSO data is verified as a match)</font></font></p>
+		</td>
+	</tr>
+</table>
+<p style="orphans: 2; letter-spacing: normal; margin-left: 0.42in; font-variant: normal; widows: 2">
+<font color="#000000">&nbsp;</font></p>
+<p style="margin-left: 0.42in; orphans: 2; widows: 2"><strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">RESPONSE</span></span></span></font></font></font></span></strong></p>
+<table cellpadding="2" cellspacing="1">
+	<tr>
+		<td style="border-top: 1px double #808080; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding: 0.02in"><p>
+			RESULT</p>
+		</td>
+		<td style="border-top: 1px double #808080; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding: 0.02in"><p>
+			<strong>OK</strong>&nbsp;when QSO was inserted into the
+			logbook<br/>
+<strong>FAIL&nbsp;</strong>if the QSO was NOT
+			inserted<br/>
+<strong>REPLACE&nbsp;</strong>if the QSO was a
+			duplicate, and subsequently overwritten</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			COUNT</p>
+		</td>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			Returns the number of records inserted or replaced (Always 1 or 0)</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			LOGID</p>
+		</td>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			The logid value of the record that was inserted or replaced</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			REASON</p>
+		</td>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			Used with&nbsp;<strong>RESULT=FAIL</strong>&nbsp;to describe the
+			nature of the error.</p>
+		</td>
+	</tr>
+</table>
+<h4 style="letter-spacing: normal; margin-left: 0.42in; widows: 2; font-variant: normal; orphans: 2">
+<font color="#000000">&nbsp;</font></h4>
+<h4 style="widows: 2; font-style: normal; orphans: 2; letter-spacing: normal; font-variant: normal; font-weight: normal; margin-left: 0.42in">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">DELETE
+ACTION&nbsp; &nbsp;&nbsp;<font color="#ff0000"><font size="2" style="font-size: 9pt">(Note:
+subscription required)</font></font></font></font></font></h4>
+<p style="widows: 2; font-style: normal; orphans: 2; letter-spacing: normal; margin-left: 0.42in; font-weight: normal; font-variant: normal">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">This
+action deletes one or more QSO records from logbook selected by the
+API Access Key.</font></font></font></p>
+<p style="margin-left: 0.42in; orphans: 2; widows: 2"><strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">REQUEST</span></span></span></font></font></font></span></strong></p>
+<table cellpadding="2" cellspacing="1">
+	<tr>
+		<td style="border-top: 1px double #808080; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding: 0.02in"><p>
+			ACTION</p>
+		</td>
+		<td style="border-top: 1px double #808080; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding: 0.02in"><p>
+			<strong>DELETE</strong></p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			LOGIDS</p>
+		</td>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			LOGIDS A comma separated list of&nbsp;<strong>logid&nbsp;</strong>values</p>
+		</td>
+	</tr>
+</table>
+<p style="orphans: 2; letter-spacing: normal; margin-left: 0.42in; font-variant: normal; widows: 2">
+<font color="#000000">&nbsp;</font></p>
+<p style="margin-left: 0.42in; orphans: 2; widows: 2"><strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">RESPONSE</span></span></span></font></font></font></span></strong></p>
+<table cellpadding="2" cellspacing="1">
+	<tr>
+		<td style="border-top: 1px double #808080; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding: 0.02in"><p>
+			RESULT</p>
+		</td>
+		<td style="border-top: 1px double #808080; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding: 0.02in"><p>
+			<strong>OK&nbsp;</strong>if all the requested logid’s were
+			deleted<br/>
+<strong>PARTIAL&nbsp;</strong>if some or all
+			requested logid’s were not deleted<br/>
+<strong>FAIL&nbsp;</strong>if
+			none of the requested logid values were found.</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			LOGIDS</p>
+		</td>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			Comma separated list of logid values that were&nbsp;<strong>not
+			found</strong>. Provided only when&nbsp;<strong>RESULT=PARTIAL</strong></p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			COUNT</p>
+		</td>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			Returns the number of QSO records that were deleted</p>
+		</td>
+	</tr>
+</table>
+<h4 style="letter-spacing: normal; margin-left: 0.42in; widows: 2; font-variant: normal; orphans: 2">
+<font color="#000000">&nbsp;</font></h4>
+<p style="widows: 2; orphans: 2; border: 1px solid #000000; padding: 0.02in; margin-left: 0.42in; background: #d3d3d3">
+<strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">USAGE
+NOTES</span></span></span></font></font></font></span></strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal"><br/>
+This
+command permanently deletes one or more QRZ log entries.<br/>
+</span></span></span></font></font></font></span><strong><span style="font-variant: normal"><font color="#ff0000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">NOTE:
+There is no ‘undo’ from this operation. Deleted records cannot be
+recovered.</span></span></span></font></font></font></span></strong></p>
+<h4 style="letter-spacing: normal; margin-left: 0.42in; widows: 2; font-variant: normal; orphans: 2">
+<font color="#000000">&nbsp;</font></h4>
+<h4 style="widows: 2; font-style: normal; orphans: 2; letter-spacing: normal; font-variant: normal; font-weight: normal; margin-left: 0.42in">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">STATUS
+ACTION&nbsp; &nbsp;&nbsp;<font color="#ff0000"><font size="2" style="font-size: 9pt">(Note:
+subscription required)</font></font></font></font></font></h4>
+<p style="widows: 2; font-style: normal; orphans: 2; letter-spacing: normal; margin-left: 0.42in; font-weight: normal; font-variant: normal">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">This
+command returns a status report on the logbook selected by the API
+Access Key.</font></font></font></p>
+<p style="margin-left: 0.42in; orphans: 2; widows: 2"><strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">REQUEST</span></span></span></font></font></font></span></strong></p>
+<table cellpadding="2" cellspacing="1">
+	<tr>
+		<td style="border-top: 1px double #808080; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding: 0.02in"><p>
+			ACTION</p>
+		</td>
+		<td style="border-top: 1px double #808080; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding: 0.02in"><p>
+			<strong>STATUS</strong></p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			LOGIDS</p>
+		</td>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			LOGIDS A comma separated list of&nbsp;<strong>logid&nbsp;</strong>values</p>
+		</td>
+	</tr>
+</table>
+<p style="orphans: 2; letter-spacing: normal; margin-left: 0.42in; font-variant: normal; widows: 2">
+<font color="#000000">&nbsp;</font></p>
+<p style="margin-left: 0.42in; orphans: 2; widows: 2"><strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">RESPONSE</span></span></span></font></font></font></span></strong></p>
+<table cellpadding="2" cellspacing="1">
+	<tr>
+		<td style="border-top: 1px double #808080; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding: 0.02in"><p>
+			RESULT</p>
+		</td>
+		<td style="border-top: 1px double #808080; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding: 0.02in"><p>
+			<strong>OK</strong>&nbsp;if the command succeeded<br/>
+<strong>FAIL</strong>&nbsp;if
+			the Access Key is invalid</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			DATA</p>
+		</td>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			Returns logbook status parameters in a&nbsp;<strong>&amp;</strong>&nbsp;separated
+			list of name=value pairs. May include items such as: Total QSO’s
+			in book, total confirmed, DXCC total, USA States total, start
+			date, end date, book owner, bookid, book name, authorized users.</p>
+		</td>
+	</tr>
+</table>
+<h4 style="letter-spacing: normal; margin-left: 0.42in; widows: 2; font-variant: normal; orphans: 2">
+<font color="#000000">&nbsp;</font></h4>
+<h4 style="widows: 2; font-style: normal; orphans: 2; letter-spacing: normal; font-variant: normal; font-weight: normal; margin-left: 0.42in">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">FETCH
+ACTION&nbsp; &nbsp;&nbsp;<font color="#ff0000"><font size="2" style="font-size: 9pt">(Note:
+subscription required)</font></font></font></font></font></h4>
+<p style="widows: 2; font-style: normal; orphans: 2; letter-spacing: normal; margin-left: 0.42in; font-weight: normal; font-variant: normal">
+<font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt">Fetch
+one or more QSO records from the logbook selected by the API Access
+Key. This command provides for selection of specific records meeting
+specific criteria.</font></font></font></p>
+<p style="margin-left: 0.42in; orphans: 2; widows: 2"><strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">REQUEST</span></span></span></font></font></font></span></strong></p>
+<table cellpadding="2" cellspacing="1">
+	<tr>
+		<td style="border-top: 1px double #808080; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding: 0.02in"><p>
+			ACTION</p>
+		</td>
+		<td style="border-top: 1px double #808080; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding: 0.02in"><p>
+			<strong>FETCH</strong></p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			OPTION</p>
+		</td>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			<strong>ALL</strong>&nbsp;to fetch the entire logbook
+			(default)<br/>
+<strong>DXCC:nnn&nbsp;</strong>fetch those records
+			having DXCC=nnn<br/>
+<strong>BETWEEN:2014-01-01+2014-01-31&nbsp;</strong>applies
+			a date range to the fetch. Fetches those records dated between the
+			two dates (start+end) (default: all)<br/>
+<strong>MODSINCE:2023-01-01</strong>&nbsp;only
+			return records modified since this date<br/>
+<strong>AFTERLOGID:123123123&nbsp;</strong>only
+			return records with a&nbsp;app_qrzlog_logid value greater than or
+			equal to the number provided.<br/>
+<strong>BAND:xxx&nbsp;</strong>fetch
+			those QSO’s from the given band<br/>
+<strong>MODE:xxx</strong>&nbsp;fetch
+			those QSO’s having the given mode<br/>
+<strong>CALL:XX1XX&nbsp;</strong>fetch
+			those records of QSO’s with the indicated
+			callsign<br/>
+<strong>LOGIDS:nnn+nnn+nnn</strong>&nbsp;list of
+			logid’s to fetch<br/>
+<strong>MAX:nnnn</strong>&nbsp;maximum
+			number records to fetch (can be 0). Not specified = unlimited
+			(default)<br/>
+<strong>TYPE:ADIF|LOGIDS</strong>&nbsp;used to
+			select either a&nbsp;<strong>logid&nbsp;</strong>list or ADIF data
+			(default)<br/>
+<strong>STATUS:CONFIRMED|ALL</strong>&nbsp;used to
+			select either confirmed records, or, all matching records (default
+			is ALL)</p>
+		</td>
+	</tr>
+</table>
+<p style="orphans: 2; letter-spacing: normal; margin-left: 0.42in; font-variant: normal; widows: 2">
+<font color="#000000">&nbsp;</font></p>
+<p style="widows: 2; orphans: 2; border: 1px solid #000000; padding: 0.02in; margin-left: 0.42in; background: #d3d3d3">
+<strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">PAGING
+RESULTS</span></span></span></font></font></font></span></strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal"><br/>
+We
+recommend that your application implements some form of paging when
+retrieving data, Some logbooks can be extremely large and downloading
+the entire book in on transaction may timeout.<br/>
+<br/>
+The easiest
+way to achieve this is adding&nbsp;</span></span></span></font></font></font></span><strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">MAX:250,AFTERLOGID:0&nbsp;</span></span></span></font></font></font></span></strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">to
+your options, this will return a maximum of 250 results starting at
+the begining of the logbook. If the data your receive contains 250
+records you should make additional requests, altering
+the&nbsp;</span></span></span></font></font></font></span><strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">AFTERLOGID</span></span></span></font></font></font></span></strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">&nbsp;value
+to be the highest value plus one of</span></span></span></font></font></font></span><em><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">&nbsp;app_qrzlog_logid</span></span></span></font></font></font></span></em><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">&nbsp;returned
+in the previous request, until you receive less than 250 (or the MAX
+value requested)&nbsp;records.</span></span></span></font></font></font></span></p>
+<p style="widows: 2; orphans: 2; border: 1px solid #000000; padding: 0.02in; margin-left: 0.42in; background: #d3d3d3">
+<strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">USAGE
+NOTES</span></span></span></font></font></font></span></strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal"><br/>
+The
+options values are sent as a comma separated list of colon separated
+name:value pairs. There should be no spaces in the option request.
+For example,<br/>
+</span></span></span></font></font></font></span><strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">BAND:80m,MODE:SSB,MAX:400</span></span></span></font></font></font></span></strong></p>
+<p style="margin-left: 0.42in; orphans: 2; widows: 2"><strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">RESPONSE</span></span></span></font></font></font></span></strong></p>
+<table cellpadding="2" cellspacing="1">
+	<tr>
+		<td style="border-top: 1px double #808080; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding: 0.02in"><p>
+			RESULT</p>
+		</td>
+		<td style="border-top: 1px double #808080; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding: 0.02in"><p>
+			<strong>OK</strong>&nbsp;if any QSO’s matched the fetch
+			option(s).<br/>
+<strong>FAIL</strong>&nbsp;if there was a
+			parameter or other problem.</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			COUNT</p>
+		</td>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			Number of records matching the selection criteria.</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			LOGIDS</p>
+		</td>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			Comma separated list of&nbsp;<strong>logid&nbsp;</strong>values
+			that match the selection criteria, limited by the&nbsp;<strong>MAX&nbsp;</strong>parameter.</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			ADIF</p>
+		</td>
+		<td style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.02in; padding-left: 0.02in; padding-right: 0.02in"><p>
+			ADIF data containing the QSO’s that match the selection
+			criteria, limited by the&nbsp;<strong>MAX&nbsp;</strong>parameter.</p>
+		</td>
+	</tr>
+</table>
+<h4 style="letter-spacing: normal; margin-left: 0.42in; widows: 2; font-variant: normal; orphans: 2">
+<font color="#000000">&nbsp;</font></h4>
+<p style="widows: 2; orphans: 2; border: 1px solid #000000; padding: 0.02in; margin-left: 0.42in; background: #d3d3d3">
+<strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">USAGE
+NOTES</span></span></span></font></font></font></span></strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal"><br/>
+Multiple
+options may be combined, separated by the ampersand or semicolon (&amp;
+or ;) characters.&nbsp;</span></span></span></font></font></font></span><strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">COUNT&nbsp;</span></span></span></font></font></font></span></strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">always
+returns the number of records matching given&nbsp;</span></span></span></font></font></font></span><strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">OPTIONS&nbsp;</span></span></span></font></font></font></span></strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">criteria.
+To fetch only the&nbsp;</span></span></span></font></font></font></span><strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">COUNT&nbsp;</span></span></span></font></font></font></span></strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">result
+of a selection, specify a&nbsp;</span></span></span></font></font></font></span><strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">MAX&nbsp;</span></span></span></font></font></font></span></strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">of&nbsp;</span></span></span></font></font></font></span><strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">0</span></span></span></font></font></font></span></strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">.
+When the option&nbsp;</span></span></span></font></font></font></span><strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">ALL&nbsp;</span></span></span></font></font></font></span></strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">is
+given, only the options&nbsp;</span></span></span></font></font></font></span><strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">TYPE&nbsp;</span></span></span></font></font></font></span></strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">and&nbsp;</span></span></span></font></font></font></span><strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">STATUS&nbsp;</span></span></span></font></font></font></span></strong><span style="font-variant: normal"><font color="#000000"><font face="Times"><font size="4" style="font-size: 14pt"><span style="letter-spacing: normal"><span style="font-style: normal"><span style="font-weight: normal">may
+also be specified. For general logbook status, use the STATUS command</span></span></span></font></font></font></span></p>
+<p style="line-height: 100%; margin-bottom: 0in"><br/>
+
+</p>
+</body>
+</html>

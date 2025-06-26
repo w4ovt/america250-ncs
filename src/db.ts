@@ -5,6 +5,18 @@ import { neon } from '@neondatabase/serverless';
 // Load environment variables from .env.local
 config({ path: '.env.local' });
 
-const sql = neon(process.env.DATABASE_URL!);
+let _db: ReturnType<typeof drizzle> | null = null;
 
-export const db = drizzle(sql); 
+function getDb() {
+  if (!_db) {
+    const connectionString = process.env.DATABASE_URL || process.env.NEON_DATABASE_URL;
+    if (!connectionString) {
+      throw new Error('No database connection string provided. Please set DATABASE_URL or NEON_DATABASE_URL environment variable.');
+    }
+    const sql = neon(connectionString);
+    _db = drizzle(sql);
+  }
+  return _db;
+}
+
+export { getDb as db }; 

@@ -1,41 +1,34 @@
 import { db } from '../db';
 import { pins, volunteers } from './schema';
-import { eq } from 'drizzle-orm';
 
 async function seed() {
-  // Insert PINs
-  await db.insert(pins).values([
-    { pin: '7317', role: 'admin' },
-    { pin: '7373', role: 'volunteer' }
-  ]);
+  try {
+    // Insert PINs
+    const [marcPin] = await db().insert(pins).values({ pin: '7317', role: 'admin' }).returning();
+    const [stanPin] = await db().insert(pins).values({ pin: '7373', role: 'volunteer' }).returning();
 
-  // Get PIN IDs
-  const marcPin = (await db.select().from(pins).where(eq(pins.pin, '7317')))[0];
-  const stanPin = (await db.select().from(pins).where(eq(pins.pin, '7373')))[0];
-
-  if (!marcPin || !stanPin) {
-    throw new Error('PIN insertion failed.');
-  }
-
-  // Insert Volunteers
-  await db.insert(volunteers).values([
-    {
+    // Insert volunteers
+    await db().insert(volunteers).values({
+      pinId: marcPin.pinId,
       name: 'Marc Bowen',
       callsign: 'W4OVT',
       state: 'NC',
-      pinId: marcPin.pinId
-    },
-    {
+    });
+    await db().insert(volunteers).values({
+      pinId: stanPin.pinId,
       name: 'Stan Overby',
       callsign: 'WA4RDZ',
       state: 'NC',
-      pinId: stanPin.pinId
-    }
-  ]);
+    });
 
-  console.log('✅ Seed complete.');
+    console.log('Seed complete');
+  } catch (error) {
+    console.error('Seed failed:', error);
+    throw error;
+  }
 }
 
 seed().catch((err) => {
-  console.error('❌ Seed failed:', err);
+  console.error(err);
+  process.exit(1);
 }); 
