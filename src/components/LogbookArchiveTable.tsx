@@ -76,8 +76,11 @@ export default function LogbookArchiveTable() {
       <p className="archive-description">All ADI file submissions and their processing results.</p>
       
       <div className="search-section">
+        <label htmlFor="archive-search" className="sr-only">Search submissions</label>
         <input
           type="text"
+          id="archive-search"
+          name="archive-search"
           placeholder="Search by filename, name, callsign, result, or file contents..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}

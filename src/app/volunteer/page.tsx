@@ -103,8 +103,11 @@ export default function VolunteerPage() {
           
           <form onSubmit={handlePinSubmit} className="pin-form">
             <div className="pin-input-group">
+              <label htmlFor="pin-input" className="sr-only">PIN</label>
               <input
                 type="password"
+                id="pin-input"
+                name="pin-input"
                 value={pin}
                 onChange={(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
                 className="pin-input"
@@ -161,8 +164,8 @@ export default function VolunteerPage() {
               <p>Admin tools for managing PINs and system configuration.</p>
               <div className="placeholder-form">
                 <div className="form-group">
-                  <label>Role</label>
-                  <select className="form-select disabled" disabled>
+                  <label htmlFor="placeholder-role">Role</label>
+                  <select id="placeholder-role" name="placeholder-role" className="form-select disabled" disabled>
                     <option>Volunteer</option>
                     <option>Admin</option>
                   </select>
