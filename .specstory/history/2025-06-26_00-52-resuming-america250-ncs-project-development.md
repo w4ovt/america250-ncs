@@ -10502,7 +10502,313 @@ I'll help you push the current state to GitHub. Let me stage all the changes and
 
 ---
 
+```bash
+git add .
+```
 
+```
+marcbowen@Mac-Studio america250-ncs % 
+
+```
+
+---
+
+```bash
+git status
+```
+
+```
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   .specstory/history/2025-06-26_00-52-resuming-america250-ncs-project-development.md
+        new file:   drizzle/0000_lucky_wolverine.sql
+        new file:   drizzle/meta/0000_snapshot.json
+        new file:   drizzle/meta/_journal.json
+        new file:   src/app/api/admin/volunteers/route.ts
+        modified:   src/app/volunteer/page.tsx
+        modified:   src/components/ActivationTable.tsx
+        modified:   src/components/AdiDropzone.tsx
+        modified:   src/components/AdminDashboard.tsx
+        modified:   src/components/K4ADropzone.tsx
+        modified:   src/components/LogbookArchiveTable.tsx
+        modified:   src/components/VolunteerDashboard.tsx
+        modified:   src/db/schema.ts
+        modified:   styles/globals.css
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   .specstory/history/2025-06-26_00-52-resuming-america250-ncs-project-development.md
+
+
+```
+
+---
+
+```bash
+git add .specstory/history/2025-06-26_00-52-resuming-america250-ncs-project-development.md
+```
+
+```
+marcbowen@Mac-Studio america250-ncs % 
+
+```
+
+---
+
+```bash
+git commit -m "Database restoration and admin/volunteer setup - Fixed frequency_mhz decimal type issue - Restored Marc Bowen (W4OVT) as admin/volunteer with PIN 7317 in NC - Added Steve Weigold (KF8KI) as admin/volunteer with PIN 7373 in OH - Cleaned up test data and verified PIN authentication - Updated ActivationTable to handle decimal frequency display - All QRZ API integration logic preserved and functional"
+```
+
+```
+[main e2e2249] Database restoration and admin/volunteer setup - Fixed frequency_mhz decimal type issue - Restored Marc Bowen (W4OVT) as admin/volunteer w
+ith PIN 7317 in NC - Added Steve Weigold (KF8KI) as admin/volunteer with PIN 7373 in OH - Cleaned up test data and verified PIN authentication - Updated
+ActivationTable to handle decimal frequency display - All QRZ API integration logic preserved and functional
+ 14 files changed, 3380 insertions(+), 17 deletions(-)
+ create mode 100644 drizzle/0000_lucky_wolverine.sql
+ create mode 100644 drizzle/meta/0000_snapshot.json
+ create mode 100644 drizzle/meta/_journal.json
+ create mode 100644 src/app/api/admin/volunteers/route.ts
+
+```
+
+---
+
+```bash
+git push origin main
+```
+
+```
+Enumerating objects: 49, done.
+Counting objects: 100% (49/49), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (26/26), done.
+Writing objects: 100% (29/29), 27.24 KiB | 5.45 MiB/s, done.
+Total 29 (delta 14), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (14/14), completed with 14 local objects.
+To https://github.com/w4ovt/america250-ncs.git
+   0d062dc..e2e2249  main -> main
+
+```
+
+---
+
+## ✅ **Successfully Pushed to GitHub!**
+
+Your changes have been successfully committed and pushed to the GitHub repository. Here's what was included in this commit:
+
+### **�� Commit Summary:**
+- **Database restoration and admin/volunteer setup**
+- **Fixed frequency_mhz decimal type issue** 
+- **Restored Marc Bowen (W4OVT) as admin/volunteer with PIN 7317 in NC**
+- **Added Steve Weigold (KF8KI) as admin/volunteer with PIN 7373 in OH**
+- **Cleaned up test data and verified PIN authentication**
+- **Updated ActivationTable to handle decimal frequency display**
+- **All QRZ API integration logic preserved and functional**
+
+### **�� Files Changed:**
+- **14 files changed** with **3,380 insertions** and **17 deletions**
+- **New files created:**
+  - `drizzle/0000_lucky_wolverine.sql` (fresh database migration)
+  - `drizzle/meta/0000_snapshot.json` (migration metadata)
+  - `drizzle/meta/_journal.json` (migration journal)
+  - `src/app/api/admin/volunteers/route.ts` (volunteer creation endpoint)
+
+### **�� Current State:**
+- **Database schema** is now properly configured with decimal frequency support
+- **Admin access** restored for both you and Steve
+- **Volunteer functionality** working correctly
+- **QRZ integration** preserved and functional
+- **All changes** safely backed up to GitHub
+
+Your project is now in a stable, working state with proper admin/volunteer access restored and all functionality preserved.
+
+---
+
+_**User**_
+
+Are you going to fix the remainder UI adjustments previously defined?
+
+---
+
+_**Assistant**_
+
+You're absolutely right! I need to complete the UI adjustments that were previously defined. Looking back at the conversation, there were several UI requirements that need to be implemented:
+
+## 🎨 **Remaining UI Adjustments Needed:**
+
+### **1. Parchment/Linen Motif:**
+- Parchment background
+- Linen content blocks  
+- Mahogany borders
+
+### **2. Navigation:**
+- Persistent hamburger menu (no NavBar)
+- Only HOME and VOLUNTEER PAGE options
+- Visible on all screen sizes
+
+### **3. HOME Page:**
+- Prominent "AMERICA250" header
+- Activation Table
+- Remove K4A NCS Guide button
+
+### **4. VOLUNTEER PAGE:**
+- K4A NCS Guide button at the top
+- PIN entry block (with underscores, not zeros, and visible numbers)
+- Volunteer Dashboard with all activation fields
+
+Let me implement these remaining UI adjustments now:
+
+
+---
+
+Read file: styles/globals.css
+
+---
+
+I can see the motif colors are already defined. Now let me check the current layout and implement the remaining UI adjustments:
+
+
+---
+
+Read file: src/app/layout.tsx
+
+---
+
+Good! The hamburger menu is already in place. Now let me check the home page to implement the prominent "AMERICA250" header and remove the K4A NCS Guide button:
+
+
+---
+
+Read file: src/app/page.tsx
+
+---
+
+I need to update the home page to have a prominent "AMERICA250" header and remove the GuideButton. Let me also check the volunteer page to ensure it has the GuideButton at the top:
+
+
+---
+
+```diff
+- import GuideButton from './GuideButton';
+  import ActivationTable from '../components/ActivationTable';
+  
+  export default function HomePage() {
+    return (
+      <main>
+-       <h1 className="homepage-title">
+-         America250 Activations
++       <h1 className="homepage-title" style={{ 
++         fontSize: '3.5rem', 
++         textAlign: 'center', 
++         marginBottom: '0.5em',
++         color: 'var(--mahogany)',
++         textShadow: '2px 2px 4px rgba(104, 63, 27, 0.1)'
++       }}>
++         AMERICA250
+        </h1>
+-       <h2 className="homepage-subtitle">
+-         Volunteer Dashboard & QRZ Integration
++       <h2 className="homepage-subtitle" style={{ 
++         textAlign: 'center',
++         marginBottom: '2em'
++       }}>
++         National Communications System
+        </h2>
+-       <GuideButton />
+        <section style={{ marginTop: '2em' }}>
+          <h3 className="activations-title">
+```
+
+---
+
+Now let me check the volunteer page to ensure it has the GuideButton at the top and proper PIN entry styling:
+
+
+---
+
+Read file: src/app/volunteer/page.tsx
+
+---
+
+I need to update the PIN input to show underscores instead of zeros and make the numbers visible. Let me also check the hamburger menu to ensure it only shows HOME and VOLUNTEER PAGE:
+
+
+---
+
+Read file: src/components/HamburgerMenu.tsx
+
+---
+
+Perfect! The hamburger menu already has the correct navigation. Now let me update the PIN input styling to show underscores instead of zeros and make the numbers visible:
+
+
+---
+
+```diff
+    const isAuthenticated = !!volunteerData;
+    const isAdmin = volunteerData?.role === 'admin';
++ 
++   // Create display PIN with underscores for empty positions
++   const displayPin = pin.padEnd(4, '_');
+  
+    return (
+```
+
+```diff
+              <div className="pin-input-group">
+                <label htmlFor="pin-input" className="sr-only">PIN</label>
++               <div className="pin-display" style={{
++                 display: 'flex',
++                 justifyContent: 'center',
++                 gap: '0.5rem',
++                 marginBottom: '1rem',
++                 fontSize: '2rem',
++                 fontFamily: 'monospace',
++                 letterSpacing: '0.5rem',
++                 color: 'var(--mahogany)',
++                 fontWeight: 'bold'
++               }}>
++                 {displayPin.split('').map((char, index) => (
++                   <span key={index} style={{
++                     width: '2rem',
++                     height: '3rem',
++                     display: 'flex',
++                     alignItems: 'center',
++                     justifyContent: 'center',
++                     border: '2px solid var(--mahogany)',
++                     borderRadius: '4px',
++                     backgroundColor: char === '_' ? 'var(--linen)' : 'var(--parchment)',
++                     color: char === '_' ? 'var(--bronze)' : 'var(--mahogany)'
++                   }}>
++                     {char}
++                   </span>
++                 ))}
++               </div>
+                <input
+                  type="password"
+```
+
+```diff
+                  onChange={(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                  className="pin-input"
+-                 placeholder="0000"
++                 style={{ 
++                   position: 'absolute',
++                   left: '-9999px',
++                   opacity: 0
++                 }}
+                  maxLength={4}
+                  pattern="\d{4}"
+                  required
+                  disabled={attempts >= 3}
++                 autoComplete="off"
+                />
+              </div>
+```
 
 ---
 
