@@ -9,34 +9,45 @@
   align-items: center;
   width: 2.5rem;
   height: 2.5rem;
-  background: #f8f5f2;
-  border: 2px solid #6d2c13;
+  background: var(--linen);
+  border: 2px solid var(--mahogany);
   border-radius: 8px;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(109,44,19,0.08);
+  box-shadow: 0 2px 8px rgba(104, 63, 27, 0.15);
+  transition: all 0.3s ease;
 }
+
+.hamburger:hover {
+  background: var(--parchment);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(104, 63, 27, 0.2);
+}
+
 .bar {
   width: 1.7rem;
   height: 0.22rem;
-  background: #6d2c13;
+  background: var(--mahogany);
   margin: 0.25rem 0;
   border-radius: 2px;
   transition: all 0.3s;
 }
+
 .overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(253,246,227,0.85);
+  background: rgba(247, 236, 210, 0.9);
   z-index: 250;
   display: flex;
+  backdrop-filter: blur(2px);
 }
+
 .drawer {
-  background: #f8f5f2;
-  border-right: 3px solid #6d2c13;
-  box-shadow: 2px 0 12px rgba(109,44,19,0.10);
+  background: var(--linen);
+  border-right: 3px solid var(--mahogany);
+  box-shadow: 2px 0 12px rgba(104, 63, 27, 0.15);
   min-width: 220px;
   max-width: 80vw;
   height: 100vh;
@@ -46,24 +57,56 @@
   gap: 2rem;
   animation: slideIn 0.2s cubic-bezier(.4,0,.2,1);
 }
+
 @keyframes slideIn {
   from { transform: translateX(-100%); }
   to { transform: translateX(0); }
 }
+
 .menuLink {
-  color: #6d2c13;
+  color: var(--mahogany);
   font-size: 1.3rem;
   font-weight: bold;
   text-decoration: none;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid #e5e7eb;
-  transition: color 0.2s, background 0.2s;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--bronze);
+  transition: all 0.2s ease;
+  border-radius: 6px;
+  font-family: 'librebaskerville-bold', serif;
 }
+
 .menuLink:last-child {
   border-bottom: none;
 }
+
 .menuLink:hover {
-  color: #fff;
-  background: #6d2c13;
-  border-radius: 6px;
+  color: var(--parchment);
+  background: var(--mahogany);
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(104, 63, 27, 0.2);
+}
+
+/* Ensure visibility on all screen sizes */
+@media (max-width: 600px) {
+  .hamburger {
+    top: 1rem;
+    left: 1rem;
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+  
+  .bar {
+    width: 1.5rem;
+    height: 0.2rem;
+  }
+  
+  .drawer {
+    min-width: 200px;
+    padding: 2rem 1rem 1rem 1rem;
+  }
+  
+  .menuLink {
+    font-size: 1.1rem;
+    padding: 0.6rem 0.8rem;
+  }
 } 

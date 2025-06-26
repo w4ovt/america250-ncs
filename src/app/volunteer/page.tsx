@@ -90,6 +90,9 @@ export default function VolunteerPage() {
   const isAuthenticated = !!volunteerData;
   const isAdmin = volunteerData?.role === 'admin';
 
+  // Create display PIN with underscores for empty positions
+  const displayPin = pin.padEnd(4, '_');
+
   return (
     <main className="volunteer-page">
       {/* K4A NCS Guide Button - Always Visible */}
@@ -104,6 +107,33 @@ export default function VolunteerPage() {
           <form onSubmit={handlePinSubmit} className="pin-form">
             <div className="pin-input-group">
               <label htmlFor="pin-input" className="sr-only">PIN</label>
+              <div className="pin-display" style={{
+                display: 'flex',
+                justifyContent: 'center',
+                gap: '0.5rem',
+                marginBottom: '1rem',
+                fontSize: '2rem',
+                fontFamily: 'monospace',
+                letterSpacing: '0.5rem',
+                color: 'var(--mahogany)',
+                fontWeight: 'bold'
+              }}>
+                {displayPin.split('').map((char, index) => (
+                  <span key={index} style={{
+                    width: '2rem',
+                    height: '3rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '2px solid var(--mahogany)',
+                    borderRadius: '4px',
+                    backgroundColor: char === '_' ? 'var(--linen)' : 'var(--parchment)',
+                    color: char === '_' ? 'var(--bronze)' : 'var(--mahogany)'
+                  }}>
+                    {char}
+                  </span>
+                ))}
+              </div>
               <input
                 type="password"
                 id="pin-input"
@@ -111,11 +141,16 @@ export default function VolunteerPage() {
                 value={pin}
                 onChange={(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
                 className="pin-input"
-                placeholder="0000"
+                style={{ 
+                  position: 'absolute',
+                  left: '-9999px',
+                  opacity: 0
+                }}
                 maxLength={4}
                 pattern="\d{4}"
                 required
                 disabled={attempts >= 3}
+                autoComplete="off"
               />
             </div>
             
