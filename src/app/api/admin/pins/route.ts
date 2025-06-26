@@ -2,25 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../../db';
 import { pins } from '../../../../db/schema';
 
-const RESERVED_PINS = ['7317', '7373'];
-
 export async function GET() {
   try {
-    const allPins = await db
-      .select({
-        pinId: pins.pinId,
-        pin: pins.pin,
-        role: pins.role
-      })
-      .from(pins)
-      .orderBy(pins.pinId);
-
+    const allPins = await db().select().from(pins);
     return NextResponse.json(allPins);
-
   } catch (error) {
-    console.error('PIN list error:', error);
+    console.error('Failed to fetch pins:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Failed to fetch pins' },
       { status: 500 }
     );
   }
@@ -28,49 +17,19 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    const { role } = await request.json();
-
-    // Validate role
-    if (!role || !['volunteer', 'admin'].includes(role)) {
-      return NextResponse.json(
-        { error: 'Invalid role. Must be "volunteer" or "admin"' },
-        { status: 400 }
-      );
-    }
-
-    // Get all existing PINs to find the next available one
-    const existingPins = await db
-      .select({ pin: pins.pin })
-      .from(pins);
-
-    const existingPinNumbers = existingPins.map(p => p.pin);
+    const body = await request.json();
+    const { pin, role } = body;
     
-    // Find next available PIN starting from 1000, skipping reserved PINs
-    let nextPin = 1000;
-    while (
-      existingPinNumbers.includes(nextPin.toString()) || 
-      RESERVED_PINS.includes(nextPin.toString())
-    ) {
-      nextPin++;
-    }
-
-    // Insert new PIN
-    const [newPin] = await db.insert(pins).values({
-      pin: nextPin.toString(),
-      role: role
+    const newPin = await db().insert(pins).values({
+      pin,
+      role: role || 'volunteer'
     }).returning();
-
-    return NextResponse.json({
-      pinId: newPin.pinId,
-      pin: newPin.pin,
-      role: newPin.role,
-      message: 'PIN created successfully'
-    });
-
+    
+    return NextResponse.json(newPin[0]);
   } catch (error) {
-    console.error('PIN creation error:', error);
+    console.error('Failed to create pin:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Failed to create pin' },
       { status: 500 }
     );
   }

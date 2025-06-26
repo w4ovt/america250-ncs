@@ -32,21 +32,17 @@ export async function POST(request: NextRequest) {
     }
 
     // Insert new activation
-    const [newActivation] = await db.insert(activations).values({
+    const newActivation = await db().insert(activations).values({
       volunteerId,
       frequencyMhz,
       mode,
-      startedAt: new Date(),
-      endedAt: null
+      startedAt: new Date()
     }).returning();
 
-    return NextResponse.json({
-      activationId: newActivation.activationId,
-      message: 'Activation started successfully'
-    });
+    return NextResponse.json(newActivation[0]);
 
   } catch (error) {
-    console.error('Activation creation error:', error);
+    console.error('Create activation error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

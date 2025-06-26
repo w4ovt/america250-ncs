@@ -1,0 +1,69 @@
+.hamburger {
+  position: fixed;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: #f8f5f2;
+  border: 2px solid #6d2c13;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(109,44,19,0.08);
+}
+.bar {
+  width: 1.7rem;
+  height: 0.22rem;
+  background: #6d2c13;
+  margin: 0.25rem 0;
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(253,246,227,0.85);
+  z-index: 250;
+  display: flex;
+}
+.drawer {
+  background: #f8f5f2;
+  border-right: 3px solid #6d2c13;
+  box-shadow: 2px 0 12px rgba(109,44,19,0.10);
+  min-width: 220px;
+  max-width: 80vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 2.5rem 1.5rem 1.5rem 1.5rem;
+  gap: 2rem;
+  animation: slideIn 0.2s cubic-bezier(.4,0,.2,1);
+}
+@keyframes slideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+.menuLink {
+  color: #6d2c13;
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e5e7eb;
+  transition: color 0.2s, background 0.2s;
+}
+.menuLink:last-child {
+  border-bottom: none;
+}
+.menuLink:hover {
+  color: #fff;
+  background: #6d2c13;
+  border-radius: 6px;
+} 

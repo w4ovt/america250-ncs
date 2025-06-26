@@ -6,7 +6,7 @@ import { eq, isNull } from 'drizzle-orm';
 export async function GET() {
   try {
     // Get all active activations with volunteer information
-    const activeActivations = await db
+    const activeActivations = await db()
       .select({
         activationId: activations.activationId,
         frequencyMhz: activations.frequencyMhz,
