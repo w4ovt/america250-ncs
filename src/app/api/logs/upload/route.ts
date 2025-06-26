@@ -3,7 +3,6 @@ import { db } from '../../../../db';
 import { logSubmissions } from '../../../../db/schema';
 
 const QRZ_API_KEY = '89FE-B76D-CD0C-B716';
-const QRZ_LOGBOOK_URL = 'https://logbook.qrz.com/api';
 
 interface UploadRequest {
   filename: string;
