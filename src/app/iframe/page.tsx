@@ -1,23 +1,26 @@
-import ActivationTable from '../../components/ActivationTable';
+import ActivationTableIframe from '../../components/ActivationTableIframe';
 
 export default function IframePage() {
   return (
     <div style={{ 
-      padding: '1rem',
-      background: 'var(--parchment)',
+      padding: '0.5rem',
+      background: 'transparent',
       minHeight: '100vh',
-      fontFamily: 'librebaskerville-regular, serif'
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+      fontSize: '0.875rem',
+      lineHeight: '1.4'
     }}>
       <h3 style={{
-        fontFamily: 'librebaskerville-bold, serif',
-        color: 'var(--mahogany)',
-        fontSize: '1.3rem',
-        marginBottom: '0.5em',
-        margin: '0 0 1rem 0'
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        color: '#495057',
+        fontSize: '1rem',
+        margin: '0 0 0.75rem 0',
+        fontWeight: '600',
+        textAlign: 'center'
       }}>
-        Live Activations
+        America250 NCS Live Activations
       </h3>
-      <ActivationTable />
+      <ActivationTableIframe />
     </div>
   );
 } 
