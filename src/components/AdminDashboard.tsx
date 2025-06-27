@@ -535,11 +535,12 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                   className={styles.sortableHeader}
                 >
                   Date/Time
-                  {submissionSortBy === 'submittedAt' && (
-                    <span className={styles.sortIndicator}>
-                      {submissionSortOrder === 'asc' ? ' ↑' : ' ↓'}
-                    </span>
-                  )}
+                  <span className={styles.sortIndicator}>
+                    {submissionSortBy === 'submittedAt' 
+                      ? (submissionSortOrder === 'asc' ? ' ↑' : ' ↓')
+                      : ' ↕'
+                    }
+                  </span>
                 </th>
                 <th 
                   onClick={() => {
@@ -552,12 +553,13 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                   }}
                   className={styles.sortableHeader}
                 >
-                  Volunteer
-                  {submissionSortBy === 'volunteerName' && (
-                    <span className={styles.sortIndicator}>
-                      {submissionSortOrder === 'asc' ? ' ↑' : ' ↓'}
-                    </span>
-                  )}
+                  Name
+                  <span className={styles.sortIndicator}>
+                    {submissionSortBy === 'volunteerName' 
+                      ? (submissionSortOrder === 'asc' ? ' ↑' : ' ↓')
+                      : ' ↕'
+                    }
+                  </span>
                 </th>
                 <th 
                   onClick={() => {
@@ -571,29 +573,12 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                   className={styles.sortableHeader}
                 >
                   Callsign
-                  {submissionSortBy === 'volunteerCallsign' && (
-                    <span className={styles.sortIndicator}>
-                      {submissionSortOrder === 'asc' ? ' ↑' : ' ↓'}
-                    </span>
-                  )}
-                </th>
-                <th 
-                  onClick={() => {
-                    if (submissionSortBy === 'volunteerState') {
-                      setSubmissionSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
-                    } else {
-                      setSubmissionSortBy('volunteerState');
-                      setSubmissionSortOrder('asc');
+                  <span className={styles.sortIndicator}>
+                    {submissionSortBy === 'volunteerCallsign' 
+                      ? (submissionSortOrder === 'asc' ? ' ↑' : ' ↓')
+                      : ' ↕'
                     }
-                  }}
-                  className={styles.sortableHeader}
-                >
-                  State
-                  {submissionSortBy === 'volunteerState' && (
-                    <span className={styles.sortIndicator}>
-                      {submissionSortOrder === 'asc' ? ' ↑' : ' ↓'}
-                    </span>
-                  )}
+                  </span>
                 </th>
                 <th 
                   onClick={() => {
@@ -607,11 +592,12 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                   className={styles.sortableHeader}
                 >
                   Filename
-                  {submissionSortBy === 'filename' && (
-                    <span className={styles.sortIndicator}>
-                      {submissionSortOrder === 'asc' ? ' ↑' : ' ↓'}
-                    </span>
-                  )}
+                  <span className={styles.sortIndicator}>
+                    {submissionSortBy === 'filename' 
+                      ? (submissionSortOrder === 'asc' ? ' ↑' : ' ↓')
+                      : ' ↕'
+                    }
+                  </span>
                 </th>
                 <th 
                   onClick={() => {
@@ -625,11 +611,12 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                   className={styles.sortableHeader}
                 >
                   Records
-                  {submissionSortBy === 'recordCount' && (
-                    <span className={styles.sortIndicator}>
-                      {submissionSortOrder === 'asc' ? ' ↑' : ' ↓'}
-                    </span>
-                  )}
+                  <span className={styles.sortIndicator}>
+                    {submissionSortBy === 'recordCount' 
+                      ? (submissionSortOrder === 'asc' ? ' ↑' : ' ↓')
+                      : ' ↕'
+                    }
+                  </span>
                 </th>
                 <th 
                   onClick={() => {
@@ -643,11 +630,12 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                   className={styles.sortableHeader}
                 >
                   Processed
-                  {submissionSortBy === 'processedCount' && (
-                    <span className={styles.sortIndicator}>
-                      {submissionSortOrder === 'asc' ? ' ↑' : ' ↓'}
-                    </span>
-                  )}
+                  <span className={styles.sortIndicator}>
+                    {submissionSortBy === 'processedCount' 
+                      ? (submissionSortOrder === 'asc' ? ' ↑' : ' ↓')
+                      : ' ↕'
+                    }
+                  </span>
                 </th>
                 <th 
                   onClick={() => {
@@ -661,11 +649,12 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                   className={styles.sortableHeader}
                 >
                   Status
-                  {submissionSortBy === 'status' && (
-                    <span className={styles.sortIndicator}>
-                      {submissionSortOrder === 'asc' ? ' ↑' : ' ↓'}
-                    </span>
-                  )}
+                  <span className={styles.sortIndicator}>
+                    {submissionSortBy === 'status' 
+                      ? (submissionSortOrder === 'asc' ? ' ↑' : ' ↓')
+                      : ' ↕'
+                    }
+                  </span>
                 </th>
                 <th>Actions</th>
               </tr>
@@ -676,7 +665,6 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                   <td>{new Date(submission.submittedAt).toLocaleString()}</td>
                   <td>{submission.volunteerName}</td>
                   <td>{submission.volunteerCallsign}</td>
-                  <td>{submission.volunteerState}</td>
                   <td>{submission.filename}</td>
                   <td>{submission.recordCount}</td>
                   <td>{submission.processedCount}</td>
