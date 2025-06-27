@@ -1,0 +1,337 @@
+.adminDashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.adminTitle {
+  font-family: 'librebaskerville-bold', serif;
+  color: var(--mahogany);
+  margin-bottom: 1.5em;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.adminSection {
+  background: var(--linen);
+  border: 3px solid var(--mahogany);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(104, 63, 27, 0.15);
+  max-width: 1200px;
+}
+
+.sectionTitle {
+  font-family: 'librebaskerville-bold', serif;
+  color: var(--mahogany);
+  margin-bottom: 1.5rem;
+  font-size: 1.3rem;
+  text-align: center;
+  border-bottom: 2px solid var(--mahogany);
+  padding-bottom: 0.5rem;
+}
+
+.resetCounterSection {
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+}
+
+.activationsTableWrapper {
+  background: var(--linen);
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(104,63,27,0.04);
+  padding: 1em 0.5em;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.activationsTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 980px;
+  background: var(--linen);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.activationsTable th,
+.activationsTable td {
+  padding: 0.2em 0.25em;
+  text-align: left;
+  border-bottom: 1px solid var(--bronze);
+  font-size: 1rem;
+}
+
+.activationsTable th {
+  background: var(--mahogany);
+  font-family: 'librebaskerville-bold', serif;
+  color: var(--parchment);
+  letter-spacing: 0.08em;
+  font-weight: bold;
+}
+
+.activationsTable td {
+  font-family: 'librebaskerville-regular', serif;
+  color: var(--mahogany);
+  background: var(--linen);
+}
+
+.activationsTable tr:last-child td {
+  border-bottom: none;
+}
+
+.activationsTable tr:nth-child(even) td {
+  background: var(--linen);
+}
+
+.endBtn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5em 1em;
+  font-family: 'librebaskerville-bold', serif;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 0.9em;
+}
+
+.endBtn:hover:not(:disabled) {
+  background: #c82333;
+}
+
+.endBtn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.endActivationSection {
+  padding: 1rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+  border: 1px solid var(--mahogany);
+}
+
+.endActivationSection .formGroup {
+  margin-bottom: 0.5rem;
+}
+
+.endActivationSection .formSelect {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid var(--mahogany);
+  border-radius: 4px;
+  background-color: var(--parchment);
+  color: var(--mahogany);
+  font-family: 'librebaskerville-regular', serif;
+  font-size: 1rem;
+}
+
+.endActivationSection .formSelect:focus {
+  outline: none;
+  border-color: var(--bronze);
+  box-shadow: 0 0 0 2px rgba(104, 63, 27, 0.1);
+}
+
+.pinCreateForm {
+  background: var(--parchment);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 2px solid var(--mahogany);
+  margin-bottom: 2rem;
+}
+
+.formRow {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+
+.formRow .formSelect {
+  flex: 1;
+}
+
+.createBtn {
+  background: var(--mahogany);
+  color: var(--parchment);
+  border: none;
+  border-radius: 6px;
+  padding: 0.75em 1.5em;
+  font-family: 'librebaskerville-bold', serif;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(104, 63, 27, 0.08);
+}
+
+.createBtn:hover:not(:disabled) {
+  background: #4d2e0f;
+}
+
+.createBtn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.successMessage {
+  background: #d4edda;
+  color: #155724;
+  padding: 0.75em;
+  border-radius: 6px;
+  border: 1px solid #c3e6cb;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.pinsTableWrapper {
+  background: var(--linen);
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(104,63,27,0.04);
+  padding: 1em 0.5em;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.pinsTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+  background: var(--linen);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.pinsTable th,
+.pinsTable td {
+  padding: 0.6em 0.8em;
+  text-align: left;
+  border-bottom: 1px solid var(--bronze);
+  font-size: 1rem;
+}
+
+.pinsTable th {
+  background: var(--parchment);
+  font-family: 'librebaskerville-bold', serif;
+  color: var(--mahogany);
+  letter-spacing: 0.08em;
+}
+
+.pinsTable td {
+  font-family: 'librebaskerville-regular', serif;
+  color: var(--mahogany);
+}
+
+.pinsTable tr:last-child td {
+  border-bottom: none;
+}
+
+.deleteBtn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5em 1em;
+  font-family: 'librebaskerville-bold', serif;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 0.9em;
+}
+
+.deleteBtn:hover:not(:disabled) {
+  background: #c82333;
+}
+
+.deleteBtn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.reservedBadge {
+  background: var(--bronze);
+  color: var(--parchment);
+  padding: 0.25em 0.75em;
+  border-radius: 12px;
+  font-size: 0.8em;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.resetWarning {
+  font-size: 0.9rem;
+  color: var(--mahogany);
+  margin-left: 1rem;
+}
+
+@media (max-width: 900px) {
+  .adminDashboard,
+  .adminSection {
+    max-width: 800px;
+  }
+  .activationsTable {
+    min-width: 700px;
+  }
+  .pinsTable {
+    min-width: 500px;
+  }
+}
+
+@media (max-width: 600px) {
+  .adminDashboard,
+  .adminSection {
+    max-width: 100%;
+  }
+  .activationsTable {
+    min-width: 400px;
+    font-size: 0.9rem;
+  }
+  .pinsTable {
+    min-width: 320px;
+    font-size: 0.9rem;
+  }
+}
+
+.centeredBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.centeredBtn {
+  display: block;
+  margin: 0 auto 1rem auto;
+}
+
+.centeredText {
+  display: block;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.centeredRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 1rem;
+}
+
+.formInput {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1.1rem;
+  border: 2px solid var(--mahogany);
+  border-radius: 6px;
+  background: var(--parchment);
+  color: var(--mahogany);
+  font-family: 'librebaskerville-regular', serif;
+  margin-top: 0.25rem;
+  text-align: center;
+} 

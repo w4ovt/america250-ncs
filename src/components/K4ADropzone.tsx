@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
+import styles from './K4ADropzone.module.css';
 
 interface VolunteerData {
   volunteerId: number;
@@ -26,10 +27,16 @@ export default function K4ADropzone({ disabled = false, volunteerData }: K4ADrop
   const [status, setStatus] = useState<UploadStatus>('idle');
   const [message, setMessage] = useState('');
   const [recordCount, setRecordCount] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const isAuthenticated = !!volunteerData;
+
+  // Set loading to false after component mounts
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
 
   const playSuccessAudio = useCallback(() => {
     if (audioRef.current) {
@@ -131,8 +138,8 @@ export default function K4ADropzone({ disabled = false, volunteerData }: K4ADrop
   }, []);
 
   return (
-    <div className="k4a-dropzone-section">
-      <h2 className="section-title">K4A Log Dropbox</h2>
+    <div className={styles.k4aDropzoneSection}>
+      <h2 className={styles.sectionTitle}>K4A Log Dropbox</h2>
       
       {/* Hidden audio element for success sound */}
       <audio ref={audioRef} preload="auto">
@@ -150,57 +157,59 @@ export default function K4ADropzone({ disabled = false, volunteerData }: K4ADrop
         style={{ display: 'none' }}
       />
 
-      <div
-        className={`k4a-dropzone ${status} ${disabled ? 'disabled' : ''}`}
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-        onClick={handleClick}
-        title={disabled ? 'Enter PIN above to enable upload' : 'Drag your .adi file here to upload to QRZ Logbook'}
-      >
-        <div className="dropzone-content">
-          <img
-            src="/K4A-Log-Dropbox.webp"
-            alt="K4A Log Dropbox"
-            className="dropzone-image"
-          />
-          
-          {status === 'idle' && (
-            <div className="dropzone-text">
-              <p>Drag your .adi file here to upload to QRZ Logbook</p>
-              <p className="dropzone-hint">or click to select a file</p>
-            </div>
-          )}
-          
-          {status === 'uploading' && (
-            <div className="dropzone-text">
-              <p>Uploading to QRZ Logbook...</p>
-              <div className="loading-spinner"></div>
-            </div>
-          )}
-          
-          {status === 'success' && (
-            <div className="dropzone-text success">
-              <p>✅ {message}</p>
-              {recordCount && <p>Records uploaded: {recordCount}</p>}
-              <button onClick={resetStatus} className="reset-btn">
-                Upload Another File
-              </button>
-            </div>
-          )}
-          
-          {status === 'error' && (
-            <div className="dropzone-text error">
-              <p>❌ {message}</p>
-              <button onClick={resetStatus} className="reset-btn">
-                Try Again
-              </button>
-            </div>
-          )}
+      {!isLoading && (
+        <div
+          className={styles.k4aDropzone + ' ' + styles[status] + (disabled ? ' ' + styles.disabled : '')}
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+          onClick={handleClick}
+          title={disabled ? 'Enter PIN above to enable upload' : 'Drag your .adi file here to upload to QRZ Logbook'}
+        >
+          <div className={styles.dropzoneContent}>
+            <img
+              src="/K4A-Log-Dropbox.webp"
+              alt="K4A Log Dropbox"
+              className={styles.dropzoneImage}
+            />
+            
+            {status === 'idle' && (
+              <div className={styles.dropzoneText}>
+                <p>Drag your .adi file here to upload to QRZ Logbook</p>
+                <p className={styles.dropzoneHint}>or click to select a file</p>
+              </div>
+            )}
+            
+            {status === 'uploading' && (
+              <div className={styles.dropzoneText}>
+                <p>Uploading to QRZ Logbook...</p>
+                <div className={styles.loadingSpinner}></div>
+              </div>
+            )}
+            
+            {status === 'success' && (
+              <div className={styles.dropzoneText + ' ' + styles.success}>
+                <p>✅ {message}</p>
+                {recordCount && <p>Records uploaded: {recordCount}</p>}
+                <button onClick={resetStatus} className={styles.resetBtn}>
+                  Upload Another File
+                </button>
+              </div>
+            )}
+            
+            {status === 'error' && (
+              <div className={styles.dropzoneText + ' ' + styles.error}>
+                <p>❌ {message}</p>
+                <button onClick={resetStatus} className={styles.resetBtn}>
+                  Try Again
+                </button>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
-      {disabled && (
-        <div className="auth-notice">
+      {disabled && !isLoading && (
+        <div className={styles.authNotice}>
           <p>This feature is interactive for authenticated volunteers or admins. Enter PIN above to activate.</p>
         </div>
       )}

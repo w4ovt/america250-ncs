@@ -1,0 +1,363 @@
+.volunteerPage {
+  background: var(--parchment);
+  min-height: 100vh;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* K4A NCS Guide Section */
+.guideSection {
+  text-align: center;
+  max-width: 500px;
+  margin: 0 auto 1.5rem auto;
+}
+
+/* PIN Authentication Section */
+.pinAuthSection {
+  border: 3px solid var(--mahogany);
+  border-radius: 8px;
+  background: var(--linen);
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(104, 63, 27, 0.15);
+  max-width: 500px;
+  margin: 0 auto 2rem auto;
+}
+
+.authTitle {
+  font-family: 'librebaskerville-bold', serif;
+  color: var(--mahogany);
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.authSubtitle {
+  font-family: 'librebaskerville-regular', serif;
+  color: var(--mahogany);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.pinForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pinInputGroup {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+}
+
+.pinInput {
+  width: 100%;
+  padding: 1rem;
+  font-size: 2rem;
+  text-align: center;
+  border: 2px solid var(--mahogany);
+  border-radius: 6px;
+  background: var(--parchment);
+  color: var(--mahogany);
+  font-family: 'librebaskerville-bold', serif;
+  font-weight: bold;
+  letter-spacing: 0.5rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.pinInput:focus {
+  border-color: var(--bronze);
+  box-shadow: 0 0 0 3px rgba(199, 161, 89, 0.1);
+}
+
+.pinInput::placeholder {
+  color: transparent;
+}
+
+/* PIN Input Underlines - Show when empty, hide when typing */
+.pinUnderlines {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  font-family: 'librebaskerville-bold', serif;
+  color: var(--mahogany);
+  opacity: 0.3;
+  pointer-events: none;
+  letter-spacing: 0.5rem;
+  z-index: 1;
+}
+
+.errorMessage {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #f5c6cb;
+  font-family: 'librebaskerville-regular', serif;
+  text-align: center;
+}
+
+.attemptsWarning {
+  color: var(--mahogany);
+  font-family: 'librebaskerville-regular', serif;
+  font-style: italic;
+  text-align: center;
+}
+
+.submitBtn {
+  background: var(--mahogany);
+  color: var(--parchment);
+  border: none;
+  border-radius: 6px;
+  padding: 0.75rem 2rem;
+  font-family: 'librebaskerville-bold', serif;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(104, 63, 27, 0.08);
+  margin-top: 1rem;
+}
+
+.submitBtn:hover:not(:disabled) {
+  background: #4d2e0f;
+}
+
+.submitBtn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Volunteer Dashboard Section */
+.volunteerDashboardSection {
+  border: 3px solid var(--mahogany);
+  border-radius: 8px;
+  background: var(--linen);
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(104, 63, 27, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto 2rem auto;
+}
+
+/* K4A Dropzone Section */
+.k4aDropzoneSection {
+  border: 3px solid var(--mahogany);
+  border-radius: 8px;
+  background: var(--linen);
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(104, 63, 27, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto 2rem auto;
+}
+
+/* Admin Section */
+.adminSection {
+  border: 3px solid var(--mahogany);
+  border-radius: 8px;
+  background: var(--linen);
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(104, 63, 27, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto 2rem auto;
+}
+
+.adminPlaceholder {
+  text-align: center;
+  padding: 2rem;
+}
+
+.placeholderContent {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.placeholderContent h3 {
+  color: var(--mahogany);
+  margin-bottom: 1em;
+  font-family: 'librebaskerville-bold', serif;
+  font-size: 1.5rem;
+}
+
+.placeholderContent p {
+  color: var(--mahogany);
+  margin-bottom: 1.5em;
+  font-size: 1.1rem;
+  font-family: 'librebaskerville-regular', serif;
+}
+
+.placeholderForm {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: flex-end;
+  margin-bottom: 2rem;
+}
+
+.placeholderForm > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.placeholderForm label {
+  font-family: 'librebaskerville-bold', serif;
+  color: var(--mahogany);
+  font-size: 0.9rem;
+}
+
+.placeholderForm select,
+.placeholderForm button {
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--mahogany);
+  border-radius: 4px;
+  background: var(--parchment);
+  color: var(--mahogany);
+  font-family: 'librebaskerville-regular', serif;
+  font-size: 1rem;
+}
+
+.placeholderForm button {
+  background: var(--mahogany);
+  color: var(--parchment);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.placeholderForm button:hover:not(:disabled) {
+  background: #4d2e0f;
+}
+
+.placeholderForm button:disabled,
+.placeholderForm select:disabled {
+  background: #ccc;
+  color: #999;
+  cursor: not-allowed;
+  border-color: #ccc;
+}
+
+.placeholderTable {
+  background: var(--parchment);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--bronze);
+}
+
+.placeholderTable table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.placeholderTable th,
+.placeholderTable td {
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid var(--bronze);
+  font-family: 'librebaskerville-regular', serif;
+  color: var(--mahogany);
+}
+
+.placeholderTable th {
+  font-family: 'librebaskerville-bold', serif;
+  background: var(--linen);
+}
+
+.placeholderTable span {
+  background: var(--bronze);
+  color: var(--parchment);
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.authNotice {
+  background: var(--parchment);
+  border: 1px solid var(--bronze);
+  border-radius: 6px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.authNotice p {
+  margin: 0;
+  color: var(--mahogany);
+  font-style: italic;
+  font-family: 'librebaskerville-regular', serif;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .volunteerDashboardSection,
+  .k4aDropzoneSection,
+  .adminSection {
+    max-width: 800px;
+  }
+}
+@media (max-width: 600px) {
+  .volunteerDashboardSection,
+  .k4aDropzoneSection,
+  .adminSection {
+    max-width: 100%;
+  }
+  
+  .volunteerPage {
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .pinAuthSection {
+    padding: 1.5rem;
+  }
+  
+  .authTitle {
+    font-size: 1.5rem;
+  }
+  
+  .authSubtitle {
+    font-size: 1rem;
+  }
+  
+  .pinInput {
+    font-size: 1.5rem;
+    padding: 0.75rem;
+  }
+  
+  .pinInputGroup::after {
+    font-size: 1.5rem;
+  }
+  
+  .placeholderForm {
+    flex-direction: column;
+  }
+}
+
+.centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+} 

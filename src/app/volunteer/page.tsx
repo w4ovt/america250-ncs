@@ -5,6 +5,7 @@ import GuideButton from '../GuideButton';
 import VolunteerDashboard from '../../components/VolunteerDashboard';
 import K4ADropzone from '../../components/K4ADropzone';
 import AdminDashboard from '../../components/AdminDashboard';
+import styles from './page.module.css';
 
 interface VolunteerData {
   volunteerId: number;
@@ -80,7 +81,14 @@ export default function VolunteerPage() {
   };
 
   const handleLogout = () => {
+    // Clear authentication data
     localStorage.removeItem('volunteerAuth');
+    
+    // Clear activation state for this volunteer
+    if (volunteerData?.volunteer) {
+      localStorage.removeItem(`activation_${volunteerData.volunteer.volunteerId}`);
+    }
+    
     setVolunteerData(null);
     setAttempts(0);
     setErrorMessage('');
@@ -90,127 +98,99 @@ export default function VolunteerPage() {
   const isAuthenticated = !!volunteerData;
   const isAdmin = volunteerData?.role === 'admin';
 
-  // Create display PIN with underscores for empty positions
-  const displayPin = pin.padEnd(4, '_');
-
   return (
-    <main className="volunteer-page">
-      {/* K4A NCS Guide Button - Always Visible */}
-      <GuideButton />
-
-      {/* PIN Authentication Section - Always Visible */}
-      <div className="pin-auth-section">
-        <div className="auth-container">
-          <h1 className="auth-title">Volunteer Access</h1>
-          <p className="auth-subtitle">Enter your 4-digit PIN to continue</p>
-          
-          <form onSubmit={handlePinSubmit} className="pin-form">
-            <div className="pin-input-group">
-              <label htmlFor="pin-input" className="sr-only">PIN</label>
-              <div className="pin-display" style={{
-                display: 'flex',
-                justifyContent: 'center',
-                gap: '0.5rem',
-                marginBottom: '1rem',
-                fontSize: '2rem',
-                fontFamily: 'monospace',
-                letterSpacing: '0.5rem',
-                color: 'var(--mahogany)',
-                fontWeight: 'bold'
-              }}>
-                {displayPin.split('').map((char, index) => (
-                  <span key={index} style={{
-                    width: '2rem',
-                    height: '3rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    border: '2px solid var(--mahogany)',
-                    borderRadius: '4px',
-                    backgroundColor: char === '_' ? 'var(--linen)' : 'var(--parchment)',
-                    color: char === '_' ? 'var(--bronze)' : 'var(--mahogany)'
-                  }}>
-                    {char}
-                  </span>
-                ))}
-              </div>
-              <input
-                type="password"
-                id="pin-input"
-                name="pin-input"
-                value={pin}
-                onChange={(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
-                className="pin-input"
-                style={{ 
-                  position: 'absolute',
-                  left: '-9999px',
-                  opacity: 0
-                }}
-                maxLength={4}
-                pattern="\d{4}"
-                required
-                disabled={attempts >= 3}
-                autoComplete="off"
-              />
-            </div>
-            
-            {errorMessage && (
-              <div className="error-message">
-                {errorMessage}
-              </div>
-            )}
-            
-            {attempts > 0 && attempts < 3 && (
-              <div className="attempts-warning">
-                {3 - attempts} attempts remaining
-              </div>
-            )}
-            
-            <button
-              type="submit"
-              className="submit-btn"
-              disabled={isLoading || attempts >= 3 || pin.length !== 4}
-            >
-              {isLoading ? 'Verifying...' : 'Submit'}
-            </button>
-          </form>
-        </div>
+    <main className={styles.volunteerPage}>
+      {/* K4A NCS Guide Section */}
+      <div className={styles.guideSection}>
+        <GuideButton />
       </div>
 
-      {/* Volunteer Dashboard - Always Visible, Functionality Gated */}
-      <VolunteerDashboard 
-        disabled={!isAuthenticated}
-        volunteerData={volunteerData}
-        onLogout={handleLogout}
-      />
+      {/* PIN Authentication Section */}
+      <div className={styles.pinAuthSection}>
+        <h1 className={styles.authTitle}>Volunteer Access</h1>
+        <p className={styles.authSubtitle}>Enter your 4-digit PIN to continue</p>
+        
+        <form onSubmit={handlePinSubmit} className={styles.pinForm}>
+          <div className={styles.pinInputGroup}>
+            <label htmlFor="pin-input" className="sr-only">PIN</label>
+            <input
+              type="password"
+              id="pin-input"
+              name="pin-input"
+              value={pin}
+              onChange={(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
+              className={styles.pinInput}
+              maxLength={4}
+              pattern="\d{4}"
+              required
+              disabled={attempts >= 3}
+              autoComplete="off"
+              placeholder=""
+            />
+            {pin.length === 0 && (
+              <div className={styles.pinUnderlines}>____</div>
+            )}
+          </div>
+          
+          {errorMessage && (
+            <div className={styles.errorMessage}>
+              {errorMessage}
+            </div>
+          )}
+          
+          {attempts > 0 && attempts < 3 && (
+            <div className={styles.attemptsWarning}>
+              {3 - attempts} attempts remaining
+            </div>
+          )}
+          
+          <button
+            type="submit"
+            className={styles.submitBtn}
+            disabled={isLoading || attempts >= 3 || pin.length !== 4}
+          >
+            {isLoading ? 'Verifying...' : 'Submit'}
+          </button>
+        </form>
+      </div>
 
-      {/* K4A Log Dropbox - Always Visible, Upload Gated */}
-      <K4ADropzone disabled={!isAuthenticated} volunteerData={volunteerData} />
+      {/* Volunteer Dashboard Section */}
+      <div className={styles.volunteerDashboardSection}>
+        <VolunteerDashboard 
+          disabled={!isAuthenticated}
+          volunteerData={volunteerData}
+          onLogout={handleLogout}
+        />
+      </div>
 
-      {/* Admin Dashboard - Always Visible, Functionality Gated */}
-      <div className="admin-section">
-        <h2 className="section-title">Admin Tools</h2>
+      {/* K4A Log Dropbox Section */}
+      <div className={styles.k4aDropzoneSection}>
+        <K4ADropzone disabled={!isAuthenticated} volunteerData={volunteerData} />
+      </div>
+
+      {/* Admin Dashboard Section */}
+      <div className={styles.adminSection}>
         {isAdmin ? (
           <AdminDashboard />
         ) : (
-          <div className="admin-placeholder">
-            <div className="placeholder-content">
-              <h3 className="form-title">PIN Management</h3>
+          <div className={styles.adminPlaceholder}>
+            <div className={styles.placeholderContent}>
+              <h3>PIN Management</h3>
               <p>Admin tools for managing PINs and system configuration.</p>
-              <div className="placeholder-form">
-                <div className="form-group">
+              <div className={styles.placeholderForm}>
+                <div>
                   <label htmlFor="placeholder-role">Role</label>
-                  <select id="placeholder-role" name="placeholder-role" className="form-select disabled" disabled>
+                  <select id="placeholder-role" name="placeholder-role" disabled>
                     <option>Volunteer</option>
                     <option>Admin</option>
                   </select>
                 </div>
-                <button className="create-btn disabled" disabled>
+                <button disabled>
                   Generate PIN
                 </button>
               </div>
-              <div className="placeholder-table">
-                <table className="pins-table">
+              <div className={styles.placeholderTable}>
+                <table>
                   <thead>
                     <tr>
                       <th>PIN</th>
@@ -222,17 +202,17 @@ export default function VolunteerPage() {
                     <tr>
                       <td>7317</td>
                       <td>Admin</td>
-                      <td><span className="reserved-badge">Reserved</span></td>
+                      <td><span>Reserved</span></td>
                     </tr>
                     <tr>
                       <td>7373</td>
                       <td>Admin</td>
-                      <td><span className="reserved-badge">Reserved</span></td>
+                      <td><span>Reserved</span></td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-              <div className="auth-notice">
+              <div className={styles.authNotice}>
                 <p>This feature is interactive for authenticated volunteers or admins. Enter PIN above to activate.</p>
               </div>
             </div>
