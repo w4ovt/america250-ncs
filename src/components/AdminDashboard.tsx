@@ -20,7 +20,11 @@ interface Activation {
   state: string;
 }
 
-export default function AdminDashboard() {
+interface AdminDashboardProps {
+  onLogout?: () => void;
+}
+
+export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [pins, setPins] = useState<Pin[]>([]);
   const [activations, setActivations] = useState<Activation[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -233,6 +237,28 @@ export default function AdminDashboard() {
   return (
     <div className={styles.adminDashboard}>
       <h2 className={styles.adminTitle}>Admin Dashboard</h2>
+      
+      {onLogout && (
+        <button 
+          onClick={onLogout} 
+          className={styles.logoutBtn}
+          style={{ 
+            display: 'block',
+            marginTop: '1rem',
+            marginBottom: '1rem',
+            backgroundColor: 'var(--mahogany)',
+            color: 'var(--parchment)',
+            border: 'none',
+            borderRadius: '6px',
+            padding: '0.5rem 1.5rem',
+            fontFamily: 'librebaskerville-bold, serif',
+            fontSize: '1rem',
+            cursor: 'pointer'
+          }}
+        >
+          Logout
+        </button>
+      )}
       
       {errorMessage && (
         <div style={{ color: 'red', marginBottom: '1rem', textAlign: 'center' }}>

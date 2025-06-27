@@ -171,7 +171,7 @@ export default function VolunteerPage() {
       {/* Admin Dashboard Section */}
       <div className={styles.adminSection}>
         {isAdmin ? (
-          <AdminDashboard />
+          <AdminDashboard onLogout={handleLogout} />
         ) : (
           <div className={styles.adminPlaceholder}>
             <div className={styles.placeholderContent}>
