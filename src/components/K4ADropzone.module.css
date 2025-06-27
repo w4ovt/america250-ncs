@@ -121,8 +121,61 @@
 }
 
 @media (max-width: 900px) {
+  .k4aDropzoneSection {
+    padding: 1.5rem 1rem;
+  }
+  
+  .sectionTitle {
+    font-size: 1.4rem;
+  }
+  
   .dropzoneImage {
     max-width: 400px;
+  }
+  
+  .dropzoneText {
+    font-size: 1rem;
+  }
+  
+  .dropzoneHint {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .k4aDropzoneSection {
+    padding: 1rem 0.75rem;
+  }
+  
+  .sectionTitle {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .k4aDropzone {
+    min-height: 280px;
+  }
+  
+  .dropzoneContent {
+    padding: 1.5rem;
+  }
+  
+  .dropzoneImage {
+    max-width: 350px;
+    margin-bottom: 1rem;
+  }
+  
+  .dropzoneText {
+    font-size: 0.95rem;
+  }
+  
+  .dropzoneHint {
+    font-size: 0.85rem;
+  }
+  
+  .resetBtn {
+    padding: 0.4rem 1.2rem;
+    font-size: 0.9rem;
   }
 }
 
@@ -143,5 +196,74 @@
   
   .dropzoneImage {
     max-width: 300px;
+  }
+  
+  .sectionTitle {
+    font-size: 1.2rem;
+  }
+  
+  .dropzoneText {
+    font-size: 0.9rem;
+  }
+  
+  .dropzoneHint {
+    font-size: 0.8rem;
+  }
+  
+  .resetBtn {
+    padding: 0.35rem 1rem;
+    font-size: 0.85rem;
+  }
+  
+  .authNotice {
+    font-size: 0.9rem;
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .k4aDropzoneSection {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .sectionTitle {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .k4aDropzone {
+    min-height: 220px;
+  }
+  
+  .dropzoneContent {
+    padding: 0.75rem;
+  }
+  
+  .dropzoneImage {
+    max-width: 250px;
+    margin-bottom: 0.75rem;
+  }
+  
+  .dropzoneText {
+    font-size: 0.85rem;
+  }
+  
+  .dropzoneHint {
+    font-size: 0.75rem;
+  }
+  
+  .resetBtn {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.8rem;
+  }
+  
+  .authNotice {
+    font-size: 0.85rem;
+    padding: 0.6rem;
+  }
+  
+  .loadingSpinner {
+    width: 28px;
+    height: 28px;
   }
 } 
