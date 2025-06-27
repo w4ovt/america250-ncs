@@ -1,0 +1,8 @@
+name = "america250-ncs-activations"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+# Optional: Add custom domain
+# routes = [
+#   { pattern = "activations.america250.radio", zone_name = "america250.radio" }
+# ] 
