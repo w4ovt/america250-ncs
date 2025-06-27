@@ -46,8 +46,8 @@ export async function GET(request: NextRequest) {
     
     // Sort the results (client-side sorting for now)
     submissions.sort((a, b) => {
-      let aValue: any = a[sortBy as keyof typeof a];
-      let bValue: any = b[sortBy as keyof typeof b];
+      let aValue: string | number | Date = a[sortBy as keyof typeof a];
+      let bValue: string | number | Date = b[sortBy as keyof typeof b];
       
       if (sortOrder === 'desc') {
         [aValue, bValue] = [bValue, aValue];
@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
         return aValue.getTime() - bValue.getTime();
       }
       
-      return (aValue || 0) - (bValue || 0);
+      return (aValue as number || 0) - (bValue as number || 0);
     });
     
     return NextResponse.json(submissions);

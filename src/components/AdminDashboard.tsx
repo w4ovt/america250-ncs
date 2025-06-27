@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import styles from './AdminDashboard.module.css';
 
 interface Pin {
@@ -88,7 +88,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
     }
   };
 
-  const fetchAdiSubmissions = async () => {
+  const fetchAdiSubmissions = useCallback(async () => {
     try {
       const params = new URLSearchParams({
         search: submissionSearch,
@@ -106,7 +106,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
     } catch {
       setErrorMessage('Network error loading ADI submissions');
     }
-  };
+  }, [submissionSearch, submissionSortBy, submissionSortOrder]);
 
   useEffect(() => {
     fetchPins();
@@ -121,7 +121,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
     }, 10000);
     
     return () => clearInterval(interval);
-  }, [submissionSearch, submissionSortBy, submissionSortOrder]);
+  }, [submissionSearch, submissionSortBy, submissionSortOrder, fetchAdiSubmissions]);
 
   const handleCreatePin = async () => {
     setIsCreating(true);
