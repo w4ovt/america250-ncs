@@ -523,14 +523,150 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
           <table className={styles.submissionsTable}>
             <thead>
               <tr>
-                <th>Date/Time</th>
-                <th>Volunteer</th>
-                <th>Callsign</th>
-                <th>State</th>
-                <th>Filename</th>
-                <th>Records</th>
-                <th>Processed</th>
-                <th>Status</th>
+                <th 
+                  onClick={() => {
+                    if (submissionSortBy === 'submittedAt') {
+                      setSubmissionSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+                    } else {
+                      setSubmissionSortBy('submittedAt');
+                      setSubmissionSortOrder('desc');
+                    }
+                  }}
+                  className={styles.sortableHeader}
+                >
+                  Date/Time
+                  {submissionSortBy === 'submittedAt' && (
+                    <span className={styles.sortIndicator}>
+                      {submissionSortOrder === 'asc' ? ' ↑' : ' ↓'}
+                    </span>
+                  )}
+                </th>
+                <th 
+                  onClick={() => {
+                    if (submissionSortBy === 'volunteerName') {
+                      setSubmissionSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+                    } else {
+                      setSubmissionSortBy('volunteerName');
+                      setSubmissionSortOrder('asc');
+                    }
+                  }}
+                  className={styles.sortableHeader}
+                >
+                  Volunteer
+                  {submissionSortBy === 'volunteerName' && (
+                    <span className={styles.sortIndicator}>
+                      {submissionSortOrder === 'asc' ? ' ↑' : ' ↓'}
+                    </span>
+                  )}
+                </th>
+                <th 
+                  onClick={() => {
+                    if (submissionSortBy === 'volunteerCallsign') {
+                      setSubmissionSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+                    } else {
+                      setSubmissionSortBy('volunteerCallsign');
+                      setSubmissionSortOrder('asc');
+                    }
+                  }}
+                  className={styles.sortableHeader}
+                >
+                  Callsign
+                  {submissionSortBy === 'volunteerCallsign' && (
+                    <span className={styles.sortIndicator}>
+                      {submissionSortOrder === 'asc' ? ' ↑' : ' ↓'}
+                    </span>
+                  )}
+                </th>
+                <th 
+                  onClick={() => {
+                    if (submissionSortBy === 'volunteerState') {
+                      setSubmissionSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+                    } else {
+                      setSubmissionSortBy('volunteerState');
+                      setSubmissionSortOrder('asc');
+                    }
+                  }}
+                  className={styles.sortableHeader}
+                >
+                  State
+                  {submissionSortBy === 'volunteerState' && (
+                    <span className={styles.sortIndicator}>
+                      {submissionSortOrder === 'asc' ? ' ↑' : ' ↓'}
+                    </span>
+                  )}
+                </th>
+                <th 
+                  onClick={() => {
+                    if (submissionSortBy === 'filename') {
+                      setSubmissionSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+                    } else {
+                      setSubmissionSortBy('filename');
+                      setSubmissionSortOrder('asc');
+                    }
+                  }}
+                  className={styles.sortableHeader}
+                >
+                  Filename
+                  {submissionSortBy === 'filename' && (
+                    <span className={styles.sortIndicator}>
+                      {submissionSortOrder === 'asc' ? ' ↑' : ' ↓'}
+                    </span>
+                  )}
+                </th>
+                <th 
+                  onClick={() => {
+                    if (submissionSortBy === 'recordCount') {
+                      setSubmissionSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+                    } else {
+                      setSubmissionSortBy('recordCount');
+                      setSubmissionSortOrder('desc');
+                    }
+                  }}
+                  className={styles.sortableHeader}
+                >
+                  Records
+                  {submissionSortBy === 'recordCount' && (
+                    <span className={styles.sortIndicator}>
+                      {submissionSortOrder === 'asc' ? ' ↑' : ' ↓'}
+                    </span>
+                  )}
+                </th>
+                <th 
+                  onClick={() => {
+                    if (submissionSortBy === 'processedCount') {
+                      setSubmissionSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+                    } else {
+                      setSubmissionSortBy('processedCount');
+                      setSubmissionSortOrder('desc');
+                    }
+                  }}
+                  className={styles.sortableHeader}
+                >
+                  Processed
+                  {submissionSortBy === 'processedCount' && (
+                    <span className={styles.sortIndicator}>
+                      {submissionSortOrder === 'asc' ? ' ↑' : ' ↓'}
+                    </span>
+                  )}
+                </th>
+                <th 
+                  onClick={() => {
+                    if (submissionSortBy === 'status') {
+                      setSubmissionSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+                    } else {
+                      setSubmissionSortBy('status');
+                      setSubmissionSortOrder('asc');
+                    }
+                  }}
+                  className={styles.sortableHeader}
+                >
+                  Status
+                  {submissionSortBy === 'status' && (
+                    <span className={styles.sortIndicator}>
+                      {submissionSortOrder === 'asc' ? ' ↑' : ' ↓'}
+                    </span>
+                  )}
+                </th>
                 <th>Actions</th>
               </tr>
             </thead>

@@ -421,6 +421,27 @@
   user-select: none;
 }
 
+.sortableHeader {
+  background: var(--mahogany);
+  color: var(--parchment);
+  font-family: 'librebaskerville-bold', serif;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s;
+  position: relative;
+}
+
+.sortableHeader:hover {
+  background: #4d2e0f;
+}
+
+.sortIndicator {
+  margin-left: 0.5rem;
+  font-weight: bold;
+  color: var(--bronze);
+}
+
 .submissionsTable th:hover {
   background: #4d2e0f;
 }
