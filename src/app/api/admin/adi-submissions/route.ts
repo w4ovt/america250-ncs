@@ -6,12 +6,11 @@ import { eq } from 'drizzle-orm';
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const search = searchParams.get('search') || '';
     const sortBy = searchParams.get('sortBy') || 'submittedAt';
     const sortOrder = searchParams.get('sortOrder') || 'desc';
     
     // Build the query with joins to get volunteer information
-    let query = db()
+    const query = db()
       .select({
         id: adiSubmissions.id,
         submittedAt: adiSubmissions.submittedAt,
