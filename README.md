@@ -1,3 +1,26 @@
+# America250-NCS
+
+National Communications System Event Portal for America250 celebrations.
+
+## Features
+
+- Volunteer registration and management
+- Activation tracking and monitoring
+- ADI log file upload and processing
+- QRZ integration for real-time activation display
+- Admin dashboard for system management
+
+## Development
+
+This project uses Next.js 15 with TypeScript, Drizzle ORM, and Neon PostgreSQL.
+
+## Deployment
+
+- **Production**: Vercel (america250.radio)
+- **Iframe Worker**: Cloudflare Workers (america250-ncs-activations.marc-4b1.workers.dev)
+
+<!-- Updated environment variables for production deployment -->
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
