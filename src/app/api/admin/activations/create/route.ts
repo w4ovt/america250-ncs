@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../../../db';
 import { activations, volunteers } from '../../../../../db/schema';
-import { eq } from 'drizzle-orm';
+import { eq, and, isNull } from 'drizzle-orm';
 
 export async function POST(request: NextRequest) {
   try {
@@ -28,8 +28,10 @@ export async function POST(request: NextRequest) {
     // Check if volunteer already has an active activation
     const existingActivation = await db().select()
       .from(activations)
-      .where(eq(activations.volunteerId, volunteerId))
-      .where(eq(activations.endedAt, null))
+      .where(and(
+        eq(activations.volunteerId, volunteerId),
+        isNull(activations.endedAt)
+      ))
       .limit(1);
 
     if (existingActivation.length > 0) {
