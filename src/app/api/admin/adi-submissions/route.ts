@@ -33,12 +33,17 @@ export async function GET(request: NextRequest) {
     
     // Sort the results (client-side sorting for now)
     submissions.sort((a, b) => {
-      let aValue: string | number | Date = a[sortBy as keyof typeof a];
-      let bValue: string | number | Date = b[sortBy as keyof typeof b];
+      let aValue: string | number | Date | null = a[sortBy as keyof typeof a];
+      let bValue: string | number | Date | null = b[sortBy as keyof typeof b];
       
       if (sortOrder === 'desc') {
         [aValue, bValue] = [bValue, aValue];
       }
+      
+      // Handle null values
+      if (aValue === null && bValue === null) return 0;
+      if (aValue === null) return 1;
+      if (bValue === null) return -1;
       
       if (typeof aValue === 'string' && typeof bValue === 'string') {
         return aValue.localeCompare(bValue);
