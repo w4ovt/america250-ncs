@@ -1,0 +1,195 @@
+.volunteerDashboardSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto 2rem auto;
+}
+
+.dashboardHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.dashboardTitle {
+  font-family: 'librebaskerville-bold', serif;
+  color: var(--mahogany);
+  font-size: 2rem;
+  margin: 0;
+  text-align: center;
+}
+
+.logoutBtn {
+  background: var(--mahogany);
+  color: var(--parchment);
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1.5rem;
+  font-family: 'librebaskerville-bold', serif;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 1rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.logoutBtn:hover:not(:disabled) {
+  background: #4d2e0f;
+}
+
+.volunteerInfo {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.welcomeText {
+  font-family: 'librebaskerville-bold', serif;
+  color: var(--mahogany);
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.volunteerDetails {
+  font-family: 'librebaskerville-regular', serif;
+  color: var(--mahogany);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.activationActive {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.formTitle {
+  font-family: 'librebaskerville-bold', serif;
+  color: var(--mahogany);
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.activationForm {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto 1.5rem auto;
+  text-align: center;
+}
+
+.activationFormContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.formGroup {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.formInput, .formSelect {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1.1rem;
+  border: 2px solid var(--mahogany);
+  border-radius: 6px;
+  background: var(--parchment);
+  color: var(--mahogany);
+  font-family: 'librebaskerville-regular', serif;
+  margin-top: 0.25rem;
+}
+
+.formInput:focus, .formSelect:focus {
+  border-color: var(--bronze);
+  outline: none;
+}
+
+.startBtn, .endBtn {
+  background: var(--mahogany);
+  color: var(--parchment);
+  border: none;
+  border-radius: 6px;
+  padding: 0.75rem 2rem;
+  font-family: 'librebaskerville-bold', serif;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 1rem;
+}
+
+.startBtn:hover:not(:disabled), .endBtn:hover:not(:disabled) {
+  background: #4d2e0f;
+}
+
+.startBtn:disabled, .endBtn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.errorMessage {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #f5c6cb;
+  font-family: 'librebaskerville-regular', serif;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.dashboardPlaceholder {
+  text-align: center;
+  margin: 2rem auto;
+}
+
+.placeholderContent {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.placeholderForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.authNotice {
+  background: var(--parchment);
+  border: 1px solid var(--bronze);
+  border-radius: 6px;
+  padding: 1rem;
+  text-align: center;
+  font-style: italic;
+  color: var(--mahogany);
+  font-family: 'librebaskerville-regular', serif;
+}
+
+@media (max-width: 900px) {
+  .volunteerDashboardSection {
+    max-width: 800px;
+  }
+  .activationForm {
+    max-width: 600px;
+  }
+}
+
+@media (max-width: 600px) {
+  .volunteerDashboardSection {
+    max-width: 100%;
+  }
+  .activationForm {
+    max-width: 100%;
+  }
+} 

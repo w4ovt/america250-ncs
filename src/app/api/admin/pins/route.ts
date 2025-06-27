@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../../db';
 import { pins } from '../../../../db/schema';
+import { eq } from 'drizzle-orm';
 
 export async function GET() {
   try {
@@ -18,13 +19,36 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { pin, role } = body;
-    
-    const newPin = await db().insert(pins).values({
-      pin,
-      role: role || 'volunteer'
-    }).returning();
-    
+    let { pin, role } = body;
+    role = role || 'volunteer';
+
+    // Helper to generate a random 4-digit PIN as a string
+    async function generateUniquePin() {
+      let newPin;
+      let exists = true;
+      while (exists) {
+        newPin = Math.floor(1000 + Math.random() * 9000).toString();
+        const existing = await db().select().from(pins).where(eq(pins.pin, newPin));
+        exists = existing.length > 0;
+      }
+      return newPin;
+    }
+
+    // If a PIN is provided, validate it
+    if (pin) {
+      if (!/^[0-9]{4}$/.test(pin)) {
+        return NextResponse.json({ error: 'PIN must be exactly 4 digits' }, { status: 400 });
+      }
+      const existing = await db().select().from(pins).where(eq(pins.pin, pin));
+      if (existing.length > 0) {
+        return NextResponse.json({ error: 'PIN already exists' }, { status: 400 });
+      }
+    } else {
+      // Generate a unique PIN
+      pin = await generateUniquePin();
+    }
+
+    const newPin = await db().insert(pins).values({ pin, role }).returning();
     return NextResponse.json(newPin[0]);
   } catch (error) {
     console.error('Failed to create pin:', error);

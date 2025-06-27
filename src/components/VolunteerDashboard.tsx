@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import styles from './VolunteerDashboard.module.css';
 
 interface VolunteerData {
   volunteerId: number;
@@ -38,6 +39,59 @@ export default function VolunteerDashboard({ disabled = false, volunteerData, on
 
   const isAuthenticated = !!volunteerData;
 
+  // Load persistent activation state on mount
+  useEffect(() => {
+    if (isAuthenticated && volunteerData?.volunteer) {
+      const stored = localStorage.getItem(`activation_${volunteerData.volunteer.volunteerId}`);
+      if (stored) {
+        try {
+          const activationData = JSON.parse(stored);
+          setCurrentActivationId(activationData.activationId);
+        } catch {
+          localStorage.removeItem(`activation_${volunteerData.volunteer.volunteerId}`);
+        }
+      }
+    }
+  }, [isAuthenticated, volunteerData]);
+
+  // Save activation state to localStorage
+  const saveActivationState = (activationId: number | null) => {
+    if (volunteerData?.volunteer) {
+      if (activationId) {
+        localStorage.setItem(`activation_${volunteerData.volunteer.volunteerId}`, JSON.stringify({ activationId }));
+      } else {
+        localStorage.removeItem(`activation_${volunteerData.volunteer.volunteerId}`);
+      }
+    }
+  };
+
+  const handleFrequencyChange = (value: string) => {
+    // Remove any non-digit characters except decimal point
+    const cleanValue = value.replace(/[^\d.]/g, '');
+    
+    // If the value is empty, just set it
+    if (!cleanValue) {
+      setActivationForm(prev => ({ ...prev, frequency: '' }));
+      return;
+    }
+    
+    // If it's already a decimal number (like 7.074), keep it as is
+    if (cleanValue.includes('.')) {
+      setActivationForm(prev => ({ ...prev, frequency: cleanValue }));
+      return;
+    }
+    
+    // If it's a whole number, assume it's kHz and convert to MHz
+    const numValue = parseInt(cleanValue, 10);
+    if (numValue >= 1800 && numValue <= 148000) { // Valid kHz range (1.8-148 MHz)
+      const mhzValue = (numValue / 1000).toFixed(3);
+      setActivationForm(prev => ({ ...prev, frequency: mhzValue }));
+    } else {
+      // If it's not in valid range, just set the raw value
+      setActivationForm(prev => ({ ...prev, frequency: cleanValue }));
+    }
+  };
+
   const handleActivationSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -65,6 +119,7 @@ export default function VolunteerDashboard({ disabled = false, volunteerData, on
       if (response.ok) {
         const data = await response.json();
         setCurrentActivationId(data.activationId);
+        saveActivationState(data.activationId);
         setActivationForm({ frequency: '', mode: '' });
         setErrorMessage('');
       } else {
@@ -98,6 +153,7 @@ export default function VolunteerDashboard({ disabled = false, volunteerData, on
 
       if (response.ok) {
         setCurrentActivationId(null);
+        saveActivationState(null);
         setErrorMessage('');
       } else {
         const errorData = await response.json();
@@ -111,24 +167,19 @@ export default function VolunteerDashboard({ disabled = false, volunteerData, on
   };
 
   return (
-    <div className="volunteer-dashboard-section">
-      <div className="dashboard-header">
-        <h1 className="dashboard-title">Volunteer Dashboard</h1>
-        {isAuthenticated && onLogout && (
-          <button onClick={onLogout} className="logout-btn">
-            Logout
-          </button>
-        )}
+    <div className={styles.volunteerDashboardSection}>
+      <div className={styles.dashboardHeader}>
+        <h1 className={styles.dashboardTitle}>Volunteer Dashboard</h1>
       </div>
       
       {isAuthenticated ? (
         <>
-          <div className="volunteer-info">
-            <h2 className="welcome-text">
+          <div className={styles.volunteerInfo}>
+            <h2 className={styles.welcomeText}>
               Welcome, {volunteerData.volunteer?.name || 'Volunteer'}
             </h2>
             {volunteerData.volunteer && (
-              <div className="volunteer-details">
+              <div className={styles.volunteerDetails}>
                 <p><strong>Callsign:</strong> {volunteerData.volunteer.callsign}</p>
                 <p><strong>State:</strong> {volunteerData.volunteer.state}</p>
                 <p><strong>Role:</strong> {volunteerData.role}</p>
@@ -137,48 +188,50 @@ export default function VolunteerDashboard({ disabled = false, volunteerData, on
           </div>
 
           {currentActivationId ? (
-            <div className="activation-active">
-              <h3 className="form-title">Activation Active</h3>
+            <div className={styles.activationActive}>
+              <h3 className={styles.formTitle}>Activation Active</h3>
               <p>Your activation (ID: {currentActivationId}) is now live and visible on the homepage.</p>
               {errorMessage && (
-                <div className="error-message">
+                <div className={styles.errorMessage}>
                   {errorMessage}
                 </div>
               )}
               <button 
                 onClick={handleEndActivation} 
-                className="end-btn"
+                className={styles.endBtn}
                 disabled={isEnding || disabled}
               >
                 {isEnding ? 'Ending...' : 'End Activation'}
               </button>
+              {onLogout && (
+                <button onClick={onLogout} className={styles.logoutBtn}>
+                  Logout
+                </button>
+              )}
             </div>
           ) : (
-            <div className="activation-form">
-              <h3 className="form-title">Start Activation</h3>
-              <form onSubmit={handleActivationSubmit} className="activation-form-content">
-                <div className="form-group">
+            <div className={styles.activationForm}>
+              <h3 className={styles.formTitle}>Start Activation</h3>
+              <form onSubmit={handleActivationSubmit} className={styles.activationFormContent}>
+                <div className={styles.formGroup}>
                   <label htmlFor="frequency">Frequency (MHz)</label>
                   <input
-                    type="number"
+                    type="text"
                     id="frequency"
-                    step="0.001"
-                    min="1.8"
-                    max="148"
-                    className={`form-input ${disabled ? 'disabled' : ''}`}
-                    placeholder="e.g., 7.074"
+                    className={styles.formInput + (disabled ? ' disabled' : '')}
+                    placeholder="e.g., 7074 or 7.074"
                     value={activationForm.frequency}
-                    onChange={(e) => setActivationForm(prev => ({ ...prev, frequency: e.target.value }))}
+                    onChange={(e) => handleFrequencyChange(e.target.value)}
                     required
                     disabled={disabled}
                   />
                 </div>
                 
-                <div className="form-group">
+                <div className={styles.formGroup}>
                   <label htmlFor="mode">Mode</label>
                   <select 
                     id="mode" 
-                    className={`form-select ${disabled ? 'disabled' : ''}`}
+                    className={styles.formSelect + (disabled ? ' disabled' : '')}
                     value={activationForm.mode}
                     onChange={(e) => setActivationForm(prev => ({ ...prev, mode: e.target.value }))}
                     required
@@ -197,14 +250,14 @@ export default function VolunteerDashboard({ disabled = false, volunteerData, on
                 </div>
 
                 {errorMessage && (
-                  <div className="error-message">
+                  <div className={styles.errorMessage}>
                     {errorMessage}
                   </div>
                 )}
 
                 <button 
                   type="submit" 
-                  className={`start-btn ${disabled ? 'disabled' : ''}`}
+                  className={styles.startBtn + (disabled ? ' disabled' : '')}
                   disabled={isActivating || !activationForm.frequency || !activationForm.mode || disabled}
                 >
                   {isActivating ? 'Starting...' : 'Start Activation'}
@@ -214,33 +267,33 @@ export default function VolunteerDashboard({ disabled = false, volunteerData, on
           )}
         </>
       ) : (
-        <div className="dashboard-placeholder">
-          <div className="placeholder-content">
-            <h3 className="form-title">Volunteer Dashboard</h3>
+        <div className={styles.dashboardPlaceholder}>
+          <div className={styles.placeholderContent}>
+            <h3 className={styles.formTitle}>Volunteer Dashboard</h3>
             <p>This dashboard allows volunteers to start and manage activations.</p>
-            <div className="placeholder-form">
-              <div className="form-group">
+            <div className={styles.placeholderForm}>
+              <div className={styles.formGroup}>
                 <label htmlFor="placeholder-frequency">Frequency (MHz)</label>
                 <input
                   type="text"
                   id="placeholder-frequency"
                   name="placeholder-frequency"
-                  className="form-input disabled"
-                  placeholder="e.g., 7.074"
+                  className={styles.formInput + ' disabled'}
+                  placeholder="e.g., 7074 or 7.074"
                   disabled
                 />
               </div>
-              <div className="form-group">
+              <div className={styles.formGroup}>
                 <label htmlFor="placeholder-mode">Mode</label>
-                <select id="placeholder-mode" name="placeholder-mode" className="form-select disabled" disabled>
+                <select id="placeholder-mode" name="placeholder-mode" className={styles.formSelect + ' disabled'} disabled>
                   <option>Select Mode</option>
                 </select>
               </div>
-              <button className="start-btn disabled" disabled>
+              <button className={styles.startBtn + ' disabled'} disabled>
                 Start Activation
               </button>
             </div>
-            <div className="auth-notice">
+            <div className={styles.authNotice}>
               <p>This feature is interactive for authenticated volunteers or admins. Enter PIN above to activate.</p>
             </div>
           </div>

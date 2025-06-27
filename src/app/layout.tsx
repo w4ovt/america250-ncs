@@ -14,11 +14,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="icon" href="/favicon.ico" />
         <title>America250-NCS</title>
       </head>
-      <body className="parchment-bg">
+      <body>
         <HamburgerMenu />
-        <div className="container linen-block">
-          {children}
-        </div>
+        {children}
       </body>
     </html>
   );
