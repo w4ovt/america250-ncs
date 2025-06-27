@@ -9,6 +9,13 @@ interface Pin {
   role: string;
 }
 
+interface Volunteer {
+  volunteerId: number;
+  name: string;
+  callsign: string;
+  state: string;
+}
+
 interface Activation {
   activationId: number;
   frequencyMhz: number;
@@ -39,11 +46,13 @@ interface AdminDashboardProps {
 
 export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [pins, setPins] = useState<Pin[]>([]);
+  const [volunteers, setVolunteers] = useState<Volunteer[]>([]);
   const [activations, setActivations] = useState<Activation[]>([]);
   const [adiSubmissions, setAdiSubmissions] = useState<AdiSubmission[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedRole, setSelectedRole] = useState('volunteer');
   const [isCreating, setIsCreating] = useState(false);
+  const [isCreatingActivation, setIsCreatingActivation] = useState(false);
   const [isDeleting, setIsDeleting] = useState<number | null>(null);
   const [isEndingActivation, setIsEndingActivation] = useState<number | null>(null);
   const [isResettingCounter, setIsResettingCounter] = useState(false);
@@ -55,6 +64,11 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [submissionSortBy, setSubmissionSortBy] = useState('submittedAt');
   const [submissionSortOrder, setSubmissionSortOrder] = useState<'asc' | 'desc'>('desc');
   const [selectedSubmission, setSelectedSubmission] = useState<AdiSubmission | null>(null);
+  
+  // Create activation form state
+  const [selectedVolunteerId, setSelectedVolunteerId] = useState<number | ''>('');
+  const [activationFrequency, setActivationFrequency] = useState('');
+  const [activationMode, setActivationMode] = useState('');
 
   const RESERVED_PINS = ['7317', '7373'];
 
@@ -69,6 +83,20 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
       }
     } catch {
       setErrorMessage('Network error loading PINs');
+    }
+  };
+
+  const fetchVolunteers = async () => {
+    try {
+      const response = await fetch('/api/admin/volunteers');
+      if (response.ok) {
+        const data = await response.json();
+        setVolunteers(data);
+      } else {
+        setErrorMessage('Failed to load volunteers');
+      }
+    } catch {
+      setErrorMessage('Network error loading volunteers');
     }
   };
 
@@ -110,12 +138,14 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
 
   useEffect(() => {
     fetchPins();
+    fetchVolunteers();
     fetchActivations();
     fetchAdiSubmissions();
     
     // Set up real-time updates every 10 seconds
     const interval = setInterval(() => {
       fetchPins();
+      fetchVolunteers();
       fetchActivations();
       fetchAdiSubmissions();
     }, 10000);
@@ -150,6 +180,48 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
       setErrorMessage('Network error creating PIN');
     } finally {
       setIsCreating(false);
+    }
+  };
+
+  const handleCreateActivation = async () => {
+    if (!selectedVolunteerId || !activationFrequency || !activationMode) {
+      setErrorMessage('Please fill in all fields');
+      return;
+    }
+
+    setIsCreatingActivation(true);
+    setErrorMessage('');
+    setSuccessMessage('');
+
+    try {
+      const response = await fetch('/api/admin/activations/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          volunteerId: selectedVolunteerId,
+          frequencyMhz: activationFrequency,
+          mode: activationMode
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setSuccessMessage(`Activation created successfully for ${data.activation.activationId}`);
+        // Reset form
+        setSelectedVolunteerId('');
+        setActivationFrequency('');
+        setActivationMode('');
+        fetchActivations(); // Refresh the list
+      } else {
+        const errorData = await response.json();
+        setErrorMessage(errorData.error || 'Failed to create activation');
+      }
+    } catch {
+      setErrorMessage('Network error creating activation');
+    } finally {
+      setIsCreatingActivation(false);
     }
   };
 
@@ -396,6 +468,70 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
               ))}
             </tbody>
           </table>
+        </div>
+      </div>
+
+      {/* Create Activation Section */}
+      <div className={styles.adminSection}>
+        <h3 className={styles.sectionTitle}>Create Activation</h3>
+        <div className={styles.pinCreateForm}>
+          <div className={styles.formRow}>
+            <div className={styles.formGroup}>
+              <label htmlFor="volunteer-select">Volunteer:</label>
+              <select
+                id="volunteer-select"
+                value={selectedVolunteerId}
+                onChange={(e) => setSelectedVolunteerId(e.target.value ? Number(e.target.value) : '')}
+                className={styles.formSelect}
+              >
+                <option value="">Select a volunteer...</option>
+                {volunteers.map((volunteer) => (
+                  <option key={volunteer.volunteerId} value={volunteer.volunteerId}>
+                    {volunteer.callsign} - {volunteer.name} ({volunteer.state})
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className={styles.formGroup}>
+              <label htmlFor="frequency-input">Frequency (MHz):</label>
+              <input
+                id="frequency-input"
+                type="text"
+                value={activationFrequency}
+                onChange={(e) => setActivationFrequency(e.target.value)}
+                className={styles.formInput}
+                placeholder="e.g., 14.074"
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label htmlFor="mode-select">Mode:</label>
+              <select
+                id="mode-select"
+                value={activationMode}
+                onChange={(e) => setActivationMode(e.target.value)}
+                className={styles.formSelect}
+              >
+                <option value="">Select mode...</option>
+                <option value="FT8">FT8</option>
+                <option value="CW">CW</option>
+                <option value="SSB">SSB</option>
+                <option value="FM">FM</option>
+                <option value="PSK31">PSK31</option>
+                <option value="RTTY">RTTY</option>
+                <option value="FT4">FT4</option>
+              </select>
+            </div>
+            <div className={styles.formGroup}>
+              <label>&nbsp;</label>
+              <button
+                onClick={handleCreateActivation}
+                disabled={isCreatingActivation}
+                className={styles.createBtn}
+              >
+                {isCreatingActivation ? 'Creating...' : 'Create Activation'}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
