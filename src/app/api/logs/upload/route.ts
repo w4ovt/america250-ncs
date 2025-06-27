@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../../db';
-import { logSubmissions } from '../../../../db/schema';
+import { logSubmissions, adiSubmissions } from '../../../../db/schema';
 
 const QRZ_API_KEY = '89FE-B76D-CD0C-B716';
 
@@ -245,6 +245,16 @@ export async function POST(request: NextRequest) {
         recordCount: validation.recordCount,
       });
       
+      // Store in new ADI submissions table
+      await db().insert(adiSubmissions).values({
+        volunteerId: volunteerData.volunteerId,
+        filename,
+        fileContent,
+        recordCount: validation.recordCount,
+        processedCount: 0,
+        status: 'rejected'
+      });
+      
       // Send failure email
       await sendFailureEmail(filename, validation.error!, volunteerData);
       
@@ -268,6 +278,16 @@ export async function POST(request: NextRequest) {
         recordCount: validation.recordCount,
       });
       
+      // Store in new ADI submissions table
+      await db().insert(adiSubmissions).values({
+        volunteerId: volunteerData.volunteerId,
+        filename,
+        fileContent,
+        recordCount: validation.recordCount,
+        processedCount: 0,
+        status: 'rejected'
+      });
+      
       // Send failure email
       await sendFailureEmail(filename, qrzResult.error!, volunteerData);
       
@@ -285,6 +305,16 @@ export async function POST(request: NextRequest) {
       name: volunteerData.name,
       result: 'success',
       recordCount: qrzResult.count || validation.recordCount,
+    });
+    
+    // Store in new ADI submissions table
+    await db().insert(adiSubmissions).values({
+      volunteerId: volunteerData.volunteerId,
+      filename,
+      fileContent,
+      recordCount: validation.recordCount,
+      processedCount: qrzResult.count || 0,
+      status: 'success'
     });
     
     return NextResponse.json({

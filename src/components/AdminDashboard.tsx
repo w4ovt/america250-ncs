@@ -20,6 +20,19 @@ interface Activation {
   state: string;
 }
 
+interface AdiSubmission {
+  id: number;
+  submittedAt: string;
+  filename: string;
+  fileContent: string;
+  recordCount: number;
+  processedCount: number;
+  status: string;
+  volunteerName: string;
+  volunteerCallsign: string;
+  volunteerState: string;
+}
+
 interface AdminDashboardProps {
   onLogout?: () => void;
 }
@@ -27,15 +40,21 @@ interface AdminDashboardProps {
 export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [pins, setPins] = useState<Pin[]>([]);
   const [activations, setActivations] = useState<Activation[]>([]);
+  const [adiSubmissions, setAdiSubmissions] = useState<AdiSubmission[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedRole, setSelectedRole] = useState('volunteer');
   const [isCreating, setIsCreating] = useState(false);
   const [isDeleting, setIsDeleting] = useState<number | null>(null);
   const [isEndingActivation, setIsEndingActivation] = useState<number | null>(null);
   const [isResettingCounter, setIsResettingCounter] = useState(false);
+  const [isDeletingSubmission, setIsDeletingSubmission] = useState<number | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [requestedPin, setRequestedPin] = useState('');
+  const [submissionSearch, setSubmissionSearch] = useState('');
+  const [submissionSortBy, setSubmissionSortBy] = useState('submittedAt');
+  const [submissionSortOrder, setSubmissionSortOrder] = useState<'asc' | 'desc'>('desc');
+  const [selectedSubmission, setSelectedSubmission] = useState<AdiSubmission | null>(null);
 
   const RESERVED_PINS = ['7317', '7373'];
 
@@ -69,18 +88,40 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
     }
   };
 
+  const fetchAdiSubmissions = async () => {
+    try {
+      const params = new URLSearchParams({
+        search: submissionSearch,
+        sortBy: submissionSortBy,
+        sortOrder: submissionSortOrder
+      });
+      
+      const response = await fetch(`/api/admin/adi-submissions?${params}`);
+      if (response.ok) {
+        const data = await response.json();
+        setAdiSubmissions(data);
+      } else {
+        setErrorMessage('Failed to load ADI submissions');
+      }
+    } catch {
+      setErrorMessage('Network error loading ADI submissions');
+    }
+  };
+
   useEffect(() => {
     fetchPins();
     fetchActivations();
+    fetchAdiSubmissions();
     
     // Set up real-time updates every 10 seconds
     const interval = setInterval(() => {
       fetchPins();
       fetchActivations();
+      fetchAdiSubmissions();
     }, 10000);
     
     return () => clearInterval(interval);
-  }, []);
+  }, [submissionSearch, submissionSortBy, submissionSortOrder]);
 
   const handleCreatePin = async () => {
     setIsCreating(true);
@@ -227,6 +268,34 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
       setErrorMessage('Network error resetting counter');
     } finally {
       setIsResettingCounter(false);
+    }
+  };
+
+  const handleDeleteSubmission = async (submissionId: number) => {
+    if (!confirm('Are you sure you want to delete this ADI submission? This action cannot be undone.')) {
+      return;
+    }
+
+    setIsDeletingSubmission(submissionId);
+    setErrorMessage('');
+    setSuccessMessage('');
+
+    try {
+      const response = await fetch(`/api/admin/adi-submissions?id=${submissionId}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        setSuccessMessage('ADI submission deleted successfully');
+        fetchAdiSubmissions(); // Refresh the list
+      } else {
+        const errorData = await response.json();
+        setErrorMessage(errorData.error || 'Failed to delete ADI submission');
+      }
+    } catch {
+      setErrorMessage('Network error deleting ADI submission');
+    } finally {
+      setIsDeletingSubmission(null);
     }
   };
 
@@ -408,6 +477,120 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
             </tbody>
           </table>
         </div>
+      </div>
+
+      {/* ADI Submissions Table Section */}
+      <div className={styles.adminSection}>
+        <h3 className={styles.sectionTitle}>ADI Submissions</h3>
+        
+        {/* Search and Sort Controls */}
+        <div className={styles.submissionControls}>
+          <div className={styles.searchBox}>
+            <input
+              type="text"
+              placeholder="Search submissions..."
+              value={submissionSearch}
+              onChange={(e) => setSubmissionSearch(e.target.value)}
+              className={styles.searchInput}
+            />
+          </div>
+          
+          <div className={styles.sortControls}>
+            <select
+              value={submissionSortBy}
+              onChange={(e) => setSubmissionSortBy(e.target.value)}
+              className={styles.sortSelect}
+            >
+              <option value="submittedAt">Date/Time</option>
+              <option value="volunteerName">Volunteer Name</option>
+              <option value="volunteerCallsign">Callsign</option>
+              <option value="filename">Filename</option>
+              <option value="recordCount">Record Count</option>
+              <option value="processedCount">Processed Count</option>
+              <option value="status">Status</option>
+            </select>
+            
+            <button
+              onClick={() => setSubmissionSortOrder(prev => prev === 'asc' ? 'desc' : 'asc')}
+              className={styles.sortButton}
+            >
+              {submissionSortOrder === 'asc' ? '↑' : '↓'}
+            </button>
+          </div>
+        </div>
+
+        <div className={styles.submissionsTableWrapper}>
+          <table className={styles.submissionsTable}>
+            <thead>
+              <tr>
+                <th>Date/Time</th>
+                <th>Volunteer</th>
+                <th>Callsign</th>
+                <th>State</th>
+                <th>Filename</th>
+                <th>Records</th>
+                <th>Processed</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {adiSubmissions.map((submission) => (
+                <tr key={submission.id}>
+                  <td>{new Date(submission.submittedAt).toLocaleString()}</td>
+                  <td>{submission.volunteerName}</td>
+                  <td>{submission.volunteerCallsign}</td>
+                  <td>{submission.volunteerState}</td>
+                  <td>{submission.filename}</td>
+                  <td>{submission.recordCount}</td>
+                  <td>{submission.processedCount}</td>
+                  <td>
+                    <span className={`${styles.statusBadge} ${styles[submission.status]}`}>
+                      {submission.status}
+                    </span>
+                  </td>
+                  <td>
+                    <button
+                      onClick={() => setSelectedSubmission(submission)}
+                      className={styles.viewBtn}
+                      title="View ADI Content"
+                    >
+                      View
+                    </button>
+                    <button
+                      onClick={() => handleDeleteSubmission(submission.id)}
+                      disabled={isDeletingSubmission === submission.id}
+                      className={styles.deleteBtn}
+                      title="Delete Submission"
+                    >
+                      {isDeletingSubmission === submission.id ? 'Deleting...' : 'Delete'}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* ADI Content Modal */}
+        {selectedSubmission && (
+          <div className={styles.modalOverlay} onClick={() => setSelectedSubmission(null)}>
+            <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+              <div className={styles.modalHeader}>
+                <h3>ADI File Content - {selectedSubmission.filename}</h3>
+                <button
+                  onClick={() => setSelectedSubmission(null)}
+                  className={styles.closeButton}
+                >
+                  ×
+                </button>
+              </div>
+              <div className={styles.modalBody}>
+                <pre className={styles.adiContent}>{selectedSubmission.fileContent}</pre>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

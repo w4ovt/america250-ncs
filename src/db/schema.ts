@@ -1,4 +1,4 @@
-import { pgTable, serial, varchar, integer, timestamp, decimal } from 'drizzle-orm/pg-core';
+import { pgTable, serial, varchar, integer, timestamp, decimal, text } from 'drizzle-orm/pg-core';
 
 export const pins = pgTable('pins', {
   pinId: serial('pin_id').primaryKey(),
@@ -33,4 +33,15 @@ export const logSubmissions = pgTable('log_submissions', {
   result: varchar('result', { length: 16 }), // 'success' or 'failure'
   recordCount: integer('record_count'),
   createdAt: timestamp('created_at').defaultNow(),
+});
+
+export const adiSubmissions = pgTable('adi_submissions', {
+  id: serial('id').primaryKey(),
+  volunteerId: integer('volunteer_id').references(() => volunteers.volunteerId).notNull(),
+  submittedAt: timestamp('submitted_at').defaultNow().notNull(),
+  filename: varchar('filename', { length: 255 }).notNull(),
+  fileContent: text('file_content').notNull(),
+  recordCount: integer('record_count').notNull(), // attempted records
+  processedCount: integer('processed_count').notNull(), // successfully processed records
+  status: varchar('status', { length: 16 }).notNull(), // 'success' or 'rejected'
 }); 
