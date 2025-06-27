@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useCallback, useEffect } from 'react';
+import Image from 'next/image';
 import styles from './K4ADropzone.module.css';
 
 interface VolunteerData {
@@ -166,10 +167,16 @@ export default function K4ADropzone({ disabled = false, volunteerData }: K4ADrop
           title={disabled ? 'Enter PIN above to enable upload' : 'Drag your .adi file here to upload to QRZ Logbook'}
         >
           <div className={styles.dropzoneContent}>
-            <img
+            <Image
               src="/K4A-Log-Dropbox.webp"
               alt="K4A Log Dropbox"
+              width={200}
+              height={150}
               className={styles.dropzoneImage}
+              style={{
+                width: 'auto',
+                height: 'auto'
+              }}
             />
             
             {status === 'idle' && (

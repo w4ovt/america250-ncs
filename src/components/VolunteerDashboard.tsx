@@ -185,6 +185,27 @@ export default function VolunteerDashboard({ disabled = false, volunteerData, on
                 <p><strong>Role:</strong> {volunteerData.role}</p>
               </div>
             )}
+            
+            {onLogout && (
+              <button 
+                onClick={onLogout} 
+                className={styles.logoutBtn}
+                style={{ 
+                  display: 'block',
+                  marginTop: '1rem',
+                  backgroundColor: 'var(--mahogany)',
+                  color: 'var(--parchment)',
+                  border: 'none',
+                  borderRadius: '6px',
+                  padding: '0.5rem 1.5rem',
+                  fontFamily: 'librebaskerville-bold, serif',
+                  fontSize: '1rem',
+                  cursor: 'pointer'
+                }}
+              >
+                Logout
+              </button>
+            )}
           </div>
 
           {currentActivationId ? (
@@ -203,11 +224,6 @@ export default function VolunteerDashboard({ disabled = false, volunteerData, on
               >
                 {isEnding ? 'Ending...' : 'End Activation'}
               </button>
-              {onLogout && (
-                <button onClick={onLogout} className={styles.logoutBtn}>
-                  Logout
-                </button>
-              )}
             </div>
           ) : (
             <div className={styles.activationForm}>
