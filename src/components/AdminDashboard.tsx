@@ -402,21 +402,21 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
       {/* Create PIN Section */}
       <div className={styles.adminSection}>
         <h3 className={styles.sectionTitle}>Create PIN</h3>
-        <div className={styles.pinCreateForm + ' ' + styles.centeredBlock}>
-          <div className={styles.formRow + ' ' + styles.centeredRow}>
-            <div>
+        <div className={styles.pinCreateForm}>
+          <div className={styles.formRow}>
+            <div className={styles.formGroup}>
               <label htmlFor="role-select">Role:</label>
               <select
                 id="role-select"
                 value={selectedRole}
                 onChange={(e) => setSelectedRole(e.target.value)}
-                className={styles.formRow + ' ' + styles.formSelect}
+                className={styles.formSelect}
               >
                 <option value="volunteer">Volunteer</option>
                 <option value="admin">Admin</option>
               </select>
             </div>
-            <div>
+            <div className={styles.formGroup}>
               <label htmlFor="requested-pin">Requested PIN (optional):</label>
               <input
                 id="requested-pin"
@@ -430,13 +430,16 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 autoComplete="off"
               />
             </div>
-            <button
-              onClick={handleCreatePin}
-              disabled={isCreating}
-              className={styles.createBtn + ' ' + styles.centeredBtn}
-            >
-              {isCreating ? 'Creating...' : 'Create PIN'}
-            </button>
+            <div className={styles.formGroup}>
+              <label>&nbsp;</label>
+              <button
+                onClick={handleCreatePin}
+                disabled={isCreating}
+                className={styles.createBtn}
+              >
+                {isCreating ? 'Creating...' : 'Create PIN'}
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -694,6 +697,75 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile Card Layout for ADI Submissions */}
+        <div className={styles.submissionsCard}>
+          {adiSubmissions.map((submission) => (
+            <div key={submission.id} className={styles.submissionCard}>
+              <div className={styles.submissionCardHeader}>
+                <h4 className={styles.submissionCardTitle}>
+                  {submission.filename}
+                </h4>
+                <div className={styles.submissionCardStatus}>
+                  <span className={`${styles.statusBadge} ${styles[submission.status]}`}>
+                    {submission.status}
+                  </span>
+                </div>
+              </div>
+              
+              <div className={styles.submissionCardDetails}>
+                <div className={styles.submissionCardDetail}>
+                  <span className={styles.submissionCardLabel}>Date/Time</span>
+                  <span className={styles.submissionCardValue}>
+                    {new Date(submission.submittedAt).toLocaleString()}
+                  </span>
+                </div>
+                <div className={styles.submissionCardDetail}>
+                  <span className={styles.submissionCardLabel}>Volunteer</span>
+                  <span className={styles.submissionCardValue}>
+                    {submission.volunteerName}
+                  </span>
+                </div>
+                <div className={styles.submissionCardDetail}>
+                  <span className={styles.submissionCardLabel}>Callsign</span>
+                  <span className={styles.submissionCardValue}>
+                    {submission.volunteerCallsign}
+                  </span>
+                </div>
+                <div className={styles.submissionCardDetail}>
+                  <span className={styles.submissionCardLabel}>Records</span>
+                  <span className={styles.submissionCardValue}>
+                    {submission.recordCount}
+                  </span>
+                </div>
+                <div className={styles.submissionCardDetail}>
+                  <span className={styles.submissionCardLabel}>Processed</span>
+                  <span className={styles.submissionCardValue}>
+                    {submission.processedCount}
+                  </span>
+                </div>
+              </div>
+              
+              <div className={styles.submissionCardActions}>
+                <button
+                  onClick={() => setSelectedSubmission(submission)}
+                  className={styles.viewBtn}
+                  title="View ADI Content"
+                >
+                  View
+                </button>
+                <button
+                  onClick={() => handleDeleteSubmission(submission.id)}
+                  disabled={isDeletingSubmission === submission.id}
+                  className={styles.deleteBtn}
+                  title="Delete Submission"
+                >
+                  {isDeletingSubmission === submission.id ? 'Deleting...' : 'Delete'}
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
 
         {/* ADI Content Modal */}

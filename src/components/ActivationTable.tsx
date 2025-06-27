@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import styles from './ActivationTable.module.css';
 
 interface Activation {
   activationId: number;
@@ -64,10 +65,72 @@ export default function ActivationTable() {
     );
   });
 
+  // Create cards for mobile layout
+  const cards = Array.from({ length: displayRows }, (_, index) => {
+    const activation = activations[index];
+    return activation ? (
+      <div key={activation.activationId} className={styles.activationCard}>
+        <div className={styles.activationCardHeader}>
+          <h4 className={styles.activationCardTitle}>
+            Activation #{activation.activationId}
+          </h4>
+          <div className={styles.activationCardStatus}>
+            <span className={styles.statusBadge}>Active</span>
+          </div>
+        </div>
+        
+        <div className={styles.activationCardDetails}>
+          <div className={styles.activationCardDetail}>
+            <span className={styles.activationCardLabel}>Frequency</span>
+            <span className={styles.activationCardValue}>
+              {Number(activation.frequencyMhz).toFixed(3)} MHz
+            </span>
+          </div>
+          <div className={styles.activationCardDetail}>
+            <span className={styles.activationCardLabel}>Mode</span>
+            <span className={styles.activationCardValue}>
+              {activation.mode}
+            </span>
+          </div>
+          <div className={styles.activationCardDetail}>
+            <span className={styles.activationCardLabel}>Volunteer</span>
+            <span className={styles.activationCardValue}>
+              {activation.name}
+            </span>
+          </div>
+          <div className={styles.activationCardDetail}>
+            <span className={styles.activationCardLabel}>Callsign</span>
+            <span className={styles.activationCardValue}>
+              {activation.callsign}
+            </span>
+          </div>
+          <div className={styles.activationCardDetail}>
+            <span className={styles.activationCardLabel}>State</span>
+            <span className={styles.activationCardValue}>
+              {activation.state}
+            </span>
+          </div>
+        </div>
+      </div>
+    ) : (
+      <div key={`empty-${index}`} className={styles.activationCard}>
+        <div className={styles.activationCardHeader}>
+          <h4 className={styles.activationCardTitle}>No Activation</h4>
+        </div>
+        <div className={styles.activationCardDetails}>
+          <div className={styles.activationCardDetail}>
+            <span className={styles.activationCardLabel}>Status</span>
+            <span className={styles.activationCardValue}>—</span>
+          </div>
+        </div>
+      </div>
+    );
+  });
+
   if (isLoading) {
     return (
-      <div className="activations-table-wrapper">
-        <div style={{ textAlign: 'center', padding: '2rem' }}>
+      <div className={styles.activationsTableWrapper}>
+        <div className={styles.loadingMessage}>
           Loading activations...
         </div>
       </div>
@@ -75,8 +138,9 @@ export default function ActivationTable() {
   }
 
   return (
-    <div className="activations-table-wrapper">
-      <table className="activations-table">
+    <div className={styles.activationsTableWrapper}>
+      {/* Desktop/Tablet Table Layout */}
+      <table className={styles.activationsTable}>
         <thead>
           <tr>
             <th>ID</th>
@@ -91,6 +155,11 @@ export default function ActivationTable() {
           {rows}
         </tbody>
       </table>
+
+      {/* Mobile Card Layout */}
+      <div className={styles.activationsCard}>
+        {cards}
+      </div>
     </div>
   );
 } 
