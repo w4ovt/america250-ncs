@@ -3,6 +3,17 @@
 import { useState, useEffect } from 'react';
 import styles from './ActivationTableQRZ.module.css';
 
+interface ApiActivation {
+  activationId: number;
+  frequencyMhz: string;
+  mode: string;
+  startedAt: string;
+  volunteerId: number;
+  name: string;
+  callsign: string;
+  state: string;
+}
+
 interface Activation {
   id: string;
   volunteerName: string;
@@ -24,8 +35,22 @@ export default function ActivationTableQRZ() {
     try {
       const response = await fetch('/api/activations/list');
       if (response.ok) {
-        const data = await response.json();
-        setActivations(data.activations || []);
+        const data: ApiActivation[] = await response.json();
+        
+        // Transform API data to component format
+        const transformedActivations: Activation[] = data.map(activation => ({
+          id: activation.activationId.toString(),
+          volunteerName: activation.name,
+          volunteerCallsign: activation.callsign,
+          frequency: activation.frequencyMhz,
+          mode: activation.mode,
+          state: activation.state,
+          startTime: activation.startedAt,
+          endTime: null, // API doesn't provide endTime yet
+          status: 'active' as const // Assume active since no endTime
+        }));
+        
+        setActivations(transformedActivations);
         setLastUpdated(new Date().toLocaleTimeString());
       }
     } catch (error) {
