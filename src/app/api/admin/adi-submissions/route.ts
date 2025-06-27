@@ -27,20 +27,8 @@ export async function GET(request: NextRequest) {
       .from(adiSubmissions)
       .leftJoin(volunteers, eq(adiSubmissions.volunteerId, volunteers.volunteerId));
     
-    // Add search filter if provided
-    if (search) {
-      query = query.where(
-        // Search in filename, volunteer name, callsign, or file content
-        // Note: This is a simplified search - in production you might want more sophisticated text search
-        // For now, we'll search in the basic fields
-        // You might want to add full-text search capabilities later
-      );
-    }
-    
-    // Add sorting
-    // Note: Drizzle ORM sorting with joins can be complex
-    // For now, we'll sort by the main table fields
-    // You might want to implement more sophisticated sorting later
+    // TODO: Implement search functionality in future update
+    // For now, we'll fetch all submissions and filter client-side if needed
     
     const submissions = await query;
     
