@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QRZ K4A Biography - America250 NCS Embed</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .embed-code {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+        .preview {
+            border: 2px dashed #6c757d;
+            border-radius: 4px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .iframe-preview {
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+        }
+        h1, h2 {
+            color: #495057;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 4px;
+            border-left: 4px solid #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <h1>America250 NCS - QRZ K4A Biography Embed</h1>
+    
+    <p>This page demonstrates how to embed the America250 NCS Live Activations table on the QRZ K4A Biography page.</p>
+    
+    <div class="highlight">
+        <strong>Note:</strong> Replace <code>YOUR_DOMAIN</code> with your actual deployment domain (e.g., <code>america250-ncs.vercel.app</code>)
+    </div>
+    
+    <h2>Embed Code for QRZ Biography Page</h2>
+    
+    <div class="embed-code">
+&lt;div style="margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 8px;"&gt;
+    &lt;h3 style="margin: 0 0 15px 0; color: #495057; font-size: 16px; text-align: center;"&gt;
+        America250 NCS Live Activations
+    &lt;/h3&gt;
+    &lt;iframe 
+        src="https://YOUR_DOMAIN/iframe" 
+        width="100%" 
+        height="300" 
+        frameborder="0" 
+        scrolling="no" 
+        style="border: 1px solid #dee2e6; border-radius: 4px; background: white;"&gt;
+    &lt;/iframe&gt;
+    &lt;p style="margin: 10px 0 0 0; font-size: 12px; color: #6c757d; text-align: center;"&gt;
+        &lt;a href="https://YOUR_DOMAIN" target="_blank"&gt;View Full Dashboard&lt;/a&gt;
+    &lt;/p&gt;
+&lt;/div&gt;
+    </div>
+    
+    <h2>Alternative: Responsive Embed Code</h2>
+    
+    <div class="embed-code">
+&lt;div style="margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 8px;"&gt;
+    &lt;h3 style="margin: 0 0 15px 0; color: #495057; font-size: 16px; text-align: center;"&gt;
+        America250 NCS Live Activations
+    &lt;/h3&gt;
+    &lt;div style="position: relative; padding-bottom: 100%; height: 0; overflow: hidden;"&gt;
+        &lt;iframe 
+            src="https://YOUR_DOMAIN/iframe" 
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 1px solid #dee2e6; border-radius: 4px; background: white;" 
+            frameborder="0" 
+            scrolling="no"&gt;
+        &lt;/iframe&gt;
+    &lt;/div&gt;
+    &lt;p style="margin: 10px 0 0 0; font-size: 12px; color: #6c757d; text-align: center;"&gt;
+        &lt;a href="https://YOUR_DOMAIN" target="_blank"&gt;View Full Dashboard&lt;/a&gt;
+    &lt;/p&gt;
+&lt;/div&gt;
+    </div>
+    
+    <h2>Preview</h2>
+    
+    <div class="preview">
+        <h3>America250 NCS Live Activations</h3>
+        <iframe 
+            src="/iframe" 
+            class="iframe-preview"
+            frameborder="0" 
+            scrolling="no">
+        </iframe>
+        <p style="margin: 10px 0 0 0; font-size: 12px; color: #6c757d;">
+            <a href="/" target="_blank">View Full Dashboard</a>
+        </p>
+    </div>
+    
+    <h2>Features</h2>
+    
+    <ul>
+        <li><strong>Real-time Updates:</strong> Automatically refreshes every 30 seconds</li>
+        <li><strong>Responsive Design:</strong> Adapts to different screen sizes</li>
+        <li><strong>Mobile-Friendly:</strong> Card layout on mobile devices</li>
+        <li><strong>Clean Design:</strong> Minimal styling that works well on QRZ</li>
+        <li><strong>Last Updated:</strong> Shows when data was last refreshed</li>
+    </ul>
+    
+    <h2>Deployment Instructions</h2>
+    
+    <ol>
+        <li>Deploy the America250 NCS application to your hosting provider (Vercel, Netlify, etc.)</li>
+        <li>Replace <code>YOUR_DOMAIN</code> in the embed code with your actual domain</li>
+        <li>Add the embed code to the QRZ K4A Biography page</li>
+        <li>Test the iframe to ensure it loads properly</li>
+    </ol>
+    
+    <h2>Technical Details</h2>
+    
+    <ul>
+        <li><strong>Endpoint:</strong> <code>/api/activations/list</code> provides the activation data</li>
+        <li><strong>Update Frequency:</strong> Every 30 seconds</li>
+        <li><strong>Data Format:</strong> JSON with activation details</li>
+        <li><strong>Cross-Origin:</strong> Configured to allow iframe embedding</li>
+    </ul>
+    
+    <div class="highlight">
+        <strong>Security Note:</strong> The iframe is designed to be embedded on trusted sites like QRZ. 
+        Consider adding additional security headers if needed for your deployment.
+    </div>
+</body>
+</html> 

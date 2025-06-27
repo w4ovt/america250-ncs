@@ -1,0 +1,231 @@
+/* Iframe Container */
+.iframeContainer {
+  width: 100%;
+  max-width: 100%;
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 0.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+/* Activation Table Styles */
+.activationsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  background: white;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.activationsTable th,
+.activationsTable td {
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+  border-bottom: 1px solid #e9ecef;
+  font-size: 0.75rem;
+}
+
+.activationsTable th {
+  background: #495057;
+  color: white;
+  font-weight: 600;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.activationsTable td {
+  color: #212529;
+  background: white;
+}
+
+.activationsTable tr:last-child td {
+  border-bottom: none;
+}
+
+.activationsTable tr:hover td {
+  background: #f8f9fa;
+}
+
+/* Card Layout for Mobile Iframe */
+.activationsCard {
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.activationCard {
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 3px;
+  padding: 0.5rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.activationCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+  gap: 0.5rem;
+}
+
+.activationCardFrequency {
+  font-weight: 600;
+  color: #495057;
+  font-size: 0.8rem;
+}
+
+.activationCardMode {
+  background: #6c757d;
+  color: white;
+  padding: 0.1rem 0.3rem;
+  border-radius: 2px;
+  font-size: 0.65rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.activationCardDetails {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+}
+
+.activationCardCallsign {
+  font-weight: 600;
+  color: #212529;
+}
+
+.activationCardState {
+  color: #6c757d;
+  font-size: 0.7rem;
+}
+
+.activationCardEmpty {
+  color: #6c757d;
+  font-style: italic;
+  font-size: 0.75rem;
+}
+
+/* Loading and Footer */
+.loadingMessage {
+  text-align: center;
+  padding: 1rem;
+  color: #6c757d;
+  font-size: 0.8rem;
+}
+
+.lastUpdated {
+  text-align: center;
+  padding: 0.25rem;
+  color: #6c757d;
+  font-size: 0.65rem;
+  border-top: 1px solid #e9ecef;
+  margin-top: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 0 0 3px 3px;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .iframeContainer {
+    padding: 0.25rem;
+  }
+  
+  .activationsTable {
+    font-size: 0.7rem;
+  }
+  
+  .activationsTable th,
+  .activationsTable td {
+    padding: 0.3rem 0.4rem;
+  }
+  
+  /* Hide table, show cards on mobile */
+  .activationsTable {
+    display: none;
+  }
+  
+  .activationsCard {
+    display: flex;
+  }
+  
+  .activationCard {
+    padding: 0.4rem;
+  }
+  
+  .activationCardHeader {
+    margin-bottom: 0.2rem;
+  }
+  
+  .activationCardFrequency {
+    font-size: 0.75rem;
+  }
+  
+  .activationCardMode {
+    font-size: 0.6rem;
+    padding: 0.05rem 0.25rem;
+  }
+  
+  .activationCardDetails {
+    font-size: 0.7rem;
+  }
+  
+  .activationCardCallsign {
+    font-size: 0.7rem;
+  }
+  
+  .activationCardState {
+    font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .iframeContainer {
+    padding: 0.2rem;
+  }
+  
+  .activationCard {
+    padding: 0.3rem;
+  }
+  
+  .activationCardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+  }
+  
+  .activationCardDetails {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.1rem;
+  }
+  
+  .activationCardFrequency {
+    font-size: 0.7rem;
+  }
+  
+  .activationCardMode {
+    font-size: 0.55rem;
+  }
+  
+  .activationCardCallsign {
+    font-size: 0.65rem;
+  }
+  
+  .activationCardState {
+    font-size: 0.6rem;
+  }
+  
+  .lastUpdated {
+    font-size: 0.6rem;
+    padding: 0.2rem;
+  }
+} 

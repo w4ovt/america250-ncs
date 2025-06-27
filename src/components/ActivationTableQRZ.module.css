@@ -1,0 +1,225 @@
+/* QRZ-Optimized Activation Table - Minimal CSS */
+.qrzContainer {
+  width: 100%;
+  max-width: 100%;
+  background: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+  padding: 5px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  line-height: 1.2;
+  margin: 0;
+  overflow: hidden;
+}
+
+.qrzTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 10px;
+  background: white;
+  border: 1px solid #dddddd;
+  margin: 0;
+}
+
+.qrzTable th,
+.qrzTable td {
+  padding: 3px 5px;
+  text-align: left;
+  border-bottom: 1px solid #eeeeee;
+  font-size: 10px;
+  vertical-align: top;
+}
+
+.qrzTable th {
+  background: #4a4a4a;
+  color: white;
+  font-weight: bold;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.qrzTable td {
+  color: #333333;
+  background: white;
+}
+
+.qrzTable tr:last-child td {
+  border-bottom: none;
+}
+
+.qrzTable tr:hover td {
+  background: #f5f5f5;
+}
+
+/* QRZ Card Layout */
+.qrzCard {
+  display: none;
+  background: white;
+  border: 1px solid #dddddd;
+  border-radius: 2px;
+  padding: 4px;
+  margin-bottom: 3px;
+  font-size: 10px;
+}
+
+.qrzCardHeader {
+  display: block;
+  margin-bottom: 2px;
+  font-weight: bold;
+  color: #4a4a4a;
+  font-size: 10px;
+}
+
+.qrzCardDetails {
+  display: block;
+  font-size: 9px;
+  color: #666666;
+  line-height: 1.3;
+}
+
+.qrzCardFrequency {
+  font-weight: bold;
+  color: #333333;
+  font-size: 10px;
+}
+
+.qrzCardMode {
+  background: #666666;
+  color: white;
+  padding: 1px 3px;
+  border-radius: 1px;
+  font-size: 8px;
+  font-weight: bold;
+  text-transform: uppercase;
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.qrzCardCallsign {
+  font-weight: bold;
+  color: #333333;
+  font-size: 10px;
+}
+
+.qrzCardState {
+  color: #666666;
+  font-size: 9px;
+  margin-left: 10px;
+}
+
+.qrzCardEmpty {
+  color: #999999;
+  font-style: italic;
+  font-size: 9px;
+}
+
+/* Loading and Footer */
+.qrzLoading {
+  text-align: center;
+  padding: 10px;
+  color: #666666;
+  font-size: 10px;
+}
+
+.qrzUpdated {
+  text-align: center;
+  padding: 2px;
+  color: #999999;
+  font-size: 8px;
+  border-top: 1px solid #eeeeee;
+  margin-top: 3px;
+  background: #f9f9f9;
+}
+
+/* QRZ Responsive - Very Basic */
+@media (max-width: 600px) {
+  .qrzContainer {
+    padding: 3px;
+  }
+  
+  .qrzTable {
+    font-size: 9px;
+  }
+  
+  .qrzTable th,
+  .qrzTable td {
+    padding: 2px 3px;
+    font-size: 9px;
+  }
+  
+  /* Hide table, show cards on mobile */
+  .qrzTable {
+    display: none;
+  }
+  
+  .qrzCard {
+    display: block;
+  }
+  
+  .qrzCardHeader {
+    font-size: 9px;
+  }
+  
+  .qrzCardDetails {
+    font-size: 8px;
+  }
+  
+  .qrzCardFrequency {
+    font-size: 9px;
+  }
+  
+  .qrzCardMode {
+    font-size: 7px;
+    padding: 1px 2px;
+  }
+  
+  .qrzCardCallsign {
+    font-size: 9px;
+  }
+  
+  .qrzCardState {
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 400px) {
+  .qrzContainer {
+    padding: 2px;
+  }
+  
+  .qrzCard {
+    padding: 3px;
+  }
+  
+  .qrzCardHeader {
+    font-size: 8px;
+  }
+  
+  .qrzCardDetails {
+    font-size: 7px;
+  }
+  
+  .qrzCardFrequency {
+    font-size: 8px;
+  }
+  
+  .qrzCardMode {
+    font-size: 6px;
+    padding: 1px 2px;
+  }
+  
+  .qrzCardCallsign {
+    font-size: 8px;
+  }
+  
+  .qrzCardState {
+    font-size: 7px;
+  }
+  
+  .qrzUpdated {
+    font-size: 7px;
+    padding: 1px;
+  }
+} 
