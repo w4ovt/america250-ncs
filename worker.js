@@ -1,21 +1,50 @@
 export default {
   async fetch(request, env, ctx) {
-    // Set CORS headers for iframe compatibility
+    // Generate a unique cache-busting parameter
+    const timestamp = Date.now();
+    const randomId = Math.random().toString(36).substring(2, 15);
+    const cacheBuster = `${timestamp}-${randomId}`;
+    
+    // Set aggressive no-cache headers and allow iframe embedding
     const corsHeaders = {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET',
       'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0, private, no-transform',
+      'Pragma': 'no-cache',
+      'Expires': '0',
+      'Surrogate-Control': 'no-store',
+      'Vary': '*',
+      'ETag': `"${cacheBuster}"`,
+      'Last-Modified': new Date().toUTCString(),
+      'X-Frame-Options': 'ALLOWALL',
+      'Content-Security-Policy': "frame-ancestors 'self' *",
     };
 
     try {
-      // Fetch activation data from your API
-      const response = await fetch('https://america250.radio/api/activations/list');
+      // Add multiple cache-busting parameters to API call
+      const apiUrl = `https://america250.radio/api/activations/list?_t=${timestamp}&_r=${randomId}&_cb=${cacheBuster}`;
+      
+      const response = await fetch(apiUrl, {
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'If-None-Match': `"${cacheBuster}"`,
+          'If-Modified-Since': 'Thu, 01 Jan 1970 00:00:00 GMT',
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`API responded with status: ${response.status}`);
+      }
+      
       const activations = await response.json();
 
-      // Format the data
+      // Format the data with simple, robust HTML
       let tableRows = '';
       if (activations.length === 0) {
-        tableRows = '<tr><td colspan="6" style="text-align: center; color: #683f1b; font-style: italic; padding: 2rem; font-family: \'librebaskerville-bold\', serif;">No active activations</td></tr>';
+        tableRows = '<tr><td colspan="6" style="text-align: center; color: #683f1b; font-style: italic; padding: 2rem;">No active activations</td></tr>';
       } else {
         tableRows = activations.map(activation => {
           const startDate = new Date(activation.startedAt);
@@ -27,12 +56,12 @@ export default {
           
           return `
             <tr>
-              <td style="font-family: \'librebaskerville-bold\', serif; color: #683f1b;">${dateStr}</td>
-              <td style="font-family: \'librebaskerville-bold\', serif; color: #683f1b;">${timeStr}</td>
-              <td style="font-family: \'librebaskerville-bold\', serif; color: #683f1b;">${firstName} ${activation.callsign}</td>
-              <td style="font-family: \'librebaskerville-bold\', serif; color: #683f1b;"><strong>${activation.frequencyMhz}</strong></td>
-              <td style="font-family: \'librebaskerville-bold\', serif; color: #683f1b;">${activation.mode}</td>
-              <td><span class="status-onair">ON AIR</span></td>
+              <td style="color: #683f1b; font-weight: bold;">${dateStr}</td>
+              <td style="color: #683f1b; font-weight: bold;">${timeStr}</td>
+              <td style="color: #683f1b; font-weight: bold;">${firstName} ${activation.callsign}</td>
+              <td style="color: #683f1b; font-weight: bold;"><strong>${activation.frequencyMhz}</strong></td>
+              <td style="color: #683f1b; font-weight: bold;">${activation.mode}</td>
+              <td><span style="background: #155724; color: white; padding: 4px 8px; border-radius: 4px; font-weight: bold;">ON AIR</span></td>
             </tr>
           `;
         }).join('');
@@ -40,150 +69,81 @@ export default {
 
       const currentTime = new Date().toLocaleTimeString();
 
-      // Return the complete HTML with enhanced styling
+      // Return HTML with 1-minute refresh
       const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="refresh" content="60">
+  <meta http-equiv="refresh" content="60;url=https://america250-ncs-activations.marc-4b1.workers.dev?_t=${timestamp}&_r=${randomId}&_cb=${cacheBuster}&_v=${Date.now()}">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0, private, no-transform">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta http-equiv="ETag" content="${cacheBuster}">
   <title>America250-NCS Activations</title>
   <style>
-    @font-face {
-      font-family: 'librebaskerville-bold';
-      src: url('https://america250.radio/fonts/librebaskerville-bold.woff2') format('woff2');
-      font-weight: bold;
-      font-style: normal;
-      font-display: swap;
-    }
-    
     body { 
-      font-family: 'librebaskerville-bold', serif; 
+      font-family: Arial, sans-serif; 
       font-size: 14px; 
       margin: 0; 
-      padding: 20px; 
+      padding: 10px; 
       background: #f7f1e2;
       color: #683f1b;
-      border: 4px solid #683f1b;
-      border-radius: 8px;
-      box-sizing: border-box;
-    }
-    
-    .table-wrapper {
-      overflow-x: auto;
-      background: #f7f1e2;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(104,63,27,0.15);
-      padding: 1em 0.5em;
-      max-width: 100%;
-      border: 4px solid #683f1b;
     }
     
     table { 
       width: 100%; 
       border-collapse: collapse; 
-      min-width: 600px;
       background: #f7f1e2;
-      border-radius: 8px;
-      overflow: hidden;
+      border: 2px solid #683f1b;
     }
     
     th, td { 
-      padding: 0.8em 1em; 
+      padding: 8px 12px; 
       text-align: center; 
-      border-bottom: 1px solid #c7a159; 
-      font-size: 1rem;
+      border: 1px solid #c7a159; 
+      font-size: 14px;
     }
     
     th { 
       background: #f7ecd2; 
-      font-family: 'librebaskerville-bold', serif;
       color: #683f1b;
       font-weight: bold;
-      font-size: 1.3rem;
-      letter-spacing: 0.08em;
-      text-shadow: 1px 1px 2px rgba(104,63,27,0.2);
-      box-shadow: 0 2px 4px rgba(104,63,27,0.1);
+      font-size: 16px;
     }
     
     td {
-      font-family: 'librebaskerville-bold', serif;
       color: #683f1b;
       text-align: center;
-    }
-    
-    tr:last-child td { 
-      border-bottom: none; 
-    }
-    
-    .status-onair {
-      background: #155724;
-      color: #f7f1e2;
-      padding: 0.4rem 0.8rem;
-      border-radius: 6px;
-      font-family: 'librebaskerville-bold', serif;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      border: 2px solid #0d3d17;
-      font-weight: bold;
-      letter-spacing: 0.1em;
-      box-shadow: 0 2px 4px rgba(21,87,36,0.3);
     }
     
     .footer {
       text-align: center; 
       color: #683f1b; 
-      font-size: 0.8rem; 
-      margin-top: 0.5rem;
-      margin-bottom: 1rem;
+      font-size: 12px; 
+      margin-top: 10px;
+      padding-top: 10px;
       border-top: 1px solid #c7a159;
-      padding-top: 0.5rem;
-      font-family: 'librebaskerville-bold', serif;
-    }
-    
-    @media (max-width: 768px) {
-      body {
-        padding: 15px;
-      }
-      
-      .table-wrapper {
-        padding: 0.75rem 0.25rem;
-      }
-      
-      table {
-        font-size: 0.9rem;
-        min-width: 450px;
-      }
-      
-      th, td {
-        padding: 0.6rem 0.5rem;
-      }
-      
-      th {
-        font-size: 1.1rem;
-      }
     }
   </style>
 </head>
 <body>
-  <div class="table-wrapper">
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Time</th>
-          <th>NCS</th>
-          <th>Freq</th>
-          <th>Mode</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${tableRows}
-      </tbody>
-    </table>
-  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Time</th>
+        <th>NCS</th>
+        <th>Freq</th>
+        <th>Mode</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${tableRows}
+    </tbody>
+  </table>
   <div class="footer">
-    Last updated: ${currentTime}
+    Last updated: ${currentTime.replace(' PM', 'Z').replace(' AM', 'Z')} / ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZone: 'America/New_York' })} EDT | Refresh page for latest updates
   </div>
 </body>
 </html>`;
@@ -194,113 +154,41 @@ export default {
       });
 
     } catch (error) {
+      console.error('Worker error:', error);
+      
       // Return error page if API is down
       const errorHtml = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="refresh" content="60">
-  <title>America250-NCS Activations</title>
+  <meta http-equiv="refresh" content="60;url=https://america250-ncs-activations.marc-4b1.workers.dev?_t=${timestamp}&_r=${randomId}&_cb=${cacheBuster}&_v=${Date.now()}">
+  <title>America250-NCS Activations - Error</title>
   <style>
-    @font-face {
-      font-family: 'librebaskerville-bold';
-      src: url('https://america250.radio/fonts/librebaskerville-bold.woff2') format('woff2');
-      font-weight: bold;
-      font-style: normal;
-      font-display: swap;
-    }
-    
     body { 
-      font-family: 'librebaskerville-bold', serif; 
+      font-family: Arial, sans-serif; 
       font-size: 14px; 
       margin: 0; 
       padding: 20px; 
       background: #f7f1e2;
       color: #683f1b;
-      border: 4px solid #683f1b;
-      border-radius: 8px;
-      box-sizing: border-box;
-    }
-    
-    .table-wrapper {
-      overflow-x: auto;
-      background: #f7f1e2;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(104,63,27,0.15);
-      padding: 1em 0.5em;
-      max-width: 100%;
-      border: 4px solid #683f1b;
-    }
-    
-    table { 
-      width: 100%; 
-      border-collapse: collapse; 
-      min-width: 600px;
-      background: #f7f1e2;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    
-    th, td { 
-      padding: 0.8em 1em; 
-      text-align: center; 
-      border-bottom: 1px solid #c7a159; 
-      font-size: 1rem;
-    }
-    
-    th { 
-      background: #f7ecd2; 
-      font-family: 'librebaskerville-bold', serif;
-      color: #683f1b;
-      font-weight: bold;
-      font-size: 1.3rem;
-      letter-spacing: 0.08em;
-      text-shadow: 1px 1px 2px rgba(104,63,27,0.2);
-      box-shadow: 0 2px 4px rgba(104,63,27,0.1);
-    }
-    
-    td {
-      font-family: 'librebaskerville-bold', serif;
-      color: #683f1b;
       text-align: center;
     }
-    
-    .footer {
-      text-align: center; 
-      color: #683f1b; 
-      font-size: 0.8rem; 
-      margin-top: 0.5rem;
-      margin-bottom: 1rem;
-      border-top: 1px solid #c7a159;
-      padding-top: 0.5rem;
-      font-family: 'librebaskerville-bold', serif;
+    .error {
+      color: #721c24;
+      background: #f8d7da;
+      border: 1px solid #f5c6cb;
+      padding: 1rem;
+      border-radius: 4px;
+      margin: 1rem 0;
     }
   </style>
 </head>
 <body>
-  <div class="table-wrapper">
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Time</th>
-          <th>NCS</th>
-          <th>Freq</th>
-          <th>Mode</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td colspan="6" style="text-align: center; color: #683f1b; font-style: italic; padding: 2rem; font-family: 'librebaskerville-bold', serif;">
-            Error loading activations
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="footer">
-    Last updated: ${new Date().toLocaleTimeString()}
+  <div class="error">
+    <h3>Unable to load activations</h3>
+    <p>Error: ${error.message}</p>
+    <p>Please try again in a moment.</p>
+    <p>Last updated: ${new Date().toLocaleTimeString()}</p>
   </div>
 </body>
 </html>`;
