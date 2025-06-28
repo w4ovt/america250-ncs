@@ -26,6 +26,13 @@
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  width: 100%;
+  max-width: 600px;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem auto;
 }
 
 .k4aDropzone::before {
@@ -77,7 +84,6 @@
   justify-content: center;
   width: 100%;
   text-align: center;
-  padding: 2rem;
 }
 
 .dropzoneImage {
@@ -222,21 +228,22 @@
 
 @media (max-width: 600px) {
   .k4aDropzoneSection {
-    padding: 1rem;
+    padding: 2rem 1rem;
     max-width: 100%;
   }
   
   .k4aDropzone {
-    max-width: 100%;
+    padding: 2rem 1rem;
     min-height: 250px;
   }
   
   .dropzoneContent {
-    padding: 1rem;
+    padding: 0;
   }
   
   .dropzoneImage {
-    max-width: 300px;
+    max-width: 150px;
+    max-height: 100px;
   }
   
   .sectionTitle {
