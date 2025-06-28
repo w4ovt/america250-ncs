@@ -34,6 +34,7 @@ export default function MeetTheFoundersPage() {
               width={100}
               height={125}
               style={{ 
+                width: 'auto',
                 height: 'auto',
                 filter: 'drop-shadow(2px 2px 4px rgba(104, 63, 27, 0.3))'
               }}

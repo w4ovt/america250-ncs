@@ -28,6 +28,7 @@ export default function HomePage() {
               borderRadius: '6px',
               boxShadow: '0 2px 8px rgba(104, 63, 27, 0.15)'
             }}
+            sizes="(max-width: 800px) 100vw, 800px"
             priority
           />
         </div>
@@ -150,6 +151,7 @@ export default function HomePage() {
                     width={40}
                     height={50}
                     style={{ 
+                      width: 'auto',
                       height: 'auto',
                       filter: 'drop-shadow(1px 1px 2px rgba(104, 63, 27, 0.3))'
                     }}
