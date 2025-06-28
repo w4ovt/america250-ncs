@@ -228,6 +228,7 @@ export default function VolunteerDashboard({ disabled = false, volunteerData, on
                   <input
                     type="text"
                     id="frequency"
+                    name="frequency"
                     className={styles.formInput + (disabled ? ' disabled' : '')}
                     placeholder="e.g., 7074 or 7.074"
                     value={activationForm.frequency}
@@ -240,7 +241,8 @@ export default function VolunteerDashboard({ disabled = false, volunteerData, on
                 <div className={styles.formGroup}>
                   <label htmlFor="mode">Mode</label>
                   <select 
-                    id="mode" 
+                    id="mode"
+                    name="mode"
                     className={styles.formSelect + (disabled ? ' disabled' : '')}
                     value={activationForm.mode}
                     onChange={(e) => setActivationForm(prev => ({ ...prev, mode: e.target.value }))}
