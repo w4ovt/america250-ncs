@@ -2,7 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../../db';
 import { logSubmissions, adiSubmissions } from '../../../../db/schema';
 
-const QRZ_API_KEY = '89FE-B76D-CD0C-B716';
+const QRZ_API_KEY = process.env.QRZ_API_KEY || '';
+
+if (!QRZ_API_KEY) {
+  console.error('QRZ_API_KEY environment variable is not set');
+}
 
 interface UploadRequest {
   filename: string;
