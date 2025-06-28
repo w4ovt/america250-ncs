@@ -208,20 +208,10 @@ export default function Navigation() {
         
 
         
-        /* Add top padding to body when desktop nav is visible */
+        /* Ensure proper spacing for fixed navbar */
         @media (min-width: 769px) {
-          body {
-            padding-top: 70px;
-          }
-          
-          /* Ensure smooth scrolling and prevent scroll conflicts */
-          html {
-            scroll-behavior: smooth;
-          }
-          
-          .desktop-nav {
-            will-change: transform;
-            contain: layout style;
+          :global(body) {
+            padding-top: 75px;
           }
         }
       `}</style>
