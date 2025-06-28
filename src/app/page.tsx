@@ -16,22 +16,34 @@ export default function HomePage() {
           padding: '50px 20px 0 20px',
           maxWidth: '100%'
         }}>
-          <Image
-            src="/america250-ncs-header-image.webp"
-            alt="America250 NCS Header"
-            width={800}
-            height={400}
+          <div 
+            className="header-image-container"
             style={{
-              display: 'block',
-              width: 'auto',
-              height: 'auto',
-              maxWidth: '100%',
-              borderRadius: '6px',
-              boxShadow: '0 2px 8px rgba(104, 63, 27, 0.15)'
+              display: 'inline-block',
+              width: '100%',
+              maxWidth: '800px'
             }}
-            sizes="(max-width: 800px) 100vw, 800px"
-            priority
-          />
+          >
+            <Image
+              src="/america250-ncs-header-image.webp"
+              alt="America250 NCS Header"
+              width={800}
+              height={400}
+              style={{
+                borderRadius: '6px',
+                boxShadow: '0 2px 8px rgba(104, 63, 27, 0.15)'
+              }}
+              sizes="(max-width: 800px) 100vw, 800px"
+              priority
+            />
+          </div>
+          
+          <style jsx>{`
+            .header-image-container img {
+              width: 100% !important;
+              height: auto !important;
+            }
+          `}</style>
         </div>
         
         {/* Title and Subtitle - positioned below image with minimal spacing */}
