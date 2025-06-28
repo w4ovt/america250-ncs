@@ -122,13 +122,71 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 1.5em;
   margin-bottom: 0.5em;
   line-height: 1.2;
+  letter-spacing: -0.02em;
+  position: relative;
 }
 
-h1 { font-size: 2.5rem; }
-h2 { font-size: 2rem; }
-h3 { font-size: 1.5rem; }
-h4 { font-size: 1.2rem; }
-h5, h6 { font-size: 1rem; }
+h1 { 
+  font-size: 2.5rem; 
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  text-shadow: 2px 2px 4px rgba(104, 63, 27, 0.1);
+}
+
+h2 { 
+  font-size: 2rem; 
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+h3 { 
+  font-size: 1.5rem; 
+  line-height: 1.3;
+}
+
+h4 { 
+  font-size: 1.2rem; 
+  line-height: 1.4;
+}
+
+h5, h6 { 
+  font-size: 1rem; 
+  line-height: 1.5;
+}
+
+/* Add decorative underline to h2 elements */
+h2::after {
+  content: '';
+  position: absolute;
+  bottom: -0.25em;
+  left: 0;
+  width: 3rem;
+  height: 3px;
+  background: var(--bronze);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+h2:hover::after {
+  width: 5rem;
+}
+
+/* Improve paragraph spacing */
+p {
+  margin-bottom: 1.2em;
+  line-height: 1.8;
+}
+
+/* Add first-letter styling for important paragraphs */
+.lead-paragraph::first-letter {
+  font-size: 3rem;
+  font-family: 'librebaskerville-bold', serif;
+  color: var(--mahogany);
+  float: left;
+  line-height: 1;
+  margin-right: 0.1em;
+  margin-top: -0.1em;
+}
 
 @media (max-width: 600px) {
   html, body {
@@ -366,8 +424,14 @@ button.hamburger:hover,
 .hamburger:hover {
   background: #8a5a2b !important;
   background-color: #8a5a2b !important;
-  transform: translateY(-1px) !important;
+  transform: translateY(-1px) scale(1.05) !important;
   box-shadow: 0 4px 12px rgba(104, 63, 27, 0.2) !important;
+}
+
+button.hamburger:active,
+.hamburger:active {
+  transform: translateY(0) scale(0.98) !important;
+  box-shadow: 0 2px 6px rgba(104, 63, 27, 0.15) !important;
 }
 
 button.hamburger .bar,
@@ -378,12 +442,24 @@ button.hamburger .bar,
   background-color: var(--linen) !important;
   margin: 0.25rem 0 !important;
   border-radius: 2px !important;
-  transition: all 0.3s !important;
+  transition: all 0.3s ease !important;
   /* Override user agent styles */
   border: none !important;
   padding: 0 !important;
   display: block !important;
   box-sizing: border-box !important;
+  position: relative !important;
+}
+
+/* Hamburger hover animation */
+button.hamburger:hover .bar:nth-child(1),
+.hamburger:hover .bar:nth-child(1) {
+  transform: translateY(-2px) !important;
+}
+
+button.hamburger:hover .bar:nth-child(3),
+.hamburger:hover .bar:nth-child(3) {
+  transform: translateY(2px) !important;
 }
 
 .overlay {
@@ -543,4 +619,150 @@ button.hamburger .bar,
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+/* Button Styles */
+.btn {
+  font-family: 'librebaskerville-bold', serif;
+  font-size: 1rem;
+  padding: 0.75em 1.5em;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s;
+}
+
+.btn:active::before {
+  width: 300px;
+  height: 300px;
+}
+
+.btn-primary {
+  background: var(--mahogany);
+  color: var(--parchment);
+  box-shadow: 0 4px 6px rgba(104, 63, 27, 0.2);
+}
+
+.btn-primary:hover {
+  background: #8a5a2b;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(104, 63, 27, 0.3);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(104, 63, 27, 0.2);
+}
+
+.btn-secondary {
+  background: var(--bronze);
+  color: var(--parchment);
+  box-shadow: 0 4px 6px rgba(199, 161, 89, 0.2);
+}
+
+.btn-secondary:hover {
+  background: #b89145;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(199, 161, 89, 0.3);
+}
+
+.btn-danger {
+  background: #dc3545;
+  color: white;
+  box-shadow: 0 4px 6px rgba(220, 53, 69, 0.2);
+}
+
+.btn-danger:hover {
+  background: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(220, 53, 69, 0.3);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Skeleton Loading States */
+.skeleton {
+  background: linear-gradient(90deg, 
+    var(--parchment) 0%, 
+    var(--linen) 20%, 
+    var(--parchment) 40%, 
+    var(--parchment) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton-text {
+  height: 1em;
+  margin-bottom: 0.5em;
+  width: 100%;
+}
+
+.skeleton-text.short {
+  width: 40%;
+}
+
+.skeleton-text.medium {
+  width: 60%;
+}
+
+.skeleton-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.skeleton-table th,
+.skeleton-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--bronze);
+}
+
+.skeleton-table th {
+  background: var(--parchment);
+}
+
+.skeleton-table .skeleton-cell {
+  height: 1em;
+  background: linear-gradient(90deg, 
+    var(--parchment) 0%, 
+    var(--linen) 20%, 
+    var(--parchment) 40%, 
+    var(--parchment) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
 }

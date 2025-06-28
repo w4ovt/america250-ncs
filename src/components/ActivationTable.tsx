@@ -130,9 +130,30 @@ export default function ActivationTable() {
   if (isLoading) {
     return (
       <div className={styles.activationsTableWrapper}>
-        <div className={styles.loadingMessage}>
-          Loading activations...
-        </div>
+        <table className="skeleton-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Frequency</th>
+              <th>Mode</th>
+              <th>Name</th>
+              <th>Callsign</th>
+              <th>State</th>
+            </tr>
+          </thead>
+          <tbody>
+            {[...Array(5)].map((_, i) => (
+              <tr key={i}>
+                <td><div className="skeleton-cell"></div></td>
+                <td><div className="skeleton-cell"></div></td>
+                <td><div className="skeleton-cell"></div></td>
+                <td><div className="skeleton-cell"></div></td>
+                <td><div className="skeleton-cell"></div></td>
+                <td><div className="skeleton-cell"></div></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     );
   }
