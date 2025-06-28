@@ -70,6 +70,33 @@ export default function HomePage() {
 
         {/* Elegant Page Teasers */}
         <section style={{ marginTop: '3em', paddingTop: '2em', borderTop: '2px solid var(--bronze)' }}>
+          {/* Brass Separator Bar */}
+          <div style={{
+            height: '4px',
+            background: 'linear-gradient(90deg, var(--bronze) 0%, #D4AF37 50%, var(--bronze) 100%)',
+            boxShadow: '0 2px 6px rgba(212, 175, 55, 0.6)',
+            marginBottom: '2rem',
+            borderRadius: '2px'
+          }}></div>
+          
+          {/* Prominent Quill & Inkwell */}
+          <div style={{
+            textAlign: 'center',
+            marginBottom: '1.5rem'
+          }}>
+            <Image
+              src="/inkwell.webp"
+              alt="Ornate Quill and Inkwell"
+              width={120}
+              height={150}
+              style={{ 
+                width: 'auto',
+                height: 'auto',
+                filter: 'drop-shadow(3px 3px 6px rgba(104, 63, 27, 0.4))'
+              }}
+            />
+          </div>
+          
           <h3 className="activations-title" style={{ marginBottom: '2rem' }}>
             Explore America250
           </h3>
@@ -140,27 +167,17 @@ export default function HomePage() {
               }}
               className="teaser-card"
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-                  <h4 style={{
-                    fontFamily: 'librebaskerville-bold, serif',
-                    color: 'var(--mahogany)',
-                    fontSize: '1.4rem',
-                    margin: 0
-                  }}>
-                    🖋️ Meet the Founders
-                  </h4>
-                  <Image
-                    src="/inkwell.webp"
-                    alt="Quill and Inkwell"
-                    width={40}
-                    height={50}
-                    style={{ 
-                      width: 'auto',
-                      height: 'auto',
-                      filter: 'drop-shadow(1px 1px 2px rgba(104, 63, 27, 0.3))'
-                    }}
-                  />
-                </div>
+                <h4 style={{
+                  fontFamily: 'librebaskerville-bold, serif',
+                  color: 'var(--mahogany)',
+                  fontSize: '1.4rem',
+                  marginBottom: '1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}>
+                  📜 Meet the Founders
+                </h4>
                 <p style={{
                   lineHeight: '1.6',
                   color: 'var(--mahogany)',
