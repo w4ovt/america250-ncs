@@ -206,35 +206,7 @@ export default function Navigation() {
           }
         }
         
-        .nav-link:hover {
-          background: var(--bronze) !important;
-          color: var(--mahogany) !important;
-          transform: translateY(-1px);
-          box-shadow: 0 4px 8px rgba(199, 161, 89, 0.4);
-          text-decoration: underline !important;
-          text-decoration-color: var(--mahogany) !important;
-          text-decoration-thickness: 2px !important;
-          text-underline-offset: 4px !important;
-          text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2) !important;
-        }
-        
-        .nav-link::before {
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 0;
-          height: 0;
-          background: rgba(255, 255, 255, 0.2);
-          border-radius: 50%;
-          transform: translate(-50%, -50%);
-          transition: width 0.3s, height 0.3s;
-        }
-        
-        .nav-link:active::before {
-          width: 300px;
-          height: 300px;
-        }
+
         
         /* Add top padding to body when desktop nav is visible */
         @media (min-width: 769px) {
