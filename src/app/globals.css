@@ -16,6 +16,35 @@
   font-display: swap;
 }
 
+/* CSS Reset for button elements to override user agent styles */
+button {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: none !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  color: inherit !important;
+  text-align: inherit !important;
+  text-decoration: inherit !important;
+  cursor: pointer !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  box-sizing: border-box !important;
+}
+
+button:focus {
+  outline: none !important;
+}
+
+button:active {
+  outline: none !important;
+}
+
 :root {
   --mahogany: #683f1b;
   --parchment: #f7ecd2;
@@ -255,5 +284,148 @@ input, select, button {
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
+  }
+}
+
+/* Hamburger Menu Styles */
+button.hamburger,
+.hamburger {
+  position: fixed !important;
+  top: 1.5rem !important;
+  left: 1.5rem !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+  background: var(--mahogany) !important;
+  background-color: var(--mahogany) !important;
+  border: 2px solid var(--mahogany) !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 8px rgba(104, 63, 27, 0.15) !important;
+  transition: all 0.3s ease !important;
+  /* Override user agent styles */
+  margin: 0 !important;
+  padding: 0 !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  text-align: inherit !important;
+  text-decoration: inherit !important;
+  color: var(--linen) !important;
+  background-image: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+}
+
+button.hamburger:hover,
+.hamburger:hover {
+  background: #8a5a2b !important;
+  background-color: #8a5a2b !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(104, 63, 27, 0.2) !important;
+}
+
+button.hamburger .bar,
+.hamburger .bar {
+  width: 1.7rem !important;
+  height: 0.22rem !important;
+  background: var(--linen) !important;
+  background-color: var(--linen) !important;
+  margin: 0.25rem 0 !important;
+  border-radius: 2px !important;
+  transition: all 0.3s !important;
+  /* Override user agent styles */
+  border: none !important;
+  padding: 0 !important;
+  display: block !important;
+  box-sizing: border-box !important;
+}
+
+.overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(247, 236, 210, 0.9) !important;
+  background-color: rgba(247, 236, 210, 0.9) !important;
+  z-index: 9998 !important;
+  display: flex !important;
+  backdrop-filter: blur(2px) !important;
+}
+
+.drawer {
+  background: #f7f1e2 !important;
+  background-color: #f7f1e2 !important;
+  border-right: 3px solid #683f1b !important;
+  box-shadow: 2px 0 12px rgba(104, 63, 27, 0.15) !important;
+  min-width: 220px !important;
+  max-width: 80vw !important;
+  height: 100vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 2.5rem 1.5rem 1.5rem 1.5rem !important;
+  gap: 2rem !important;
+  animation: slideIn 0.2s cubic-bezier(.4,0,.2,1) !important;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+.menuLink {
+  color: #683f1b !important;
+  font-size: 1.3rem !important;
+  font-weight: bold !important;
+  text-decoration: none !important;
+  padding: 0.75rem 1rem !important;
+  border-bottom: 1px solid #c7a159 !important;
+  transition: all 0.2s ease !important;
+  border-radius: 6px !important;
+  font-family: 'librebaskerville-bold', serif !important;
+}
+
+.menuLink:last-child {
+  border-bottom: none !important;
+}
+
+.menuLink:hover {
+  color: #f7ecd2 !important;
+  background: #683f1b !important;
+  background-color: #683f1b !important;
+  transform: translateX(4px) !important;
+  box-shadow: 0 2px 8px rgba(104, 63, 27, 0.2) !important;
+}
+
+/* Ensure visibility on all screen sizes */
+@media (max-width: 600px) {
+  button.hamburger,
+  .hamburger {
+    top: 1rem !important;
+    left: 1rem !important;
+    width: 2.2rem !important;
+    height: 2.2rem !important;
+  }
+  
+  button.hamburger .bar,
+  .hamburger .bar {
+    width: 1.5rem !important;
+    height: 0.2rem !important;
+  }
+  
+  .drawer {
+    min-width: 200px !important;
+    padding: 2rem 1rem 1rem 1rem !important;
+  }
+  
+  .menuLink {
+    font-size: 1.1rem !important;
+    padding: 0.6rem 0.8rem !important;
   }
 }

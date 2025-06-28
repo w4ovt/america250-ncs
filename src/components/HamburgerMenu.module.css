@@ -9,8 +9,8 @@
   align-items: center;
   width: 2.5rem;
   height: 2.5rem;
-  background: var(--linen);
-  border: 2px solid var(--mahogany);
+  background: var(--linen, #f7f1e2);
+  border: 2px solid var(--mahogany, #683f1b);
   border-radius: 8px;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(104, 63, 27, 0.15);
@@ -18,7 +18,7 @@
 }
 
 .hamburger:hover {
-  background: var(--parchment);
+  background: var(--parchment, #f7ecd2);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(104, 63, 27, 0.2);
 }
@@ -26,7 +26,7 @@
 .bar {
   width: 1.7rem;
   height: 0.22rem;
-  background: var(--mahogany);
+  background: var(--mahogany, #683f1b);
   margin: 0.25rem 0;
   border-radius: 2px;
   transition: all 0.3s;
@@ -45,8 +45,8 @@
 }
 
 .drawer {
-  background: var(--linen);
-  border-right: 3px solid var(--mahogany);
+  background: var(--linen, #f7f1e2);
+  border-right: 3px solid var(--mahogany, #683f1b);
   box-shadow: 2px 0 12px rgba(104, 63, 27, 0.15);
   min-width: 220px;
   max-width: 80vw;
@@ -64,12 +64,12 @@
 }
 
 .menuLink {
-  color: var(--mahogany);
+  color: var(--mahogany, #683f1b);
   font-size: 1.3rem;
   font-weight: bold;
   text-decoration: none;
   padding: 0.75rem 1rem;
-  border-bottom: 1px solid var(--bronze);
+  border-bottom: 1px solid var(--bronze, #c7a159);
   transition: all 0.2s ease;
   border-radius: 6px;
   font-family: 'librebaskerville-bold', serif;
@@ -80,8 +80,8 @@
 }
 
 .menuLink:hover {
-  color: var(--parchment);
-  background: var(--mahogany);
+  color: var(--parchment, #f7ecd2);
+  background: var(--mahogany, #683f1b);
   transform: translateX(4px);
   box-shadow: 0 2px 8px rgba(104, 63, 27, 0.2);
 }

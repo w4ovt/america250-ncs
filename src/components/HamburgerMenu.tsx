@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import styles from './HamburgerMenu.module.css';
 
 const MENU_LINKS = [
   { href: '/', label: 'HOME' },
@@ -29,22 +28,22 @@ export default function HamburgerMenu() {
   return (
     <>
       <button
-        className={styles.hamburger}
+        className="hamburger"
         aria-label="Open menu"
         onClick={() => setOpen((o) => !o)}
       >
-        <span className={styles.bar}></span>
-        <span className={styles.bar}></span>
-        <span className={styles.bar}></span>
+        <span className="bar"></span>
+        <span className="bar"></span>
+        <span className="bar"></span>
       </button>
       {open && (
-        <div className={styles.overlay}>
-          <div className={styles.drawer} ref={drawerRef}>
+        <div className="overlay">
+          <div className="drawer" ref={drawerRef}>
             {MENU_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={styles.menuLink}
+                className="menuLink"
                 onClick={() => setOpen(false)}
               >
                 {link.label}

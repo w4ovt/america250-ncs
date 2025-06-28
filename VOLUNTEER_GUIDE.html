@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>America250 NCS Volunteer User Guide</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #683f1b;
+            text-align: center;
+            border-bottom: 3px solid #683f1b;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            color: #683f1b;
+            border-left: 4px solid #683f1b;
+            padding-left: 15px;
+            margin-top: 30px;
+        }
+        
+        h3 {
+            color: #8a5a2b;
+            margin-top: 25px;
+        }
+        
+        .toc {
+            background-color: #f7f1e2;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        
+        .toc ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .toc a {
+            color: #683f1b;
+            text-decoration: none;
+        }
+        
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        
+        .step {
+            background-color: #f7f1e2;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 4px solid #c7a159;
+        }
+        
+        .warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        code {
+            background-color: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #e83e8c;
+        }
+        
+        pre {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border-left: 4px solid #c7a159;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #683f1b;
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f7f1e2;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .status-success { background-color: #28a745; }
+        .status-warning { background-color: #ffc107; }
+        .status-error { background-color: #dc3545; }
+        .status-processing { background-color: #17a2b8; }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #683f1b;
+            color: #683f1b;
+            font-style: italic;
+        }
+        
+        @media print {
+            body {
+                background-color: white;
+                margin: 0;
+                padding: 20px;
+            }
+            
+            .container {
+                box-shadow: none;
+                padding: 20px;
+            }
+            
+            h1, h2, h3 {
+                page-break-after: avoid;
+            }
+            
+            .step, .warning, .success, .error {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>America250 NCS Volunteer User Guide</h1>
+        
+        <div class="toc">
+            <h2>Table of Contents</h2>
+            <ol>
+                <li><a href="#getting-started">Getting Started</a></li>
+                <li><a href="#adi-upload">ADI File Upload Process</a></li>
+                <li><a href="#interface">Understanding the Interface</a></li>
+                <li><a href="#troubleshooting">Troubleshooting</a></li>
+                <li><a href="#best-practices">Best Practices</a></li>
+                <li><a href="#contact">Contact Information</a></li>
+            </ol>
+        </div>
+
+        <section id="getting-started">
+            <h2>Getting Started</h2>
+            
+            <h3>Accessing the Website</h3>
+            <ul>
+                <li><strong>URL:</strong> <a href="https://america250.radio">america250.radio</a></li>
+                <li><strong>Browser Compatibility:</strong> Chrome, Firefox, Safari, Edge (latest versions recommended)</li>
+                <li><strong>Mobile Access:</strong> Fully responsive - works on smartphones and tablets</li>
+            </ul>
+
+            <h3>PIN Authentication</h3>
+            <div class="step">
+                <ol>
+                    <li>Click the hamburger menu (☰) in the top-left corner</li>
+                    <li>Select "Volunteer Dashboard"</li>
+                    <li>Enter your assigned PIN number</li>
+                    <li>Click "Login"</li>
+                </ol>
+            </div>
+            
+            <div class="warning">
+                <strong>Note:</strong> Your PIN is your unique identifier. Keep it secure and don't share it with others.
+            </div>
+        </section>
+
+        <section id="adi-upload">
+            <h2>ADI File Upload Process</h2>
+            
+            <h3>Step 1: Prepare Your ADI File</h3>
+            <ul>
+                <li>Ensure your ADI file is in the correct format (.adi extension)</li>
+                <li>Verify the file contains valid amateur radio log data</li>
+                <li>File size should be under 10MB</li>
+            </ul>
+
+            <h3>Step 2: Access Upload Area</h3>
+            <div class="step">
+                <ol>
+                    <li>Navigate to the Volunteer Dashboard</li>
+                    <li>Look for the "Upload ADI File" section</li>
+                    <li>Click the upload area or drag-and-drop your file</li>
+                </ol>
+            </div>
+
+            <h3>Step 3: Upload Process</h3>
+            <div class="step">
+                <ol>
+                    <li>Select your ADI file</li>
+                    <li>The system will automatically process the file</li>
+                    <li>You'll see a progress indicator</li>
+                    <li>Wait for confirmation message</li>
+                </ol>
+            </div>
+
+            <h3>Step 4: Verification</h3>
+            <ul>
+                <li>Check the upload status message</li>
+                <li>Review any warnings or errors</li>
+                <li>Confirm your data appears in the submissions list</li>
+            </ul>
+        </section>
+
+        <section id="interface">
+            <h2>Understanding the Interface</h2>
+            
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><strong>Home:</strong> View live activations and general information</li>
+                <li><strong>Volunteer Dashboard:</strong> Access your upload tools and submissions</li>
+                <li><strong>Admin Dashboard:</strong> (Admin only) Manage activations and volunteers</li>
+                <li><strong>Archive:</strong> View historical activation data</li>
+            </ul>
+
+            <h3>Dashboard Features</h3>
+            <ul>
+                <li><strong>Upload Status:</strong> Real-time feedback on file processing</li>
+                <li><strong>Submission History:</strong> View your previous uploads</li>
+                <li><strong>Activation Status:</strong> See current active stations</li>
+                <li><strong>Quick Stats:</strong> Overview of your contributions</li>
+            </ul>
+
+            <h3>Status Indicators</h3>
+            <table>
+                <tr>
+                    <th>Status</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td><span class="status-indicator status-success"></span>Success</td>
+                    <td>File uploaded and processed successfully</td>
+                </tr>
+                <tr>
+                    <td><span class="status-indicator status-warning"></span>Warning</td>
+                    <td>Minor issues detected but upload completed</td>
+                </tr>
+                <tr>
+                    <td><span class="status-indicator status-error"></span>Error</td>
+                    <td>Upload failed - check file format and try again</td>
+                </tr>
+                <tr>
+                    <td><span class="status-indicator status-processing"></span>Processing</td>
+                    <td>File is being analyzed</td>
+                </tr>
+            </table>
+        </section>
+
+        <section id="troubleshooting">
+            <h2>Troubleshooting</h2>
+            
+            <h3>Common Issues</h3>
+            
+            <h4>"File Upload Failed"</h4>
+            <div class="error">
+                <strong>Possible Causes:</strong>
+                <ul>
+                    <li>File format not supported</li>
+                    <li>File size too large</li>
+                    <li>Network connection issues</li>
+                </ul>
+                
+                <strong>Solutions:</strong>
+                <ol>
+                    <li>Verify file is .adi format</li>
+                    <li>Compress file if over 10MB</li>
+                    <li>Check internet connection</li>
+                    <li>Try refreshing the page</li>
+                </ol>
+            </div>
+
+            <h4>"Invalid PIN"</h4>
+            <div class="error">
+                <strong>Solutions:</strong>
+                <ol>
+                    <li>Double-check PIN number</li>
+                    <li>Ensure no extra spaces</li>
+                    <li>Contact admin if PIN doesn't work</li>
+                </ol>
+            </div>
+
+            <h4>"Processing Error"</h4>
+            <div class="error">
+                <strong>Solutions:</strong>
+                <ol>
+                    <li>Verify ADI file format</li>
+                    <li>Check for corrupted data</li>
+                    <li>Try uploading a smaller file first</li>
+                    <li>Contact support if problem persists</li>
+                </ol>
+            </div>
+
+            <h3>Browser Issues</h3>
+            <ul>
+                <li><strong>Clear cache and cookies</strong> if experiencing display problems</li>
+                <li><strong>Disable browser extensions</strong> that might interfere</li>
+                <li><strong>Try incognito/private mode</strong> to test</li>
+            </ul>
+        </section>
+
+        <section id="best-practices">
+            <h2>Best Practices</h2>
+            
+            <h3>File Preparation</h3>
+            <ul>
+                <li><strong>Use standard ADI format</strong> from your logging software</li>
+                <li><strong>Verify data accuracy</strong> before uploading</li>
+                <li><strong>Keep file sizes reasonable</strong> (under 10MB)</li>
+                <li><strong>Include complete contact information</strong> in your logs</li>
+            </ul>
+
+            <h3>Upload Process</h3>
+            <ul>
+                <li><strong>Upload during off-peak hours</strong> for faster processing</li>
+                <li><strong>Don't interrupt the upload</strong> once started</li>
+                <li><strong>Wait for confirmation</strong> before closing the browser</li>
+                <li><strong>Keep a backup</strong> of your original files</li>
+            </ul>
+
+            <h3>Data Quality</h3>
+            <ul>
+                <li><strong>Double-check call signs</strong> for accuracy</li>
+                <li><strong>Verify frequency and mode</strong> information</li>
+                <li><strong>Include proper date/time stamps</strong></li>
+                <li><strong>Use standard abbreviations</strong></li>
+            </ul>
+
+            <h3>Security</h3>
+            <ul>
+                <li><strong>Log out</strong> when finished</li>
+                <li><strong>Don't share your PIN</strong> with others</li>
+                <li><strong>Use secure networks</strong> when uploading</li>
+                <li><strong>Report suspicious activity</strong> immediately</li>
+            </ul>
+        </section>
+
+        <section id="contact">
+            <h2>Contact Information</h2>
+            
+            <h3>Technical Support</h3>
+            <ul>
+                <li><strong>Email:</strong> <a href="mailto:support@america250.radio">support@america250.radio</a></li>
+                <li><strong>Emergency Contact:</strong> <a href="mailto:admin@america250.radio">admin@america250.radio</a></li>
+            </ul>
+
+            <h3>When to Contact Support</h3>
+            <ul>
+                <li>PIN authentication issues</li>
+                <li>Persistent upload failures</li>
+                <li>Data processing errors</li>
+                <li>Security concerns</li>
+                <li>Feature requests or suggestions</li>
+            </ul>
+
+            <h3>Information to Include</h3>
+            <div class="warning">
+                When contacting support, please provide:
+                <ul>
+                    <li>Your call sign</li>
+                    <li>PIN number (if applicable)</li>
+                    <li>Description of the issue</li>
+                    <li>Steps to reproduce the problem</li>
+                    <li>Browser and operating system</li>
+                    <li>Screenshots if helpful</li>
+                </ul>
+            </div>
+
+            <h3>Quick Reference</h3>
+            
+            <h4>Keyboard Shortcuts</h4>
+            <table>
+                <tr>
+                    <th>Shortcut</th>
+                    <th>Action</th>
+                </tr>
+                <tr>
+                    <td><code>Ctrl+R</code> (Cmd+R on Mac)</td>
+                    <td>Refresh page</td>
+                </tr>
+                <tr>
+                    <td><code>Ctrl+F</code> (Cmd+F on Mac)</td>
+                    <td>Search page</td>
+                </tr>
+                <tr>
+                    <td><code>F5</code></td>
+                    <td>Hard refresh (clears cache)</td>
+                </tr>
+            </table>
+
+            <h4>File Requirements</h4>
+            <table>
+                <tr>
+                    <th>Requirement</th>
+                    <th>Specification</th>
+                </tr>
+                <tr>
+                    <td><strong>Format</strong></td>
+                    <td>.adi files only</td>
+                </tr>
+                <tr>
+                    <td><strong>Size</strong></td>
+                    <td>Maximum 10MB</td>
+                </tr>
+                <tr>
+                    <td><strong>Content</strong></td>
+                    <td>Valid amateur radio log data</td>
+                </tr>
+                <tr>
+                    <td><strong>Encoding</strong></td>
+                    <td>UTF-8 recommended</td>
+                </tr>
+            </table>
+
+            <h4>Status Codes</h4>
+            <table>
+                <tr>
+                    <th>Code</th>
+                    <th>Meaning</th>
+                </tr>
+                <tr>
+                    <td><code>200</code></td>
+                    <td>Success</td>
+                </tr>
+                <tr>
+                    <td><code>400</code></td>
+                    <td>Bad request (check file format)</td>
+                </tr>
+                <tr>
+                    <td><code>401</code></td>
+                    <td>Unauthorized (check PIN)</td>
+                </tr>
+                <tr>
+                    <td><code>500</code></td>
+                    <td>Server error (contact support)</td>
+                </tr>
+            </table>
+        </section>
+
+        <div class="footer">
+            <p><em>Last Updated: December 2024</em></p>
+            <p><em>Version: 1.0</em></p>
+            <p><strong>73 and thank you for your service to America250!</strong></p>
+        </div>
+    </div>
+</body>
+</html> 
