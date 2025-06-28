@@ -159,8 +159,7 @@ export default function K4ADropzone({ disabled = false, volunteerData }: K4ADrop
       />
 
       {!isLoading && (
-        <div
-          className={styles.k4aDropzone + ' ' + styles[status] + (disabled ? ' ' + styles.disabled : '')}
+        <div className={styles.k4aDropzone + ' ' + styles[status] + (disabled ? ' ' + styles.disabled : '')}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
           onClick={handleClick}
@@ -197,7 +196,7 @@ export default function K4ADropzone({ disabled = false, volunteerData }: K4ADrop
               <div className={styles.dropzoneText + ' ' + styles.success}>
                 <p>✅ {message}</p>
                 {recordCount && <p>Records uploaded: {recordCount}</p>}
-                <button onClick={resetStatus} className={styles.resetBtn}>
+                <button onClick={resetStatus} className="btn btn-primary">
                   Upload Another File
                 </button>
               </div>
@@ -206,7 +205,7 @@ export default function K4ADropzone({ disabled = false, volunteerData }: K4ADrop
             {status === 'error' && (
               <div className={styles.dropzoneText + ' ' + styles.error}>
                 <p>❌ {message}</p>
-                <button onClick={resetStatus} className={styles.resetBtn}>
+                <button onClick={resetStatus} className="btn btn-danger">
                   Try Again
                 </button>
               </div>

@@ -133,7 +133,7 @@ export default function VolunteerPage() {
           </div>
           
           {errorMessage && (
-            <div className={styles.errorMessage}>
+            <div className="error-message">
               {errorMessage}
             </div>
           )}
