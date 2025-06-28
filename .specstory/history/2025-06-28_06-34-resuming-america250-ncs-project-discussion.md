@@ -10038,3 +10038,259 @@ _**Assistant**_
 
 ---
 
+Perfect tweaks! Let me make those narrative updates to better reflect the actual QSL process:
+
+---
+
+
+
+---
+
+
+
+---
+
+Perfect! ✅ Updated the QSL narrative with your preferred wording:
+
+**Changes made:**
+- ✅ **Removed "signal report"** from contact details (now just: Date, time (UTC), frequency, mode)
+- ✅ **Updated donation text** to your more personal message: "If you believe what we are doing is important, and wish to donate, thank you in advance!"
+
+Let me test the build:
+
+---
+
+```bash
+npm run build
+```
+
+```
+marcbowen@Mac-Studio america250-ncs % npm run build
+
+> america250-ncs@0.1.0 build
+> next build
+
+   ▲ Next.js 15.3.4
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 0ms
+ ✓ Linting and checking validity of types    
+   Collecting page data  ..QRZ_API_KEY environment variable is not set
+ ✓ Collecting page data    
+QRZ_API_KEY environment variable is not set
+ ✓ Generating static pages (23/23)
+ ✓ Collecting build traces    
+ ✓ Finalizing page optimization    
+
+Route (app)                                 Size  First Load JS    
+┌ ○ /                                    1.22 kB         108 kB
+├ ○ /_not-found                            977 B         102 kB
+├ ○ /admin                                1.3 kB         107 kB
+├ ƒ /api/activations/archive               176 B         101 kB
+├ ƒ /api/activations/create                176 B         101 kB
+├ ƒ /api/activations/end                   176 B         101 kB
+├ ƒ /api/activations/list                  176 B         101 kB
+├ ƒ /api/adi/submissions                   176 B         101 kB
+├ ƒ /api/admin/activations/create          176 B         101 kB
+├ ƒ /api/admin/adi-submissions             176 B         101 kB
+├ ƒ /api/admin/pins                        176 B         101 kB
+├ ƒ /api/admin/pins/[pinId]                176 B         101 kB
+├ ƒ /api/admin/reset-activation-counter    176 B         101 kB
+├ ƒ /api/admin/volunteers                  176 B         101 kB
+├ ƒ /api/auth/pin                          176 B         101 kB
+├ ƒ /api/logs/upload                       176 B         101 kB
+├ ƒ /api/qrz-activations                   176 B         101 kB
+├ ƒ /api/qrz-iframe                        176 B         101 kB
+├ ○ /archive                             1.74 kB         103 kB
+├ ○ /iframe                               1.1 kB         102 kB
+├ ƒ /iframe/activations                    176 B         101 kB
+├ ○ /qrz-activations                       176 B         101 kB
+└ ○ /volunteer                           5.48 kB         116 kB
++ First Load JS shared by all             101 kB
+  ├ chunks/4bd1b696-edd73b72b9809ea9.js  53.2 kB
+  ├ chunks/684-0b45fc6eb6472010.js       45.9 kB
+  └ other shared chunks (total)          1.95 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+marcbowen@Mac-Studio america250-ncs %
+```
+
+---
+
+
+
+---
+
+Excellent! ✅ **Build successful** with the narrative improvements.
+
+Now let's commit and deploy the complete QSL showcase:
+
+---
+
+```bash
+git add -A && git commit -m "📡 QSL CARD SHOWCASE: Complete with beautiful K4A cards
+
+✨ STUNNING K4A QSL CARDS LIVE
+- k4a-donor-card.webp (860x553) - Limited Edition Independence Hall
+- k4a-free-card.webp (860x553) - Declaration signing historic scene  
+- Full-width display showcases commemorative artwork perfectly
+
+📝 REFINED INSTRUCTIONS
+- Removed signal report requirement (simplified process)
+- Personal donation message: 'If you believe what we are doing is important...'
+- Complete S.A.S.E. and mailing instructions
+- 501(c)(3) tax status for Friends of Overmountain Victory Trail
+
+🎯 AMATEUR RADIO READY
+- Professional QSL card education section
+- Marc Bowen W4OVT contact details
+- Perfect for America250 special event launch
+
+Amateur radio operators worldwide will be impressed! 📻✨"
+```
+
+```
+<r radio operators worldwide will be impressed! 📻✨"
+[main 076ae0f] 📡 QSL CARD SHOWCASE: Complete with beautiful K4A cards
+ 4 files changed, 1419 insertions(+)
+ create mode 100644 public/k4a-donor-card.webp
+ create mode 100644 public/k4a-free-card.webp
+marcbowen@Mac-Studio america250-ncs %
+```
+
+---
+
+
+
+---
+
+```bash
+git push origin main
+```
+
+```
+marcbowen@Mac-Studio america250-ncs % git push origin main
+Enumerating objects: 19, done.
+Counting objects: 100% (19/19), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (11/11), done.
+Writing objects: 100% (11/11), 227.38 KiB | 32.48 MiB/s, done.
+Total 11 (delta 5), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (5/5), completed with 5 local objects.
+To https://github.com/w4ovt/america250-ncs.git
+   111fe58..076ae0f  main -> main
+marcbowen@Mac-Studio america250-ncs %
+```
+
+---
+
+
+
+---
+
+# 🎉 **QSL CARD SHOWCASE DEPLOYED!** 📡
+
+**Your beautiful K4A QSL cards are now LIVE on the America250-NCS website!**
+
+## **✨ What's Now Live:**
+
+### **📷 Stunning Visual Display**
+- ✅ **K4A Donor Card** (Limited Edition) - Independence Hall design prominently featured
+- ✅ **K4A Free Card** - Historic Declaration of Independence scene
+- ✅ **Full-width display** (860×553px) - Maximum visual impact
+- ✅ **Professional layout** - Stacked for optimal showcase
+
+### **📮 Complete QSL Instructions**
+- ✅ **Mailing address**: Marc Bowen W4OVT, Greensboro, NC 27408
+- ✅ **S.A.S.E. requirement** clearly explained
+- ✅ **Contact details needed**: Date, time (UTC), frequency, mode
+- ✅ **Personal donation message**: "If you believe what we are doing is important..."
+
+### **🏛️ Non-Profit Information**
+- ✅ **501(c)(3) status**: Friends of the Overmountain Victory Trail
+- ✅ **FEIN**: 47-3403543
+- ✅ **Tax deductible** donation information
+
+---
+
+## **🎯 Impact for Amateur Radio Community:**
+
+Amateur radio operators visiting your site will now see:
+- **Educational content** about QSL card tradition
+- **Professional presentation** worthy of America's 250th Anniversary
+- **Clear instructions** for requesting commemorative cards
+- **Beautiful artwork** showcasing the historic significance
+
+**Launch readiness: 95% → 98%** 🚀
+
+This QSL card section perfectly complements your America250-NCS project and will be appreciated by amateur radio operators worldwide! The cards look absolutely stunning and the information is comprehensive and professional.
+
+Is there anything else you'd like to polish before the **48-hour launch**? 📻✨
+
+---
+
+_**User**_
+
+You did so well with that section, let's add another below!
+
+---
+
+_**Assistant**_
+
+
+
+---
+
+Fantastic! 🎉 I'm thrilled you're happy with the QSL card section - it really does showcase those beautiful K4A cards perfectly!
+
+**What kind of section would you like to add below the QSL cards?** 
+
+Some ideas that could complement the America250-NCS project:
+
+📡 **Special Event Information** - Details about K4A station, frequencies, operating schedule  
+🏛️ **Historical Context** - America's 250th Anniversary significance for amateur radio  
+👥 **Volunteer Recognition** - Thank volunteers, show participation stats  
+📚 **Resources & Links** - Volunteer guide, related events, amateur radio organizations  
+📍 **Event Details** - Locations, dates, contact information  
+🎯 **Technical Info** - Recommended frequencies, modes, operating procedures  
+📬 **Contact Information** - Event coordinators, support contacts  
+
+Or do you have something completely different in mind? 
+
+**What content do you want to feature?** And do you have any images, text, or specific information ready for this new section?
+
+The momentum is building beautifully toward your **48-hour launch** - let's keep the excellence going! ✨📻
+
+---
+
+_**User**_
+
+Let your creative design juices flow - this next block is text per attached but I have a nifty small image to supply - an ornate quill resting in an inkwell with background removed.  Filename is nkwell.webp and I have attached to this message.  It is large - scale down as needed or let me know what size you need and I will regenerate.  The quill/inkwell will look awesome wherever/however you think will look best.  Set  the container width same as the QSL Cards and remember with both blocks we need to remember our responsive device friends.  I will also paste below in the event the attachment text is difficult to interpret, here you go:  DECLARATION OF INDEPENDENCE
+"The Rest of the Story"
+Not Signed on July 4th: Although the Declaration was adopted on July 4, 1776, most signers did not actually sign it until August 2, with some adding their names in the following weeks
+The Youngest and Oldest Signers: The youngest signers were Edward Rutledge and Thomas Lynch Jr., both just 26 years old from South Carolina. Benjamin Franklin, at 70, was the oldest signer
+Not All Were American-Born: Eight signers were born outside the American colonies, hailing from the British Isles—making the Declaration a truly international statement for its time
+A Diverse Group: While many signers were lawyers, the group also included businessmen, farmers, teachers, and even a minister—John Witherspoon of New Jersey, the only active clergyman to sign
+Inventors Among Them: Two signers were inventors of musical instruments with similar names that never caught on: Francis Hopkinson invented the “Bellarmonic,” and Benjamin Franklin created the “glass armonica"
+Tragic Fates: Nine signers died before American independence was officially won
+The Signature That Became Famous: John Hancock’s bold, oversized signature is the most famous. He was the first to sign and did so with dramatic flair, reportedly saying, “I guess King George will be able to read that!” The phrase “John Hancock” is now synonymous with “signature”
+Long-Lived and Short-Lived: Charles Carroll of Carrollton was the last surviving signer, dying at age 95 in 1832. In contrast, Thomas Lynch Jr. disappeared at sea with his wife in 1779, just three years after signing
+Political Dynasties: Benjamin Harrison was the father and great-grandfather of two future U.S. presidents: William Henry Harrison and Benjamin Harrison
+Brothers in Liberty: Francis Lightfoot Lee and Richard Henry Lee of Virginia were one of only two pairs of brothers to sign the Declaration
+A Signer Who Was a College President: John Witherspoon was president of the College of New Jersey, which later became Princeton University
+Personal Sacrifices: Several signers, such as William Floyd and Francis Lewis, had their homes and estates destroyed by the British during the war
+Survivors of Shipwreck and Disappearance: Francis Lewis survived two shipwrecks before emigrating to America, while Thomas Lynch Jr. vanished at sea, never to be found
+A Governor and a Senator: George Walton, a signer from Georgia, was captured by the British during the war, later became governor of Georgia, and helped found what would become the University of Georgia
+
+---
+
+_**Assistant**_
+
+
+
+---
+
