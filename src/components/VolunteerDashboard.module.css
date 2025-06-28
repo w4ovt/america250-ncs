@@ -176,10 +176,14 @@
   font-family: 'librebaskerville-regular', serif;
 }
 
+.dashboardSection {
+  margin-bottom: 2rem;
+}
+
 @media (max-width: 900px) {
   .volunteerDashboardSection {
     max-width: 800px;
-    padding: 1.5rem 1rem;
+    padding: 1rem;
   }
   .activationForm {
     max-width: 600px;
