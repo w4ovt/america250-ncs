@@ -382,33 +382,20 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
       {onLogout && (
         <button 
           onClick={onLogout} 
-          className={styles.logoutBtn}
-          style={{ 
-            display: 'block',
-            marginTop: '1rem',
-            marginBottom: '1rem',
-            backgroundColor: 'var(--mahogany)',
-            color: 'var(--parchment)',
-            border: 'none',
-            borderRadius: '6px',
-            padding: '0.5rem 1.5rem',
-            fontFamily: 'librebaskerville-bold, serif',
-            fontSize: '1rem',
-            cursor: 'pointer'
-          }}
+          className="btn btn-secondary"
         >
           Logout
         </button>
       )}
       
       {errorMessage && (
-        <div style={{ color: 'red', marginBottom: '1rem', textAlign: 'center' }}>
+        <div className="error-message">
           {errorMessage}
         </div>
       )}
       
       {successMessage && (
-        <div className={styles.successMessage} style={{ fontSize: '1.3rem', textAlign: 'center', margin: '1rem 0' }}>
+        <div className="success-message">
           {successMessage}
         </div>
       )}
@@ -420,7 +407,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
           <button
             onClick={handleResetActivationCounter}
             disabled={isResettingCounter}
-            className={styles.createBtn + ' ' + styles.centeredBtn}
+            className="btn btn-danger"
           >
             {isResettingCounter ? 'Resetting...' : 'Reset Activation Counter to 0'}
           </button>
@@ -459,7 +446,8 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                     <button
                       onClick={() => handleEndActivation(activation.activationId, activation.callsign)}
                       disabled={isEndingActivation === activation.activationId}
-                      className={styles.endBtn}
+                      className="btn btn-danger"
+                      style={{ fontSize: '0.9rem', padding: '0.4rem 0.8rem' }}
                     >
                       {isEndingActivation === activation.activationId ? 'Ending...' : 'End'}
                     </button>
@@ -526,7 +514,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
               <button
                 onClick={handleCreateActivation}
                 disabled={isCreatingActivation}
-                className={styles.createBtn}
+                className="btn btn-primary"
               >
                 {isCreatingActivation ? 'Creating...' : 'Create Activation'}
               </button>
@@ -571,7 +559,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
               <button
                 onClick={handleCreatePin}
                 disabled={isCreating}
-                className={styles.createBtn}
+                className="btn btn-primary"
               >
                 {isCreating ? 'Creating...' : 'Create PIN'}
               </button>
@@ -606,7 +594,8 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                     <button
                       onClick={() => handleDeletePin(pin.pinId, pin.pin)}
                       disabled={isDeleting === pin.pinId || RESERVED_PINS.includes(pin.pin)}
-                      className={styles.deleteBtn}
+                      className="btn btn-danger"
+                      style={{ fontSize: '0.9rem', padding: '0.4rem 0.8rem' }}
                     >
                       {isDeleting === pin.pinId ? 'Deleting...' : 'Delete'}
                     </button>

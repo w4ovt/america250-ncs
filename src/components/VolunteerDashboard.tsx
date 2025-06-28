@@ -189,19 +189,8 @@ export default function VolunteerDashboard({ disabled = false, volunteerData, on
             {onLogout && (
               <button 
                 onClick={onLogout} 
-                className={styles.logoutBtn}
-                style={{ 
-                  display: 'block',
-                  marginTop: '1rem',
-                  backgroundColor: 'var(--mahogany)',
-                  color: 'var(--parchment)',
-                  border: 'none',
-                  borderRadius: '6px',
-                  padding: '0.5rem 1.5rem',
-                  fontFamily: 'librebaskerville-bold, serif',
-                  fontSize: '1rem',
-                  cursor: 'pointer'
-                }}
+                className="btn btn-secondary"
+                style={{ marginTop: '1rem' }}
               >
                 Logout
               </button>
@@ -213,13 +202,13 @@ export default function VolunteerDashboard({ disabled = false, volunteerData, on
               <h3 className={styles.formTitle}>Activation Active</h3>
               <p>Your activation (ID: {currentActivationId}) is now live and visible on the homepage.</p>
               {errorMessage && (
-                <div className={styles.errorMessage}>
+                <div className="error-message">
                   {errorMessage}
                 </div>
               )}
               <button 
                 onClick={handleEndActivation} 
-                className={styles.endBtn}
+                className="btn btn-danger"
                 disabled={isEnding || disabled}
               >
                 {isEnding ? 'Ending...' : 'End Activation'}
@@ -266,14 +255,14 @@ export default function VolunteerDashboard({ disabled = false, volunteerData, on
                 </div>
 
                 {errorMessage && (
-                  <div className={styles.errorMessage}>
+                  <div className="error-message">
                     {errorMessage}
                   </div>
                 )}
 
                 <button 
                   type="submit" 
-                  className={styles.startBtn + (disabled ? ' disabled' : '')}
+                  className={'btn btn-primary' + (disabled ? ' disabled' : '')}
                   disabled={isActivating || !activationForm.frequency || !activationForm.mode || disabled}
                 >
                   {isActivating ? 'Starting...' : 'Start Activation'}
