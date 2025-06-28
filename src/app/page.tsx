@@ -78,11 +78,11 @@ export default function HomePage() {
         </section>
 
         {/* Elegant Page Teasers */}
-        <section style={{ marginTop: '2.5em' }}>
+        <section style={{ marginTop: '1.5em' }}>
           {/* Prominent Quill & Inkwell */}
           <div style={{
             textAlign: 'center',
-            marginBottom: '1rem'
+            marginBottom: '0.5rem'
           }}>
             <Image
               src="/inkwell.webp"
