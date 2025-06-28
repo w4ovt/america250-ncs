@@ -104,7 +104,7 @@ export default function VolunteerPage() {
       <Navigation />
       <main className={styles.volunteerPage} style={{ marginTop: '2rem' }}>
       {/* K4A NCS Guide Section */}
-      <div className={styles.guideSection}>
+      <div className={styles.guideSection} style={{ paddingTop: '50px' }}>
         <GuideButton />
       </div>
 

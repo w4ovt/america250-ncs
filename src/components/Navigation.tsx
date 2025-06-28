@@ -24,7 +24,7 @@ export default function Navigation() {
         left: 0,
         right: 0,
         zIndex: 9999,
-        background: 'linear-gradient(135deg, var(--parchment) 0%, var(--linen) 100%)',
+        background: 'linear-gradient(135deg, var(--mahogany) 0%, #5a3419 100%)',
         borderBottom: '3px solid var(--bronze)',
         boxShadow: '0 2px 12px rgba(104, 63, 27, 0.15)',
         padding: '0.75rem 2rem',
@@ -43,7 +43,7 @@ export default function Navigation() {
           <Link href="/" style={{
             fontFamily: 'librebaskerville-bold, serif',
             fontSize: '1.5rem',
-            color: 'var(--mahogany)',
+            color: 'var(--linen)',
             textDecoration: 'none',
             fontWeight: 'bold',
             letterSpacing: '-0.02em'
@@ -60,7 +60,7 @@ export default function Navigation() {
             <Link href="/" style={{
               fontFamily: 'librebaskerville-bold, serif',
               fontSize: '1.1rem',
-              color: 'var(--mahogany)',
+              color: 'var(--linen)',
               textDecoration: 'none',
               padding: '0.5rem 1rem',
               borderRadius: '6px',
@@ -76,7 +76,7 @@ export default function Navigation() {
             <Link href="/volunteer" style={{
               fontFamily: 'librebaskerville-bold, serif',
               fontSize: '1.1rem',
-              color: 'var(--mahogany)',
+              color: 'var(--linen)',
               textDecoration: 'none',
               padding: '0.5rem 1rem',
               borderRadius: '6px',
@@ -92,7 +92,7 @@ export default function Navigation() {
             <Link href="/qsl-cards" style={{
               fontFamily: 'librebaskerville-bold, serif',
               fontSize: '1.1rem',
-              color: 'var(--mahogany)',
+              color: 'var(--linen)',
               textDecoration: 'none',
               padding: '0.5rem 1rem',
               borderRadius: '6px',
@@ -108,7 +108,7 @@ export default function Navigation() {
             <Link href="/meet-the-founders" style={{
               fontFamily: 'librebaskerville-bold, serif',
               fontSize: '1.1rem',
-              color: 'var(--mahogany)',
+              color: 'var(--linen)',
               textDecoration: 'none',
               padding: '0.5rem 1rem',
               borderRadius: '6px',
@@ -174,9 +174,9 @@ export default function Navigation() {
         
         .nav-link:hover {
           background: var(--bronze) !important;
-          color: var(--parchment) !important;
+          color: var(--mahogany) !important;
           transform: translateY(-1px);
-          box-shadow: 0 4px 8px rgba(104, 63, 27, 0.2);
+          box-shadow: 0 4px 8px rgba(199, 161, 89, 0.4);
         }
         
         .nav-link::before {

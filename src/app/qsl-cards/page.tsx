@@ -23,16 +23,45 @@ export default function QSLCardsPage() {
             }}>
               K4A QSL Cards
             </h1>
-            <h2 style={{
-              fontFamily: 'librebaskerville-regular, serif',
-              fontSize: '1.3rem',
-              color: 'var(--bronze)',
-              fontStyle: 'italic',
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase'
+            <div style={{
+              background: 'linear-gradient(135deg, var(--mahogany) 0%, #5a3419 100%)',
+              padding: '1rem 2rem',
+              borderRadius: '8px',
+              border: '3px solid var(--bronze)',
+              boxShadow: '0 4px 12px rgba(104, 63, 27, 0.2)',
+              position: 'relative'
             }}>
-              America&apos;s 250th Anniversary Commemorative Cards
-            </h2>
+              <div style={{
+                position: 'absolute',
+                top: '-5px',
+                left: '20px',
+                right: '20px',
+                height: '2px',
+                background: 'var(--bronze)',
+                borderRadius: '1px'
+              }}></div>
+              <div style={{
+                position: 'absolute',
+                bottom: '-5px',
+                left: '20px',
+                right: '20px',
+                height: '2px',
+                background: 'var(--bronze)',
+                borderRadius: '1px'
+              }}></div>
+              <h2 style={{
+                fontFamily: 'librebaskerville-regular, serif',
+                fontSize: '1.3rem',
+                color: 'var(--linen)',
+                fontStyle: 'italic',
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                margin: 0,
+                textAlign: 'center'
+              }}>
+                America&apos;s 250th Anniversary Commemorative Cards
+              </h2>
+            </div>
           </div>
 
           {/* QSL Card Information */}
@@ -56,10 +85,31 @@ export default function QSLCardsPage() {
               QSL cards are confirmation postcards that amateur radio operators exchange to verify radio contact. 
               For America&apos;s 250th Anniversary, these cards become special commemorative keepsakes of this historic event.
             </p>
-            <p style={{ lineHeight: '1.7', fontSize: '1.1rem' }}>
-              <strong>As an America250 volunteer:</strong> You may receive QSL card requests from operators you contact. 
-              These cards help confirm participation in this milestone celebration and support various amateur radio awards programs.
-            </p>
+                         {/* Welcome Section for Non-Amateur Radio Visitors */}
+             <div style={{
+               background: 'rgba(199, 161, 89, 0.15)',
+               padding: '1.5rem',
+               borderRadius: '8px',
+               border: '2px solid var(--bronze)',
+               marginBottom: '1.5rem'
+             }}>
+               <h4 style={{ 
+                 fontFamily: 'librebaskerville-bold, serif',
+                 color: 'var(--mahogany)',
+                 marginBottom: '1rem',
+                 fontSize: '1.2rem',
+                 textAlign: 'center'
+               }}>
+                 Welcome to our Guests who are not yet licensed Amateur Radio Operators
+               </h4>
+               <p style={{ lineHeight: '1.7', fontSize: '1.1rem', textAlign: 'center', fontStyle: 'italic' }}>
+                 We invite you to become a licensed Amateur Radio operator. No fraternity on earth has the power and magic to bridge culture, nationality, distance, or disparate interests as Amateur Radio can do. Moreover, few other avocations offer the opportunity for personal development, technological advancement, or the camaraderie and sheer excitement of meeting fellow Hams nearby and across the world - consider becoming a Ham Radio operator...and become part of the &quot;Greatest Hobby on Earth!&quot;
+               </p>
+             </div>
+             
+             <p style={{ lineHeight: '1.7', fontSize: '1.1rem' }}>
+               <strong>For our America250 volunteers and fellow Amateur Radio operators:</strong> These commemorative QSL cards serve as beautiful confirmations of your participation in this historic milestone celebration, supporting various amateur radio awards programs and preserving memories of America&apos;s 250th Anniversary.
+             </p>
           </div>
 
           {/* K4A QSL Card Examples - Stacked Display */}
@@ -193,15 +243,16 @@ export default function QSLCardsPage() {
               }}>
                 Mail QSL Request with S.A.S.E. and optional donation to:
               </p>
-              <div style={{ 
-                fontSize: '1.05rem',
-                lineHeight: '1.4',
-                color: 'var(--mahogany)'
-              }}>
-                <strong>Marc Bowen W4OVT</strong><br/>
-                2006 Liberty Dr<br/>
-                Greensboro, NC 27408
-              </div>
+                             <div style={{ 
+                 fontSize: '1.05rem',
+                 lineHeight: '1.4',
+                 color: 'var(--mahogany)'
+               }}>
+                 <strong>Marc Bowen W4OVT</strong><br/>
+                 2006 Liberty Dr<br/>
+                 Greensboro, NC 27408<br/>
+                 <strong>marc@history.radio</strong>
+               </div>
             </div>
 
             <ul style={{ 
