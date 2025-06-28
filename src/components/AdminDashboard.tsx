@@ -578,6 +578,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
               <label htmlFor="frequency-input">Frequency (MHz):</label>
               <input
                 id="frequency-input"
+                name="frequency-input"
                 type="text"
                 value={activationFrequency}
                 onChange={(e) => setActivationFrequency(e.target.value)}
@@ -646,6 +647,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
               <label htmlFor="requested-pin">Requested PIN (optional):</label>
               <input
                 id="requested-pin"
+                name="requested-pin"
                 type="text"
                 maxLength={4}
                 pattern="[0-9]{4}"
@@ -721,7 +723,10 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
         {/* Search and Sort Controls */}
         <div className={styles.submissionControls}>
           <div className={styles.searchBox}>
+            <label htmlFor="submission-search" className="sr-only">Search submissions</label>
             <input
+              id="submission-search"
+              name="submission-search"
               type="text"
               placeholder="Search submissions..."
               value={submissionSearch}
@@ -731,7 +736,10 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
           </div>
           
           <div className={styles.sortControls}>
+            <label htmlFor="submission-sort" className="sr-only">Sort submissions by</label>
             <select
+              id="submission-sort"
+              name="submission-sort"
               value={submissionSortBy}
               onChange={(e) => setSubmissionSortBy(e.target.value)}
               className={styles.sortSelect}

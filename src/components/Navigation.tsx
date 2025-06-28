@@ -32,6 +32,29 @@ export default function Navigation() {
       }}
       className="desktop-nav"
       >
+        {/* Top Brass Separator Bar */}
+        <div style={{
+          position: 'absolute',
+          top: '0px',
+          left: '0px',
+          right: '0px',
+          height: '3px',
+          background: 'linear-gradient(90deg, var(--bronze) 0%, #D4AF37 50%, var(--bronze) 100%)',
+          boxShadow: '0 2px 4px rgba(212, 175, 55, 0.6)',
+          zIndex: 1
+        }}></div>
+        
+        {/* Bottom Brass Separator Bar */}
+        <div style={{
+          position: 'absolute',
+          bottom: '0px',
+          left: '0px',
+          right: '0px',
+          height: '3px',
+          background: 'linear-gradient(90deg, var(--bronze) 0%, #D4AF37 50%, var(--bronze) 100%)',
+          boxShadow: '0 -2px 4px rgba(212, 175, 55, 0.6)',
+          zIndex: 1
+        }}></div>
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -46,9 +69,12 @@ export default function Navigation() {
             color: 'var(--linen)',
             textDecoration: 'none',
             fontWeight: 'bold',
-            letterSpacing: '-0.02em'
+            letterSpacing: '-0.02em',
+            textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)',
+            position: 'relative',
+            zIndex: 2
           }}>
-            AMERICA250-NCS
+            AMERICA250
           </Link>
 
           {/* Navigation Links */}
@@ -66,7 +92,9 @@ export default function Navigation() {
               borderRadius: '6px',
               transition: 'all 0.2s ease',
               position: 'relative',
-              overflow: 'hidden'
+              overflow: 'hidden',
+              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)',
+              zIndex: 2
             }}
             className="nav-link"
             >
@@ -82,7 +110,9 @@ export default function Navigation() {
               borderRadius: '6px',
               transition: 'all 0.2s ease',
               position: 'relative',
-              overflow: 'hidden'
+              overflow: 'hidden',
+              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)',
+              zIndex: 2
             }}
             className="nav-link"
             >
@@ -98,7 +128,9 @@ export default function Navigation() {
               borderRadius: '6px',
               transition: 'all 0.2s ease',
               position: 'relative',
-              overflow: 'hidden'
+              overflow: 'hidden',
+              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)',
+              zIndex: 2
             }}
             className="nav-link"
             >
@@ -114,7 +146,9 @@ export default function Navigation() {
               borderRadius: '6px',
               transition: 'all 0.2s ease',
               position: 'relative',
-              overflow: 'hidden'
+              overflow: 'hidden',
+              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)',
+              zIndex: 2
             }}
             className="nav-link"
             >
@@ -177,6 +211,11 @@ export default function Navigation() {
           color: var(--mahogany) !important;
           transform: translateY(-1px);
           box-shadow: 0 4px 8px rgba(199, 161, 89, 0.4);
+          text-decoration: underline !important;
+          text-decoration-color: var(--mahogany) !important;
+          text-decoration-thickness: 2px !important;
+          text-underline-offset: 4px !important;
+          text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2) !important;
         }
         
         .nav-link::before {
@@ -201,6 +240,16 @@ export default function Navigation() {
         @media (min-width: 769px) {
           body {
             padding-top: 70px;
+          }
+          
+          /* Ensure smooth scrolling and prevent scroll conflicts */
+          html {
+            scroll-behavior: smooth;
+          }
+          
+          .desktop-nav {
+            will-change: transform;
+            contain: layout style;
           }
         }
       `}</style>
