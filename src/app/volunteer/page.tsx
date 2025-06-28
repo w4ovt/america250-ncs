@@ -5,6 +5,7 @@ import GuideButton from '../GuideButton';
 import VolunteerDashboard from '../../components/VolunteerDashboard';
 import K4ADropzone from '../../components/K4ADropzone';
 import AdminDashboard from '../../components/AdminDashboard';
+import Navigation from '../../components/Navigation';
 import styles from './page.module.css';
 
 interface VolunteerData {
@@ -99,7 +100,9 @@ export default function VolunteerPage() {
   const isAdmin = volunteerData?.role === 'admin';
 
   return (
-    <main className={styles.volunteerPage}>
+    <>
+      <Navigation />
+      <main className={styles.volunteerPage} style={{ marginTop: '2rem' }}>
       {/* K4A NCS Guide Section */}
       <div className={styles.guideSection}>
         <GuideButton />
@@ -220,5 +223,6 @@ export default function VolunteerPage() {
         )}
       </div>
     </main>
+    </>
   );
 } 

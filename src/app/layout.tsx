@@ -1,6 +1,5 @@
 import './globals.css';
 import type { ReactNode } from 'react';
-import HamburgerMenu from '../components/HamburgerMenu';
 
 export const metadata = {
   title: 'America250-NCS',
@@ -16,7 +15,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <title>America250-NCS</title>
       </head>
       <body>
-        <HamburgerMenu />
         {children}
       </body>
     </html>
