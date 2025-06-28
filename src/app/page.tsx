@@ -13,7 +13,7 @@ export default function HomePage() {
         <div style={{ 
           textAlign: 'center',
           marginBottom: '0.5em',
-          padding: '0 20px',
+          padding: '50px 20px 0 20px',
           maxWidth: '100%'
         }}>
           <Image

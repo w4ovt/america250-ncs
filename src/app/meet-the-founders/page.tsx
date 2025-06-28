@@ -178,25 +178,70 @@ export default function MeetTheFoundersPage() {
               </div>
             </div>
 
-            {/* War Consequences */}
-            <div style={{
-              background: 'rgba(247, 241, 226, 0.8)',
-              padding: '1.5rem',
-              borderRadius: '8px',
-              border: '2px solid var(--bronze)',
-              boxShadow: '0 2px 8px rgba(104, 63, 27, 0.1)',
-              marginBottom: '2rem'
-            }}>
-              <h3 style={{ 
-                fontFamily: 'librebaskerville-bold, serif',
-                color: 'var(--mahogany)',
-                marginBottom: '1rem',
-                fontSize: '1.4rem',
-                borderBottom: '1px solid var(--bronze)',
-                paddingBottom: '0.5rem'
-              }}>
-                ⚔️ The Price of Freedom
-              </h3>
+                         {/* War Consequences */}
+             <div style={{
+               background: 'rgba(247, 241, 226, 0.8)',
+               padding: '1.5rem',
+               borderRadius: '8px',
+               border: '2px solid var(--bronze)',
+               boxShadow: '0 2px 8px rgba(104, 63, 27, 0.1)',
+               marginBottom: '2rem'
+             }}>
+               <div style={{
+                 display: 'flex',
+                 alignItems: 'center',
+                 justifyContent: 'center',
+                 gap: '1rem',
+                 marginBottom: '1rem',
+                 flexWrap: 'wrap'
+               }}>
+                 {/* Betsy Ross Flag Placeholder */}
+                 <div style={{
+                   width: '60px',
+                   height: '40px',
+                   background: 'linear-gradient(to right, #1f3a93 0%, #1f3a93 50%, #ffffff 50%, #ffffff 60%, #c41e3a 60%)',
+                   borderRadius: '4px',
+                   boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                   transform: 'skew(-10deg)',
+                   display: 'flex',
+                   alignItems: 'center',
+                   justifyContent: 'center',
+                   fontSize: '0.7rem',
+                   color: 'white',
+                   fontWeight: 'bold'
+                 }}>
+                   ⭐13⭐
+                 </div>
+                 
+                 <h3 style={{ 
+                   fontFamily: 'librebaskerville-bold, serif',
+                   color: 'var(--mahogany)',
+                   margin: 0,
+                   fontSize: '1.4rem',
+                   borderBottom: '1px solid var(--bronze)',
+                   paddingBottom: '0.5rem'
+                 }}>
+                   ⚔️ The Price of Freedom
+                 </h3>
+                 
+                 {/* British Union Jack Flag Placeholder */}
+                 <div style={{
+                   width: '60px',
+                   height: '40px',
+                   background: 'linear-gradient(45deg, #1f3a93 25%, #c41e3a 25%, #c41e3a 50%, #1f3a93 50%, #1f3a93 75%, #c41e3a 75%)',
+                   borderRadius: '4px',
+                   boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                   transform: 'skew(10deg)',
+                   display: 'flex',
+                   alignItems: 'center',
+                   justifyContent: 'center',
+                   fontSize: '0.7rem',
+                   color: 'white',
+                   fontWeight: 'bold'
+                 }}>
+                   🇬🇧
+                 </div>
+               </div>
               <div style={{ display: 'grid', gap: '1rem' }}>
                 <div style={{ lineHeight: '1.6', fontSize: '1.05rem' }}>
                   <strong>Tragic Fates:</strong> Nine signers died before American independence was officially won.
