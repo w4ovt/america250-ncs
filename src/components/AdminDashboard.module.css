@@ -22,6 +22,8 @@
   margin-bottom: 2rem;
   box-shadow: 0 2px 8px rgba(104, 63, 27, 0.15);
   max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .sectionTitle {
@@ -47,6 +49,7 @@
   padding: 1em 0.5em;
   max-width: 100%;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .activationsTable {
@@ -71,12 +74,14 @@
   color: var(--parchment);
   letter-spacing: 0.08em;
   font-weight: bold;
+  text-align: center;
 }
 
 .activationsTable td {
   font-family: 'librebaskerville-regular', serif;
   color: var(--mahogany);
   background: var(--linen);
+  text-align: center;
 }
 
 .activationsTable tr:last-child td {
@@ -88,23 +93,23 @@
 }
 
 .endBtn {
-  background: #dc3545;
-  color: white;
-  border: none;
+  background: var(--mahogany);
+  color: var(--parchment);
+  border: 2px solid var(--mahogany);
   border-radius: 4px;
   padding: 0.5em 1em;
   font-family: 'librebaskerville-bold', serif;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.2s;
   font-size: 0.9em;
 }
 
 .endBtn:hover:not(:disabled) {
-  background: #c82333;
+  background: #4d2e0f;
 }
 
 .endBtn:disabled {
-  background: #ccc;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
@@ -161,11 +166,15 @@
 }
 
 .formGroup {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  flex: 1;
-  min-width: 200px;
+}
+
+.formGroup button {
+  align-self: center;
+  text-align: center;
 }
 
 .formGroup label {
@@ -269,23 +278,25 @@
 }
 
 .deleteBtn {
-  background: #dc3545;
-  color: white;
+  background: var(--mahogany);
+  color: var(--parchment);
   border: none;
   border-radius: 4px;
-  padding: 0.5em 1em;
+  padding: 0.25rem 0.5rem;
   font-family: 'librebaskerville-bold', serif;
+  font-size: 0.8rem;
   cursor: pointer;
   transition: background 0.2s;
-  font-size: 0.9em;
+  display: inline-block;
+  white-space: nowrap;
 }
 
 .deleteBtn:hover:not(:disabled) {
-  background: #c82333;
+  background: #4d2e0f;
 }
 
 .deleteBtn:disabled {
-  background: #ccc;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
@@ -422,7 +433,7 @@
     padding: 0.4rem 0.6rem;
   }
   
-  /* Hide table, show cards on mobile */
+  /* Hide tables, show cards on mobile */
   .submissionsTableWrapper {
     display: none;
   }
@@ -436,10 +447,55 @@
     gap: 0.5rem;
   }
   
+  /* Activations table - hide columns on mobile */
+  .activationsTable {
+    font-size: 0.8rem;
+    min-width: auto;
+  }
+  
+  .activationsTable th,
+  .activationsTable td {
+    padding: 0.3rem 0.2rem;
+    font-size: 0.75rem;
+  }
+  
+  /* Hide State and Frequency columns on mobile - keep most important ones */
+  .activationsTable th:nth-child(4), /* State */
+  .activationsTable td:nth-child(4),
+  .activationsTable th:nth-child(5), /* Frequency */
+  .activationsTable td:nth-child(5) {
+    display: none;
+  }
+  
+  /* Compact remaining columns */
+  .activationsTable th:nth-child(1), /* ID */
+  .activationsTable td:nth-child(1) {
+    width: 10%;
+  }
+  
+  .activationsTable th:nth-child(2), /* Volunteer */
+  .activationsTable td:nth-child(2) {
+    width: 30%;
+  }
+  
+  .activationsTable th:nth-child(3), /* Callsign */
+  .activationsTable td:nth-child(3) {
+    width: 20%;
+  }
+  
+  .activationsTable th:nth-child(6), /* Mode */
+  .activationsTable td:nth-child(6) {
+    width: 20%;
+  }
+  
+  .activationsTable th:nth-child(7), /* Action */
+  .activationsTable td:nth-child(7) {
+    width: 20%;
+  }
+  
   .viewBtn, .deleteBtn {
     font-size: 0.7rem;
     padding: 0.2rem 0.4rem;
-    margin-right: 0.25rem;
   }
   
   .modalContent {
@@ -526,29 +582,41 @@
     font-size: 1rem;
   }
   
-  .activationsTable {
-    min-width: 400px;
-    font-size: 0.9rem;
+    .activationsTable {
+    font-size: 0.8rem;
   }
   
+  /* Keep State and Frequency hidden, make columns even more compact */
+  .activationsTable th:nth-child(4), /* State */
+  .activationsTable td:nth-child(4),
+  .activationsTable th:nth-child(5), /* Frequency */
+  .activationsTable td:nth-child(5) {
+    display: none;
+  }
+  
+  .activationsTable th,
+  .activationsTable td {
+    padding: 0.25rem 0.15rem;
+    font-size: 0.7rem;
+  }
+
   .pinsTable {
-    min-width: 320px;
     font-size: 0.9rem;
   }
   
-  .submissionCard {
+    .submissionCard {
     padding: 0.75rem;
   }
-  
+
   .submissionCardTitle {
     font-size: 0.9rem;
   }
-  
+
   .submissionCardDetails {
     font-size: 0.8rem;
     gap: 0.4rem;
   }
-  
+
   .submissionCardLabel {
     font-size: 0.75rem;
   }
@@ -566,7 +634,6 @@
   .viewBtn, .deleteBtn {
     font-size: 0.65rem;
     padding: 0.15rem 0.3rem;
-    margin-right: 0.2rem;
   }
   
   .modalContent {
@@ -618,6 +685,20 @@
     margin-bottom: 1rem;
   }
   
+  /* Keep activations table columns hidden on very small screens */
+  .activationsTable th:nth-child(4), /* State */
+  .activationsTable td:nth-child(4),
+  .activationsTable th:nth-child(5), /* Frequency */
+  .activationsTable td:nth-child(5) {
+    display: none;
+  }
+  
+  .activationsTable th,
+  .activationsTable td {
+    padding: 0.2rem 0.1rem;
+    font-size: 0.65rem;
+  }
+  
   .submissionCard {
     padding: 0.5rem;
   }
@@ -653,7 +734,6 @@
   .viewBtn, .deleteBtn {
     font-size: 0.6rem;
     padding: 0.1rem 0.25rem;
-    margin-right: 0.15rem;
   }
   
   .modalContent {
@@ -757,6 +837,18 @@
   gap: 0.5rem;
 }
 
+.formSelect {
+  padding: 0.75rem;
+  border: 2px solid var(--bronze);
+  border-radius: 8px;
+  background: var(--white);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .sortSelect {
   padding: 0.5rem;
   border: 2px solid var(--mahogany);
@@ -795,7 +887,7 @@
   background: var(--parchment);
   border-radius: 8px;
   overflow: hidden;
-  table-layout: fixed;
+  table-layout: auto;
 }
 
 .submissionsTable th,
@@ -805,33 +897,39 @@
   border-bottom: 1px solid var(--bronze);
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 /* Column width optimizations */
 .submissionsTable th:nth-child(1), /* Date/Time */
 .submissionsTable td:nth-child(1) {
-  width: 12%;
+  width: 11%;
+  white-space: nowrap;
+  text-align: center;
+  line-height: 1.2;
 }
 
 .submissionsTable th:nth-child(2), /* Name */
 .submissionsTable td:nth-child(2) {
-  width: 12%;
+  width: 14%;
+  text-align: center;
 }
 
 .submissionsTable th:nth-child(3), /* Callsign */
 .submissionsTable td:nth-child(3) {
   width: 10%;
+  text-align: center;
 }
 
 .submissionsTable th:nth-child(4), /* Filename */
 .submissionsTable td:nth-child(4) {
-  width: 20%;
+  width: 24%;
+  word-break: break-word;
+  text-align: center;
 }
 
 .submissionsTable th:nth-child(5), /* Records */
 .submissionsTable td:nth-child(5) {
-  width: 8%;
+  width: 7%;
   text-align: center;
 }
 
@@ -843,14 +941,15 @@
 
 .submissionsTable th:nth-child(7), /* Status */
 .submissionsTable td:nth-child(7) {
-  width: 10%;
+  width: 11%;
   text-align: center;
 }
 
 .submissionsTable th:nth-child(8), /* Actions */
 .submissionsTable td:nth-child(8) {
-  width: 20%;
+  width: 15%;
   text-align: center;
+  white-space: nowrap;
 }
 
 .submissionsTable th {
@@ -858,8 +957,9 @@
   color: var(--parchment);
   font-family: 'librebaskerville-bold', serif;
   font-weight: bold;
-  cursor: pointer;
+  cursor: default;
   user-select: none;
+  text-align: center;
 }
 
 .sortableHeader {
@@ -867,31 +967,19 @@
   color: var(--parchment);
   font-family: 'librebaskerville-bold', serif;
   font-weight: bold;
-  cursor: pointer;
+  cursor: default;
   user-select: none;
   transition: background 0.2s;
   position: relative;
-  white-space: nowrap;
+  text-align: center;
 }
 
 .sortableHeader:hover {
-  background: #4d2e0f;
+  background: var(--mahogany);
 }
 
 .sortIndicator {
-  font-weight: bold;
-  color: var(--bronze);
-  opacity: 0.7;
-  transition: opacity 0.2s;
-  margin-left: 0.25rem;
-}
-
-.sortableHeader:hover .sortIndicator {
-  opacity: 1;
-}
-
-.submissionsTable th:hover {
-  background: #4d2e0f;
+  display: none;
 }
 
 .submissionsTable tr:hover {
@@ -902,8 +990,10 @@
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   font-family: 'librebaskerville-bold', serif;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
+  display: inline-block;
+  white-space: nowrap;
 }
 
 .statusBadge.success {
@@ -927,8 +1017,10 @@
   font-family: 'librebaskerville-bold', serif;
   font-size: 0.8rem;
   cursor: pointer;
-  margin-right: 0.5rem;
+  margin-right: 0.75rem !important;
   transition: background 0.2s;
+  display: inline-block;
+  white-space: nowrap;
 }
 
 .viewBtn:hover {
@@ -1023,6 +1115,8 @@
   gap: 1rem;
 }
 
+
+
 .submissionCard {
   background: var(--parchment);
   border: 2px solid var(--mahogany);
@@ -1096,13 +1190,26 @@
     justify-content: center;
   }
   
+  /* Hide table, show cards on mobile */
   .submissionsTable {
-    font-size: 0.8rem;
+    display: none;
   }
   
-  .submissionsTable th,
-  .submissionsTable td {
-    padding: 0.5rem 0.25rem;
+  .submissionsCard {
+    display: flex;
+  }
+  
+  .submissionCard {
+    padding: 0.75rem;
+  }
+  
+  .submissionCardDetails {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .submissionCardHeader {
+    margin-bottom: 0.5rem;
   }
   
   .modalContent {
