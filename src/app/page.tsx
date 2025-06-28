@@ -22,9 +22,10 @@ export default function HomePage() {
             width={800}
             height={400}
             style={{
-              width: '100%',
+              display: 'block',
+              width: 'auto',
               height: 'auto',
-              maxWidth: '800px',
+              maxWidth: '100%',
               borderRadius: '6px',
               boxShadow: '0 2px 8px rgba(104, 63, 27, 0.15)'
             }}
