@@ -199,6 +199,246 @@ export default function HomePage() {
             </Link>
           </div>
         </section>
+
+        {/* Chasing Cornwallis Challenge Section */}
+        <section style={{ marginTop: '3em' }}>
+          {/* Brass Separator Bar */}
+          <div style={{
+            height: '4px',
+            background: 'linear-gradient(90deg, var(--bronze) 0%, #D4AF37 50%, var(--bronze) 100%)',
+            boxShadow: '0 2px 6px rgba(212, 175, 55, 0.6)',
+            margin: '2rem 0',
+            borderRadius: '2px'
+          }}></div>
+
+          {/* Section Title */}
+          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+            <h2 style={{
+              fontFamily: 'librebaskerville-bold, serif',
+              fontSize: '2.5rem',
+              color: 'var(--mahogany)',
+              margin: '0 0 0.5rem 0',
+              textShadow: '2px 2px 4px rgba(104, 63, 27, 0.1)',
+              letterSpacing: '0.05em'
+            }}>
+              CHASING CORNWALLIS CHALLENGE
+            </h2>
+            <h3 style={{
+              fontFamily: 'librebaskerville-bold, serif',
+              fontSize: '1.3rem',
+              color: 'var(--bronze)',
+              margin: '0',
+              fontStyle: 'italic',
+              letterSpacing: '0.08em'
+            }}>
+              Six Epic Battles • One Historic Journey • Your Victory Certificate Awaits
+            </h3>
+          </div>
+
+          {/* Narrative Text */}
+          <div style={{
+            background: 'rgba(247, 241, 226, 0.8)',
+            padding: '2rem',
+            borderRadius: '12px',
+            border: '2px solid var(--bronze)',
+            boxShadow: '0 4px 12px rgba(104, 63, 27, 0.1)',
+            marginBottom: '2.5rem',
+            maxWidth: 'calc(100% - 40px)',
+            margin: '0 auto 2.5rem auto'
+          }}>
+            <p style={{
+              fontSize: '1.1rem',
+              lineHeight: '1.7',
+              color: 'var(--mahogany)',
+              marginBottom: '1.5rem',
+              fontFamily: 'librebaskerville-regular, serif'
+            }}>
+              Join the <strong>Chasing Cornwallis Challenge</strong> and become part of a living legacy that honors the pivotal battles of the Southern Campaign of the American Revolution—the deterministic battles that shaped America&apos;s destiny. As you make on-air contacts and connect with thousands of operators across the country, you&apos;re not just making contacts—you&apos;re stepping into history, celebrating the spirit of freedom and unity that made America possible.
+            </p>
+            
+            <p style={{
+              fontSize: '1.1rem',
+              lineHeight: '1.7',
+              color: 'var(--mahogany)',
+              marginBottom: '1.5rem',
+              fontFamily: 'librebaskerville-regular, serif'
+            }}>
+              This July 1–7, join with fellow Amateur Radio operators to commemorate the <strong>Semiquincentennial of the Declaration of Independence</strong> with <strong>K4A - Kilo4America</strong>, a special event that unites our country in remembrance and reverence. By making contacts at just <strong>five of our six annual events</strong>, you will proudly earn the year-end Certificate shown below to proudly display in your Shack—a symbol of your dedication, skill, and connection to the Men and Women who won America.
+            </p>
+            
+            <p style={{
+              fontSize: '1.1rem',
+              lineHeight: '1.7',
+              color: 'var(--mahogany)',
+              marginBottom: '1.5rem',
+              fontFamily: 'librebaskerville-regular, serif'
+            }}>
+              But the adventure doesn&apos;t stop there: <strong>Volunteer as a Net Control Operator</strong> and help guide the action, ensuring every voice is heard. Your leadership will inspire others and keep the spirit of discovery alive.
+            </p>
+            
+            <p style={{
+              fontSize: '1.15rem',
+              lineHeight: '1.7',
+              color: 'var(--mahogany)',
+              margin: '0',
+              fontFamily: 'librebaskerville-bold, serif',
+              fontWeight: 'bold',
+              textAlign: 'center',
+              padding: '1rem',
+              background: 'rgba(199, 161, 89, 0.1)',
+              borderRadius: '8px',
+              border: '1px solid var(--bronze)'
+            }}>
+              Don&apos;t just listen—be part of the story. Join the Chasing Cornwallis Challenge, earn your Certificate, and consider stepping up as a Net Control Operator. Together, let&apos;s rally to <em>&quot;Signal the American Spirit.&quot;</em>
+            </p>
+          </div>
+
+          {/* Battle Schedule and Certificate Layout */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+            gap: '2rem',
+            marginBottom: '2rem'
+          }}>
+            {/* Left Column: Cornwallis & Battle Schedule */}
+            <div style={{
+              background: 'rgba(247, 241, 226, 0.8)',
+              padding: '1.5rem',
+              borderRadius: '12px',
+              border: '2px solid var(--bronze)',
+              boxShadow: '0 4px 12px rgba(104, 63, 27, 0.1)'
+            }}>
+              {/* Cornwallis Portrait */}
+              <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+                <img
+                  src="/cornwallis.webp"
+                  alt="British Lord Charles Cornwallis"
+                  style={{
+                    width: '200px',
+                    height: '200px',
+                    borderRadius: '50%',
+                    border: '4px solid var(--bronze)',
+                    boxShadow: '0 4px 12px rgba(104, 63, 27, 0.2)',
+                    objectFit: 'cover'
+                  }}
+                />
+                <p style={{
+                  margin: '1rem 0 0 0',
+                  fontSize: '1rem',
+                  fontStyle: 'italic',
+                  color: 'var(--bronze)',
+                  fontFamily: 'librebaskerville-bold, serif'
+                }}>
+                  British Lord Charles Cornwallis
+                </p>
+              </div>
+
+              {/* Battle Schedule */}
+              <div style={{
+                background: 'var(--parchment)',
+                border: '2px solid var(--mahogany)',
+                borderRadius: '8px',
+                overflow: 'hidden'
+              }}>
+                <div style={{
+                  background: 'var(--mahogany)',
+                  color: 'var(--linen)',
+                  padding: '0.75rem',
+                  textAlign: 'center',
+                  fontFamily: 'librebaskerville-bold, serif',
+                  fontSize: '1.1rem',
+                  letterSpacing: '0.05em'
+                }}>
+                  2025 CHALLENGE EVENTS
+                </div>
+                
+                <div style={{ padding: '1rem' }}>
+                  {[
+                    { call: 'K4C', battle: 'Battle of Cowpens', dates: 'Jan 17-19' },
+                    { call: 'K4B', battle: 'Battle of Moores Creek Bridge', dates: 'Feb 27-28' },
+                    { call: 'K4G', battle: 'Battle of Guilford Courthouse', dates: 'Mar 15-17' },
+                    { call: 'K4A', battle: 'America250 Semiquincentennial', dates: 'Jul 1-7' },
+                    { call: 'K4M', battle: 'Battle of Kings Mountain', dates: 'Oct 6-8' },
+                    { call: 'K4Y', battle: 'Battle of Yorktown', dates: 'Oct 18-20' }
+                  ].map((event, index) => (
+                    <div key={index} style={{
+                      display: 'grid',
+                      gridTemplateColumns: '60px 1fr 80px',
+                      gap: '0.75rem',
+                      padding: '0.5rem 0',
+                      borderBottom: index < 5 ? '1px solid var(--bronze)' : 'none',
+                      alignItems: 'center'
+                    }}>
+                      <div style={{
+                        fontFamily: 'librebaskerville-bold, serif',
+                        color: 'var(--mahogany)',
+                        fontWeight: 'bold',
+                        fontSize: '1rem'
+                      }}>
+                        {event.call}
+                      </div>
+                      <div style={{
+                        fontFamily: 'librebaskerville-regular, serif',
+                        color: 'var(--mahogany)',
+                        fontSize: '0.95rem'
+                      }}>
+                        {event.battle}
+                      </div>
+                      <div style={{
+                        fontFamily: 'librebaskerville-regular, serif',
+                        color: 'var(--bronze)',
+                        fontSize: '0.9rem',
+                        textAlign: 'right'
+                      }}>
+                        {event.dates}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Certificate */}
+            <div style={{
+              background: 'rgba(247, 241, 226, 0.8)',
+              padding: '1.5rem',
+              borderRadius: '12px',
+              border: '2px solid var(--bronze)',
+              boxShadow: '0 4px 12px rgba(104, 63, 27, 0.1)',
+              textAlign: 'center'
+            }}>
+              <h4 style={{
+                fontFamily: 'librebaskerville-bold, serif',
+                color: 'var(--mahogany)',
+                marginBottom: '1rem',
+                fontSize: '1.3rem'
+              }}>
+                YOUR VICTORY CERTIFICATE
+              </h4>
+              <img
+                src="/ccc-certificate.webp"
+                alt="Chasing Cornwallis Challenge Certificate"
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  maxWidth: '800px',
+                  borderRadius: '8px',
+                  boxShadow: '0 4px 12px rgba(104, 63, 27, 0.2)',
+                  border: '3px solid var(--bronze)'
+                }}
+              />
+              <p style={{
+                margin: '1rem 0 0 0',
+                fontSize: '1rem',
+                fontStyle: 'italic',
+                color: 'var(--bronze)',
+                fontFamily: 'librebaskerville-regular, serif'
+              }}>
+                Earn this magnificent certificate by participating in 5 of 6 events
+              </p>
+            </div>
+          </div>
+        </section>
         </div>
       </main>
     </>
