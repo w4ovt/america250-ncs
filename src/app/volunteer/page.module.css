@@ -1,5 +1,9 @@
 .volunteerPage {
-  background: var(--parchment);
+  background-image: url('/parchment-background.webp');
+  background-color: var(--parchment);
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   min-height: 100vh;
   padding: 2rem;
   display: flex;
@@ -18,7 +22,7 @@
 .pinAuthSection {
   border: 3px solid var(--mahogany);
   border-radius: 8px;
-  background: var(--linen);
+  background: rgba(247, 241, 226, 0.6);
   padding: 2rem;
   text-align: center;
   box-shadow: 0 2px 8px rgba(104, 63, 27, 0.15);
@@ -140,7 +144,7 @@
 .volunteerDashboardSection {
   border: 3px solid var(--mahogany);
   border-radius: 8px;
-  background: var(--linen);
+  background: rgba(247, 241, 226, 0.6);
   padding: 1.5rem;
   box-shadow: 0 2px 8px rgba(104, 63, 27, 0.15);
   display: flex;
@@ -155,7 +159,7 @@
 .k4aDropzoneSection {
   border: 3px solid var(--mahogany);
   border-radius: 8px;
-  background: var(--linen);
+  background: rgba(247, 241, 226, 0.6);
   padding: 1.5rem;
   box-shadow: 0 2px 8px rgba(104, 63, 27, 0.15);
   display: flex;
@@ -170,7 +174,7 @@
 .adminSection {
   border: 3px solid var(--mahogany);
   border-radius: 8px;
-  background: var(--linen);
+  background: rgba(247, 241, 226, 0.6);
   padding: 1.5rem;
   box-shadow: 0 2px 8px rgba(104, 63, 27, 0.15);
   display: flex;
