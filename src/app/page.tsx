@@ -9,7 +9,8 @@ export default function HomePage() {
         <div style={{ 
           textAlign: 'center',
           marginBottom: '0.5em',
-          padding: '0 20px'
+          padding: '0 20px',
+          maxWidth: '100%'
         }}>
           <Image
             src="/america250-ncs-header-image.webp"
@@ -19,6 +20,7 @@ export default function HomePage() {
             style={{
               width: '100%',
               height: 'auto',
+              maxWidth: '800px',
               borderRadius: '6px',
               boxShadow: '0 2px 8px rgba(104, 63, 27, 0.15)'
             }}
