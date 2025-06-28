@@ -24,17 +24,15 @@ export default function HomePage() {
               maxWidth: '800px'
             }}
           >
-            <Image
+            <img
               src="/america250-ncs-header-image.webp"
               alt="America250 NCS Header"
-              width={800}
-              height={400}
               style={{
+                width: "100%",
+                height: "auto",
                 borderRadius: '6px',
                 boxShadow: '0 2px 8px rgba(104, 63, 27, 0.15)'
               }}
-              sizes="(max-width: 800px) 100vw, 800px"
-              priority
             />
           </div>
         </div>
