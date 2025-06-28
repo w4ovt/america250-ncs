@@ -82,6 +82,7 @@ body {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  transition: all 0.2s ease;
 }
 
 a {
@@ -260,6 +261,45 @@ input, select, button {
   border-radius: 4px;
   background: var(--linen);
   color: var(--mahogany);
+  transition: all 0.2s ease;
+}
+
+input:focus, 
+select:focus {
+  outline: none;
+  border-color: var(--mahogany);
+  box-shadow: 0 0 0 3px rgba(199, 161, 89, 0.3);
+}
+
+button {
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(104, 63, 27, 0.1);
+  transform: translateY(0);
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(104, 63, 27, 0.15);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(104, 63, 27, 0.1);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Enhanced table hover states */
+tr {
+  transition: all 0.2s ease;
+}
+
+tr:hover td {
+  background: rgba(104, 63, 27, 0.05);
+  transform: translateX(2px);
 }
 
 @media (max-width: 600px) {
@@ -428,4 +468,79 @@ button.hamburger .bar,
     font-size: 1.1rem !important;
     padding: 0.6rem 0.8rem !important;
   }
+}
+
+/* Success and Error Messages */
+.success-message,
+.error-message {
+  padding: 1rem 1.5rem;
+  margin: 1rem 0;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  animation: slideIn 0.3s ease-out;
+}
+
+.success-message {
+  background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  box-shadow: 0 4px 6px rgba(21, 87, 36, 0.1);
+}
+
+.success-message::before {
+  content: '✓';
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  color: #28a745;
+}
+
+.error-message {
+  background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  box-shadow: 0 4px 6px rgba(114, 28, 36, 0.1);
+}
+
+.error-message::before {
+  content: '!';
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  color: #dc3545;
+  font-weight: bold;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading States */
+.loading-spinner {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 3px solid var(--parchment);
+  border-top-color: var(--mahogany);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
