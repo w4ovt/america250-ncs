@@ -14358,3 +14358,162 @@ Read file: src/app/globals.css
 
 ---
 
+🎯 **Perfect! Let me deploy this fix to eliminate that stubborn margin:**
+
+---
+
+```bash
+git add -A && git commit -m "🎯 Fix Title Spacing - Zero Top Margin Override
+
+- FIXED: Added marginTop: '0' to override default h3 spacing
+- ELIMINATED: Stubborn gap between quill/inkwell and 'EXPLORE AMERICA250'
+- CREATED: Perfect visual connection between quill and title
+- OVERRIDE: Default CSS margins that were preventing tight spacing" && git push
+```
+
+```
+<gins that were preventing tight spacing" && git push
+[main 5494f8e] 🎯 Fix Title Spacing - Zero Top Margin Override
+ 2 files changed, 124 insertions(+), 1 deletion(-)
+Enumerating objects: 15, done.
+Counting objects: 100% (15/15), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (8/8), done.
+Writing objects: 100% (8/8), 2.04 KiB | 697.00 KiB/s, done.
+Total 8 (delta 5), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (5/5), completed with 5 local objects.
+To https://github.com/w4ovt/america250-ncs.git
+   9830ee1..5494f8e  main -> main
+marcbowen@Mac-Studio america250-ncs %
+```
+
+---
+
+
+
+---
+
+✅ **DEPLOYED & FIXED!** ✅
+
+🎯 **Stubborn Spacing ELIMINATED:**
+
+**🔧 The Problem Was:**
+- ✅ **Default `h3` margins** from browser CSS were adding unwanted top spacing
+- ✅ **CSS specificity** - the `activations-title` class didn't override browser defaults
+
+**💡 The Solution:**
+- ✅ **Added `marginTop: '0'`** to explicitly override browser defaults
+- ✅ **Inline style** takes precedence over class and browser CSS
+- ✅ **Perfect spacing control** between quill and title
+
+**🎨 Visual Result:**
+- ✅ **"EXPLORE AMERICA250"** now sits directly under the quill/inkwell
+- ✅ **No orphaned appearance** - tight visual grouping
+- ✅ **Clear parent/child relationship** between elements
+
+**Your quill/inkwell and title should now be perfectly connected with zero unwanted spacing!** The title will appear right where you want it, creating that cohesive visual unit you were aiming for. 🚀🖋️✨
+
+Ready for that additional homepage content block now that the spacing is perfected!
+
+---
+
+_**User**_
+
+Looks great now - well done.  For the next asset, a bit of background.  This event is K4A which is event #4/6 events we offer during the year as part of the Chasing Cornwallis Challenge were Amateur Operators are awarded a Certificate if they participate in at least 5/6 events.  We need to add a block that highlights the Chasing Cornwallis Challenge which I have built as an image, but one again, better to split the graphics from the raster text for readibility reasons.  First attachment let your creative instincts run wild creating subtitle text.  Second attachment shows the schedule of events along with a photo of British Lord Charles Cornwallis which I will load into /public as cornwallis.webp - let me know what size you want that image to be - I am thinking 350px square so not too large.  The last image is the main event, the magnificent Certificate - need that to be the same size as the Activation Table for visual consistency.  Let me know the width in px and I will add to /public as ccc-certificate.webp.  I will supply you with narrative to accompany be below the subtitle and above the schedule with the final asset being the certificate....and that will complete the home page design.  Let me know if you have any questions or suggestions.
+
+---
+
+_**Assistant**_
+
+
+
+---
+
+🎯 **What an AMAZING addition! This Chasing Cornwallis Challenge sounds like a fantastic historical amateur radio adventure! Let me help you create this section perfectly!**
+
+First, let me check the current Activation Table width for consistency:
+
+---
+
+<details>
+            <summary>Grep search for "width.*800" • **1** files</summary>
+        
+| File | Line | Match |
+|------|------|-------|
+| `file:///Users/marcbowen_1/Desktop/america250-ncs/src/app/page.tsx` | L23 | `maxWidth: '800px'` |
+
+</details>
+
+---
+
+
+
+---
+
+🎨 **Here are my recommendations for the images and creative subtitle options:**
+
+## **📏 Image Sizes:**
+- **Cornwallis Photo**: 350px square works perfectly! Great choice for visual balance
+- **Certificate**: **800px width** to match your Activation Table consistency (maintain aspect ratio for height)
+
+## **🖋️ Creative Subtitle Options (pick your favorite!):**
+
+**Option 1: Dramatic & Historical**
+```
+"CHASING CORNWALLIS CHALLENGE"
+"Six Epic Battles • One Historic Journey • Your Victory Certificate Awaits"
+```
+
+**Option 2: Adventure & Achievement**  
+```
+"CHASING CORNWALLIS CHALLENGE"
+"Follow the Revolutionary War Trail Across Six Historic Battlefields"
+```
+
+**Option 3: Challenge & Glory**
+```
+"CHASING CORNWALLIS CHALLENGE" 
+"Conquer 5 of 6 Historic Battles • Earn Your Place in Amateur Radio History"
+```
+
+**Option 4: Elegant & Sophisticated**
+```
+"THE CHASING CORNWALLIS CHALLENGE"
+"A Revolutionary War Journey Through Six Historic Activations"
+```
+
+## **🎨 Proposed Section Layout:**
+1. **Brass separator bar** (matching your existing style)
+2. **Creative subtitle** with elegant typography
+3. **Your narrative text** (when provided)
+4. **Two-column layout:**
+   - Left: Cornwallis portrait + event schedule
+   - Right: Magnificent certificate image
+5. **Responsive design** for mobile
+
+## **📱 Questions for You:**
+1. **Which subtitle style** appeals most to you?
+2. **Should this section** go after the current teaser cards?
+3. **Any specific colors** you want for this section (or keep parchment theme)?
+
+**I'm excited to build this historical masterpiece!** The combination of Lord Cornwallis, battle schedules, and that ornate certificate will be absolutely stunning! 🏆⚔️🇺🇸
+
+Ready when you upload the images and provide the narrative text!
+
+---
+
+_**User**_
+
+.webp images are loaded into /public - here is the suggested narrative to be inserted below the subtitle and above the schedule...or wherever you feel is best given the surperb design I am confident you have planned.   Narrative:  Join the Chasing Cornwallis Challenge and become part of a living legacy that honors the pivotal battles of the Southern Campaign of the American Revolution—the deterministic battles that shaped America’s destiny. As you make on-air contacts and connect with thousands of operators across the country, you’re not just making contacts—you’re stepping into history, celebrating the spirit of freedom and unity that made America possible.
+This July 1–7, join with fellow Amateur Radio operators to commemorate the Semiquincentennial of the Declaration of Independence with K4A - Kilo4America, a special event that unites our country in remembrance and reverence. By making contacts at just five of our six annual events, you will proudly earn the year-end Certificate shown below to proudly display in your Shack—a symbol of your dedication, skill, and connection to the Men and Women who won America.
+But the adventure doesn’t stop there: Volunteer as a Net Control Operator and help guide the action, ensuring every voice is heard. Your leadership will inspire others and keep the spirit of discovery alive.
+Don’t just listen—be part of the story. Join the Chasing Cornwallis Challenge, earn your Certificate, and consider stepping up as a Net Control Operator. Together, let's rally to "Signal the American Spirit."
+
+---
+
+_**Assistant**_
+
+
+
+---
+
