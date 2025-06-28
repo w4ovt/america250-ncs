@@ -82,7 +82,7 @@ export default function HomePage() {
           {/* Prominent Quill & Inkwell */}
           <div style={{
             textAlign: 'center',
-            marginBottom: '0.5rem'
+            marginBottom: '0.25rem'
           }}>
             <Image
               src="/inkwell.webp"
@@ -97,8 +97,8 @@ export default function HomePage() {
             />
           </div>
           
-          <h3 className="activations-title" style={{ marginBottom: '1.5rem' }}>
-            Explore America250
+          <h3 className="activations-title" style={{ marginBottom: '1rem' }}>
+            EXPLORE AMERICA250
           </h3>
           
           <div style={{
