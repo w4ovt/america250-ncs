@@ -37,13 +37,6 @@ export default function HomePage() {
               priority
             />
           </div>
-          
-          <style jsx>{`
-            .header-image-container img {
-              width: 100% !important;
-              height: auto !important;
-            }
-          `}</style>
         </div>
         
         {/* Title and Subtitle - positioned below image with minimal spacing */}

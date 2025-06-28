@@ -791,6 +791,12 @@ button.hamburger:hover .bar:nth-child(3),
   border: 2px solid #B8860B !important;
 }
 
+/* Header Image Responsive */
+.header-image-container img {
+  width: 100% !important;
+  height: auto !important;
+}
+
 /* Navigation Bar Effects */
 .nav-link:hover {
   background: var(--bronze) !important;
