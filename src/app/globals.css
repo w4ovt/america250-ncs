@@ -154,8 +154,8 @@ h5, h6 {
   line-height: 1.5;
 }
 
-/* Add decorative underline to h2 elements */
-h2::after {
+/* Add decorative underline to h2 elements with class */
+h2.decorated::after {
   content: '';
   position: absolute;
   bottom: -0.25em;
@@ -167,7 +167,7 @@ h2::after {
   transition: width 0.3s ease;
 }
 
-h2:hover::after {
+h2.decorated:hover::after {
   width: 5rem;
 }
 
