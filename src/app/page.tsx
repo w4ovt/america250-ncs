@@ -97,7 +97,7 @@ export default function HomePage() {
             />
           </div>
           
-          <h3 className="activations-title" style={{ marginBottom: '1rem' }}>
+          <h3 className="activations-title" style={{ marginTop: '0', marginBottom: '1rem' }}>
             EXPLORE AMERICA250
           </h3>
           
