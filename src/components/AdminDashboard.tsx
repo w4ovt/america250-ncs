@@ -372,7 +372,96 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className={styles.adminDashboard}>
+        <div className="skeleton skeleton-text" style={{ width: '300px', height: '2rem', marginBottom: '2rem' }}></div>
+        
+        {/* Reset Counter Section Skeleton */}
+        <div className={styles.adminSection}>
+          <div className="skeleton skeleton-text" style={{ width: '200px', height: '1.5rem', marginBottom: '1rem' }}></div>
+          <div className={styles.centeredBlock}>
+            <div className="skeleton skeleton-text" style={{ width: '250px', height: '2.5rem', borderRadius: '6px' }}></div>
+          </div>
+        </div>
+
+        {/* End Activations Table Skeleton */}
+        <div className={styles.adminSection}>
+          <div className="skeleton skeleton-text" style={{ width: '150px', height: '1.5rem', marginBottom: '1rem' }}></div>
+          <div className={styles.activationsTableWrapper}>
+            <table className="skeleton-table">
+              <thead>
+                <tr>
+                  <th><div className="skeleton skeleton-text short"></div></th>
+                  <th><div className="skeleton skeleton-text medium"></div></th>
+                  <th><div className="skeleton skeleton-text medium"></div></th>
+                  <th><div className="skeleton skeleton-text short"></div></th>
+                  <th><div className="skeleton skeleton-text medium"></div></th>
+                  <th><div className="skeleton skeleton-text short"></div></th>
+                  <th><div className="skeleton skeleton-text short"></div></th>
+                </tr>
+              </thead>
+              <tbody>
+                {[...Array(3)].map((_, i) => (
+                  <tr key={i}>
+                    <td><div className="skeleton-cell"></div></td>
+                    <td><div className="skeleton-cell"></div></td>
+                    <td><div className="skeleton-cell"></div></td>
+                    <td><div className="skeleton-cell"></div></td>
+                    <td><div className="skeleton-cell"></div></td>
+                    <td><div className="skeleton-cell"></div></td>
+                    <td><div className="skeleton-cell"></div></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Create Activation Form Skeleton */}
+        <div className={styles.adminSection}>
+          <div className="skeleton skeleton-text" style={{ width: '150px', height: '1.5rem', marginBottom: '1rem' }}></div>
+          <div className={styles.pinCreateForm}>
+            <div className={styles.formRow}>
+              <div className={styles.formGroup}>
+                <div className="skeleton skeleton-text short" style={{ marginBottom: '0.5rem' }}></div>
+                <div className="skeleton skeleton-text" style={{ height: '2.5rem' }}></div>
+              </div>
+              <div className={styles.formGroup}>
+                <div className="skeleton skeleton-text short" style={{ marginBottom: '0.5rem' }}></div>
+                <div className="skeleton skeleton-text" style={{ height: '2.5rem' }}></div>
+              </div>
+              <div className={styles.formGroup}>
+                <div className="skeleton skeleton-text short" style={{ marginBottom: '0.5rem' }}></div>
+                <div className="skeleton skeleton-text" style={{ height: '2.5rem' }}></div>
+              </div>
+              <div className={styles.formGroup}>
+                <div className="skeleton skeleton-text" style={{ height: '2.5rem', marginTop: '1.5rem' }}></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Create PIN Form Skeleton */}
+        <div className={styles.adminSection}>
+          <div className="skeleton skeleton-text" style={{ width: '100px', height: '1.5rem', marginBottom: '1rem' }}></div>
+          <div className={styles.pinCreateForm}>
+            <div className={styles.formRow}>
+              <div className={styles.formGroup}>
+                <div className="skeleton skeleton-text short" style={{ marginBottom: '0.5rem' }}></div>
+                <div className="skeleton skeleton-text" style={{ height: '2.5rem' }}></div>
+              </div>
+              <div className={styles.formGroup}>
+                <div className="skeleton skeleton-text medium" style={{ marginBottom: '0.5rem' }}></div>
+                <div className="skeleton skeleton-text" style={{ height: '2.5rem' }}></div>
+              </div>
+              <div className={styles.formGroup}>
+                <div className="skeleton skeleton-text" style={{ height: '2.5rem', marginTop: '1.5rem' }}></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -409,7 +498,12 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
             disabled={isResettingCounter}
             className="btn btn-danger"
           >
-            {isResettingCounter ? 'Resetting...' : 'Reset Activation Counter to 0'}
+                            {isResettingCounter ? (
+                  <>
+                    <span className="loading-spinner" style={{ marginRight: '0.5rem' }}></span>
+                    Resetting...
+                  </>
+                ) : 'Reset Activation Counter to 0'}
           </button>
           <span className={styles.resetWarning + ' ' + styles.centeredText}>
             IMPORTANT: End All Activations Before Resetting Activation Numbering. Use this when the event goes live to reset activation numbering
@@ -500,13 +594,16 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 className={styles.formSelect}
               >
                 <option value="">Select mode...</option>
-                <option value="FT8">FT8</option>
-                <option value="CW">CW</option>
                 <option value="SSB">SSB</option>
-                <option value="FM">FM</option>
-                <option value="PSK31">PSK31</option>
-                <option value="RTTY">RTTY</option>
+                <option value="CW">CW</option>
+                <option value="FT8">FT8</option>
                 <option value="FT4">FT4</option>
+                <option value="PSK31">PSK31</option>
+                <option value="Olivia">Olivia</option>
+                <option value="FM">FM</option>
+                <option value="AM">AM</option>
+                <option value="EchoLink">EchoLink</option>
+                <option value="Other">Other</option>
               </select>
             </div>
             <div className={styles.formGroup}>
@@ -516,7 +613,12 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 disabled={isCreatingActivation}
                 className="btn btn-primary"
               >
-                {isCreatingActivation ? 'Creating...' : 'Create Activation'}
+                {isCreatingActivation ? (
+                  <>
+                    <span className="loading-spinner" style={{ marginRight: '0.5rem' }}></span>
+                    Creating...
+                  </>
+                ) : 'Create Activation'}
               </button>
             </div>
           </div>
@@ -561,7 +663,12 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 disabled={isCreating}
                 className="btn btn-primary"
               >
-                {isCreating ? 'Creating...' : 'Create PIN'}
+                {isCreating ? (
+                  <>
+                    <span className="loading-spinner" style={{ marginRight: '0.5rem' }}></span>
+                    Creating...
+                  </>
+                ) : 'Create PIN'}
               </button>
             </div>
           </div>
@@ -652,137 +759,39 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
             <thead>
               <tr>
                 <th 
-                  onClick={() => {
-                    if (submissionSortBy === 'submittedAt') {
-                      setSubmissionSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
-                    } else {
-                      setSubmissionSortBy('submittedAt');
-                      setSubmissionSortOrder('desc');
-                    }
-                  }}
                   className={styles.sortableHeader}
                 >
                   Date/Time
-                  <span className={styles.sortIndicator}>
-                    {submissionSortBy === 'submittedAt' 
-                      ? (submissionSortOrder === 'asc' ? ' ↑' : ' ↓')
-                      : ' ↕'
-                    }
-                  </span>
                 </th>
                 <th 
-                  onClick={() => {
-                    if (submissionSortBy === 'volunteerName') {
-                      setSubmissionSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
-                    } else {
-                      setSubmissionSortBy('volunteerName');
-                      setSubmissionSortOrder('asc');
-                    }
-                  }}
                   className={styles.sortableHeader}
                 >
                   Name
-                  <span className={styles.sortIndicator}>
-                    {submissionSortBy === 'volunteerName' 
-                      ? (submissionSortOrder === 'asc' ? ' ↑' : ' ↓')
-                      : ' ↕'
-                    }
-                  </span>
                 </th>
                 <th 
-                  onClick={() => {
-                    if (submissionSortBy === 'volunteerCallsign') {
-                      setSubmissionSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
-                    } else {
-                      setSubmissionSortBy('volunteerCallsign');
-                      setSubmissionSortOrder('asc');
-                    }
-                  }}
                   className={styles.sortableHeader}
                 >
                   Callsign
-                  <span className={styles.sortIndicator}>
-                    {submissionSortBy === 'volunteerCallsign' 
-                      ? (submissionSortOrder === 'asc' ? ' ↑' : ' ↓')
-                      : ' ↕'
-                    }
-                  </span>
                 </th>
                 <th 
-                  onClick={() => {
-                    if (submissionSortBy === 'filename') {
-                      setSubmissionSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
-                    } else {
-                      setSubmissionSortBy('filename');
-                      setSubmissionSortOrder('asc');
-                    }
-                  }}
                   className={styles.sortableHeader}
                 >
                   Filename
-                  <span className={styles.sortIndicator}>
-                    {submissionSortBy === 'filename' 
-                      ? (submissionSortOrder === 'asc' ? ' ↑' : ' ↓')
-                      : ' ↕'
-                    }
-                  </span>
                 </th>
                 <th 
-                  onClick={() => {
-                    if (submissionSortBy === 'recordCount') {
-                      setSubmissionSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
-                    } else {
-                      setSubmissionSortBy('recordCount');
-                      setSubmissionSortOrder('desc');
-                    }
-                  }}
                   className={styles.sortableHeader}
                 >
                   Records
-                  <span className={styles.sortIndicator}>
-                    {submissionSortBy === 'recordCount' 
-                      ? (submissionSortOrder === 'asc' ? ' ↑' : ' ↓')
-                      : ' ↕'
-                    }
-                  </span>
                 </th>
                 <th 
-                  onClick={() => {
-                    if (submissionSortBy === 'processedCount') {
-                      setSubmissionSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
-                    } else {
-                      setSubmissionSortBy('processedCount');
-                      setSubmissionSortOrder('desc');
-                    }
-                  }}
                   className={styles.sortableHeader}
                 >
-                  Processed
-                  <span className={styles.sortIndicator}>
-                    {submissionSortBy === 'processedCount' 
-                      ? (submissionSortOrder === 'asc' ? ' ↑' : ' ↓')
-                      : ' ↕'
-                    }
-                  </span>
+                  Proc&apos;d
                 </th>
                 <th 
-                  onClick={() => {
-                    if (submissionSortBy === 'status') {
-                      setSubmissionSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
-                    } else {
-                      setSubmissionSortBy('status');
-                      setSubmissionSortOrder('asc');
-                    }
-                  }}
                   className={styles.sortableHeader}
                 >
                   Status
-                  <span className={styles.sortIndicator}>
-                    {submissionSortBy === 'status' 
-                      ? (submissionSortOrder === 'asc' ? ' ↑' : ' ↓')
-                      : ' ↕'
-                    }
-                  </span>
                 </th>
                 <th>Actions</th>
               </tr>
@@ -790,7 +799,10 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
             <tbody>
               {adiSubmissions.map((submission) => (
                 <tr key={submission.id}>
-                  <td>{new Date(submission.submittedAt).toLocaleString()}</td>
+                  <td>
+                    <div>{new Date(submission.submittedAt).toLocaleDateString()}</div>
+                    <div style={{fontSize: '0.85em'}}>{new Date(submission.submittedAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                  </td>
                   <td>{submission.volunteerName}</td>
                   <td>{submission.volunteerCallsign}</td>
                   <td>{submission.filename}</td>
@@ -843,7 +855,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 <div className={styles.submissionCardDetail}>
                   <span className={styles.submissionCardLabel}>Date/Time</span>
                   <span className={styles.submissionCardValue}>
-                    {new Date(submission.submittedAt).toLocaleString()}
+                    {new Date(submission.submittedAt).toLocaleDateString()} {new Date(submission.submittedAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
                   </span>
                 </div>
                 <div className={styles.submissionCardDetail}>

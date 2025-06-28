@@ -211,7 +211,12 @@ export default function VolunteerDashboard({ disabled = false, volunteerData, on
                 className="btn btn-danger"
                 disabled={isEnding || disabled}
               >
-                {isEnding ? 'Ending...' : 'End Activation'}
+                                  {isEnding ? (
+                    <>
+                      <span className="loading-spinner" style={{ marginRight: '0.5rem' }}></span>
+                      Ending...
+                    </>
+                  ) : 'End Activation'}
               </button>
             </div>
           ) : (
@@ -247,6 +252,8 @@ export default function VolunteerDashboard({ disabled = false, volunteerData, on
                     <option value="CW">CW</option>
                     <option value="FT8">FT8</option>
                     <option value="FT4">FT4</option>
+                    <option value="PSK31">PSK31</option>
+                    <option value="Olivia">Olivia</option>
                     <option value="FM">FM</option>
                     <option value="AM">AM</option>
                     <option value="EchoLink">EchoLink</option>
