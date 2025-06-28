@@ -61,7 +61,16 @@ export default function HomePage() {
           Signaling the American Spirit
         </h2>
         
-                <section style={{ marginTop: '2em' }}>
+                {/* Brass Separator after Header */}
+        <div style={{
+          height: '4px',
+          background: 'linear-gradient(90deg, var(--bronze) 0%, #D4AF37 50%, var(--bronze) 100%)',
+          boxShadow: '0 2px 6px rgba(212, 175, 55, 0.6)',
+          margin: '2rem 0',
+          borderRadius: '2px'
+        }}></div>
+
+        <section style={{ marginTop: '1em' }}>
           <h3 className="activations-title">
             Live Activations
           </h3>
@@ -69,20 +78,11 @@ export default function HomePage() {
         </section>
 
         {/* Elegant Page Teasers */}
-        <section style={{ marginTop: '3em', paddingTop: '2em', borderTop: '2px solid var(--bronze)' }}>
-          {/* Brass Separator Bar */}
-          <div style={{
-            height: '4px',
-            background: 'linear-gradient(90deg, var(--bronze) 0%, #D4AF37 50%, var(--bronze) 100%)',
-            boxShadow: '0 2px 6px rgba(212, 175, 55, 0.6)',
-            marginBottom: '2rem',
-            borderRadius: '2px'
-          }}></div>
-          
+        <section style={{ marginTop: '2.5em' }}>
           {/* Prominent Quill & Inkwell */}
           <div style={{
             textAlign: 'center',
-            marginBottom: '1.5rem'
+            marginBottom: '1rem'
           }}>
             <Image
               src="/inkwell.webp"
@@ -97,7 +97,7 @@ export default function HomePage() {
             />
           </div>
           
-          <h3 className="activations-title" style={{ marginBottom: '2rem' }}>
+          <h3 className="activations-title" style={{ marginBottom: '1.5rem' }}>
             Explore America250
           </h3>
           

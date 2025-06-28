@@ -184,9 +184,6 @@ export default function Navigation() {
             <Link href="/meet-the-founders" className={styles.menuLink} onClick={closeMenu}>
               Meet the Founders
             </Link>
-            <Link href="/archive" className={styles.menuLink} onClick={closeMenu}>
-              Archive
-            </Link>
           </div>
         </div>
       )}
