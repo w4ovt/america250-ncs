@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../../db';
 import { logSubmissions, adiSubmissions } from '../../../../db/schema';
+import nodemailer from 'nodemailer';
 
 const QRZ_API_KEY = process.env.QRZ_API_KEY || '';
 
@@ -180,21 +181,73 @@ async function sendFailureEmail(filename: string, error: string, volunteerData: 
   name: string;
   callsign: string;
   state: string;
-}): Promise<void> {
+}, fileContent: string): Promise<void> {
   try {
-    // For now, we'll log the failure details
-    // In production, this would send an actual email to marc@w4ovt.org
-    console.error('ADI Upload Failure:', {
+    // Create transporter - using environment variables for email config
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST || 'smtp.gmail.com',
+      port: parseInt(process.env.SMTP_PORT || '587'),
+      secure: process.env.SMTP_SECURE === 'true',
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
+
+    const emailBody = `
+ADI File Upload Failure Alert
+
+Volunteer Details:
+- Name: ${volunteerData.name}
+- Callsign: ${volunteerData.callsign}
+- State: ${volunteerData.state}
+- Volunteer ID: ${volunteerData.volunteerId}
+
+File Details:
+- Filename: ${filename}
+- Upload Time: ${new Date().toISOString()}
+- Error: ${error}
+
+The rejected ADI file is attached to this email for your review.
+
+Please contact the volunteer if manual processing is required.
+
+---
+America250-NCS System
+Automated Alert
+    `.trim();
+
+    const mailOptions = {
+      from: process.env.SMTP_USER || `"America250-NCS System" <noreply@america250.radio>`,
+      to: 'marc@history.radio',
+      subject: `🚨 ADI Upload Failure: ${filename} from ${volunteerData.callsign}`,
+      text: emailBody,
+      attachments: [
+        {
+          filename: filename,
+          content: fileContent,
+          contentType: 'text/plain'
+        }
+      ]
+    };
+
+    await transporter.sendMail(mailOptions);
+    
+    if (process.env.NODE_ENV === 'development') {
+      console.log('✅ Failure email sent successfully to marc@history.radio');
+    }
+
+  } catch (emailError) {
+    console.error('❌ Failed to send failure email:', emailError);
+    
+    // Fallback: At least log the critical details so they're not lost
+    console.error('🚨 CRITICAL: ADI Upload Failure (Email Failed):', {
       filename,
       error,
       volunteer: volunteerData,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      fileContentPreview: fileContent.substring(0, 200) + '...'
     });
-    
-    // TODO: Implement actual email sending to marc@w4ovt.org
-    // This could use a service like SendGrid, AWS SES, or a simple SMTP client
-  } catch (emailError) {
-    console.error('Failed to send failure email:', emailError);
   }
 }
 
@@ -227,7 +280,7 @@ export async function POST(request: NextRequest) {
       });
       
       // Send failure email
-      await sendFailureEmail(filename, validation.error!, volunteerData);
+      await sendFailureEmail(filename, validation.error!, volunteerData, fileContent);
       
       return NextResponse.json({
         success: false,
@@ -260,7 +313,7 @@ export async function POST(request: NextRequest) {
       });
       
       // Send failure email
-      await sendFailureEmail(filename, qrzResult.error!, volunteerData);
+      await sendFailureEmail(filename, qrzResult.error!, volunteerData, fileContent);
       
       return NextResponse.json({
         success: false,
