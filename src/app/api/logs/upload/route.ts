@@ -240,20 +240,7 @@ Automated Alert
       ]
     };
 
-    console.log('📧 Sending email with attachment:', {
-      filename: safeFilename,
-      contentLength: fileContent.length,
-      hasAttachment: !!mailOptions.attachments?.length
-    });
-
-    const emailResult = await transporter.sendMail(mailOptions);
-    
-    console.log('✅ Failure email sent successfully:', {
-      messageId: emailResult.messageId,
-      accepted: emailResult.accepted,
-      rejected: emailResult.rejected,
-      attachmentCount: mailOptions.attachments?.length || 0
-    });
+    await transporter.sendMail(mailOptions);
 
   } catch (emailError) {
     console.error('❌ Failed to send failure email:', emailError);
