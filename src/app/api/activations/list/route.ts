@@ -36,7 +36,10 @@ export async function GET() {
     return response;
   } catch (error) {
     const responseTime = Date.now() - startTime;
-    console.error(`[${requestId}] Activation list error (${responseTime}ms):`, error);
+    // Log error for monitoring (would use structured logging in production)
+    if (process.env.NODE_ENV === 'development') {
+      console.error(`[${requestId}] Activation list error (${responseTime}ms):`, error);
+    }
     
     const errorResponse = NextResponse.json(
       { error: 'Failed to fetch activations', requestId },

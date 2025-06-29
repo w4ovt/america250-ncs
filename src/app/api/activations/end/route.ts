@@ -50,7 +50,10 @@ export async function POST(request: NextRequest) {
     
   } catch (error) {
     const responseTime = Date.now() - startTime;
-    console.error(`[${requestId}] End activation error (${responseTime}ms):`, error);
+    // Log error for monitoring (would use structured logging in production)
+    if (process.env.NODE_ENV === 'development') {
+      console.error(`[${requestId}] End activation error (${responseTime}ms):`, error);
+    }
     
     const errorResponse = NextResponse.json(
       { error: 'Internal server error', requestId },

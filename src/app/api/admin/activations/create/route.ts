@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../../../db';
 import { activations, volunteers } from '../../../../../db/schema';
-import { eq, and, isNull } from 'drizzle-orm';
+import { and, eq, isNull } from 'drizzle-orm';
 
 export async function POST(request: NextRequest) {
   try {
@@ -55,9 +55,13 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error creating activation:', error);
+    // Log error for monitoring (would use structured logging in production)
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error creating activation:', error);
+    }
+    
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Failed to create activation' },
       { status: 500 }
     );
   }

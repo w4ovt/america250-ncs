@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import styles from './K4ADropzone.module.css';
 
@@ -42,7 +42,10 @@ export default function K4ADropzone({ disabled = false, volunteerData }: K4ADrop
   const playSuccessAudio = useCallback(() => {
     if (audioRef.current) {
       audioRef.current.play().catch(() => {
-        console.warn('Could not play audio');
+        // Audio play failed - this is expected in some browsers and can be ignored
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('Could not play audio');
+        }
       });
     }
   }, []);
@@ -159,10 +162,20 @@ export default function K4ADropzone({ disabled = false, volunteerData }: K4ADrop
       />
 
       {!isLoading && (
-        <div className={styles.k4aDropzone + ' ' + styles[status] + (disabled ? ' ' + styles.disabled : '')}
+        <div 
+          className={styles.k4aDropzone + ' ' + styles[status] + (disabled ? ' ' + styles.disabled : '')}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
           onClick={handleClick}
+          onKeyDown={(e) => {
+            if ((e.key === 'Enter' || e.key === ' ') && !disabled && isAuthenticated) {
+              e.preventDefault();
+              handleClick();
+            }
+          }}
+          role="button"
+          tabIndex={disabled || !isAuthenticated ? -1 : 0}
+          aria-label={disabled ? 'Enter PIN above to enable upload' : 'Drag your .adi file here to upload to QRZ Logbook'}
           title={disabled ? 'Enter PIN above to enable upload' : 'Drag your .adi file here to upload to QRZ Logbook'}
         >
           <div className={styles.dropzoneContent}>
