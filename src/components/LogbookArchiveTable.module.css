@@ -1,0 +1,320 @@
+.archiveSection {
+  margin: 2rem 0;
+  padding: 0 1rem;
+}
+
+.archiveTitle {
+  font-family: 'librebaskerville-bold', serif;
+  font-size: 2rem;
+  color: var(--mahogany);
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.archiveDescription {
+  font-size: 1.1rem;
+  color: var(--mahogany);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  opacity: 0.8;
+}
+
+.searchSection {
+  margin-bottom: 1.5rem;
+}
+
+.searchInput {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  display: block;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--mahogany);
+  border-radius: 8px;
+  background: rgba(247, 236, 210, 0.8);
+  color: var(--mahogany);
+  font-family: 'librebaskerville-regular', serif;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--bronze);
+  box-shadow: 0 0 0 3px rgba(199, 161, 89, 0.2);
+}
+
+.searchInput::placeholder {
+  color: var(--mahogany);
+  opacity: 0.6;
+}
+
+.archiveTableWrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 8px;
+  margin: 1rem 0;
+  box-shadow: 0 2px 8px rgba(104, 63, 27, 0.1);
+  background: rgba(247, 236, 210, 0.6);
+}
+
+.archiveTable {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(247, 236, 210, 0.6);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.archiveTable th {
+  background: rgba(104, 63, 27, 0.1);
+  font-weight: bold;
+  font-family: 'librebaskerville-bold', serif;
+  color: var(--mahogany);
+  padding: 1rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(104, 63, 27, 0.1);
+  white-space: nowrap;
+}
+
+.archiveTable td {
+  color: var(--mahogany);
+  font-size: 0.9rem;
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(104, 63, 27, 0.1);
+  vertical-align: top;
+}
+
+.archiveTable tr:last-child td {
+  border-bottom: none;
+}
+
+.archiveTable tr:hover {
+  background: rgba(104, 63, 27, 0.05);
+}
+
+.callsign {
+  font-family: 'librebaskerville-bold', serif;
+  font-size: 0.8rem;
+  color: var(--bronze);
+  margin-top: 0.25rem;
+}
+
+.resultBadge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.resultBadge.success {
+  background: rgba(34, 139, 34, 0.1);
+  color: #228b22;
+  border: 1px solid rgba(34, 139, 34, 0.3);
+}
+
+.resultBadge.failure {
+  background: rgba(220, 20, 60, 0.1);
+  color: #dc143c;
+  border: 1px solid rgba(220, 20, 60, 0.3);
+}
+
+.timeUtc {
+  font-size: 0.8rem;
+  color: var(--bronze);
+  font-style: italic;
+}
+
+/* Mobile Responsive Design */
+@media (max-width: 768px) {
+  .archiveSection {
+    margin: 1rem 0;
+    padding: 0 0.5rem;
+  }
+
+  .archiveTitle {
+    font-size: 1.5rem;
+  }
+
+  .archiveDescription {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .searchInput {
+    font-size: 16px; /* Prevent zoom on iOS */
+    padding: 0.75rem;
+  }
+
+  /* Hide table and show cards on mobile */
+  .archiveTableWrapper {
+    display: none;
+  }
+
+  .mobileCards {
+    display: block;
+  }
+}
+
+/* Mobile Cards Layout */
+.mobileCards {
+  display: none;
+}
+
+.mobileCard {
+  background: rgba(247, 236, 210, 0.8);
+  border: 2px solid var(--mahogany);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(104, 63, 27, 0.1);
+}
+
+.mobileCard:hover {
+  background: rgba(247, 236, 210, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(104, 63, 27, 0.15);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(104, 63, 27, 0.2);
+}
+
+.cardFilename {
+  font-family: 'librebaskerville-bold', serif;
+  font-size: 1rem;
+  color: var(--mahogany);
+  margin-right: 1rem;
+  flex: 1;
+  word-break: break-word;
+}
+
+.cardDetails {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.cardField {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardFieldLabel {
+  font-family: 'librebaskerville-bold', serif;
+  font-size: 0.8rem;
+  color: var(--bronze);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.cardFieldValue {
+  font-size: 0.9rem;
+  color: var(--mahogany);
+}
+
+.cardSubmitter {
+  grid-column: 1 / -1;
+}
+
+.cardSubmitterName {
+  font-size: 0.9rem;
+  color: var(--mahogany);
+  margin-bottom: 0.25rem;
+}
+
+.cardSubmitterCall {
+  font-family: 'librebaskerville-bold', serif;
+  font-size: 0.8rem;
+  color: var(--bronze);
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(104, 63, 27, 0.2);
+}
+
+.cardDateTime {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 0.8rem;
+  color: var(--mahogany);
+}
+
+.cardDate {
+  margin-bottom: 0.25rem;
+}
+
+.cardTime {
+  font-style: italic;
+  color: var(--bronze);
+}
+
+/* Desktop responsiveness */
+@media (min-width: 769px) {
+  .mobileCards {
+    display: none;
+  }
+
+  .archiveTableWrapper {
+    display: block;
+  }
+}
+
+/* Tablet adjustments */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .archiveTable th,
+  .archiveTable td {
+    padding: 0.6rem 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .archiveTable th {
+    font-size: 0.9rem;
+  }
+}
+
+/* Very small mobile screens */
+@media (max-width: 480px) {
+  .archiveSection {
+    padding: 0 0.25rem;
+  }
+
+  .archiveTitle {
+    font-size: 1.3rem;
+  }
+
+  .mobileCard {
+    padding: 0.75rem;
+  }
+
+  .cardDetails {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .cardFooter {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .cardDateTime {
+    align-items: flex-start;
+  }
+} 

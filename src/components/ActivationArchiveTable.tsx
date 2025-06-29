@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import styles from './ActivationArchiveTable.module.css';
 
 interface ArchivedActivation {
   activationId: number;
@@ -93,12 +94,12 @@ export default function ActivationArchiveTable({ isAdmin = false }: ActivationAr
     
     return (
       <th 
-        className="sortable-header"
+        className={styles.sortableHeader}
         onClick={() => handleSort(field)}
       >
         {children}
         {sortField === field && (
-          <span className="sort-indicator">
+          <span className={styles.sortIndicator}>
             {sortDirection === 'asc' ? ' ↑' : ' ↓'}
           </span>
         )}
@@ -108,10 +109,10 @@ export default function ActivationArchiveTable({ isAdmin = false }: ActivationAr
 
   if (isLoading) {
     return (
-      <div className="archive-section">
-        <h2 className="archive-title">Activation Archive</h2>
-        <p className="archive-description">All ended activations from the America250 NCS event.</p>
-        <div style={{ textAlign: 'center', padding: '2rem' }}>
+      <div className={styles.archiveSection}>
+        <h2 className={styles.archiveTitle}>Activation Archive</h2>
+        <p className={styles.archiveDescription}>All ended activations from the America250 NCS event.</p>
+        <div className={styles.loadingContainer}>
           Loading archive...
         </div>
       </div>
@@ -119,12 +120,13 @@ export default function ActivationArchiveTable({ isAdmin = false }: ActivationAr
   }
 
   return (
-    <div className="archive-section">
-      <h2 className="archive-title">Activation Archive</h2>
-      <p className="archive-description">All ended activations from the America250 NCS event.</p>
+    <div className={styles.archiveSection}>
+      <h2 className={styles.archiveTitle}>Activation Archive</h2>
+      <p className={styles.archiveDescription}>All ended activations from the America250 NCS event.</p>
       
-      <div className="archive-table-wrapper">
-        <table className="archive-table">
+      {/* Desktop/Tablet Table Layout */}
+      <div className={styles.archiveTableWrapper}>
+        <table className={styles.archiveTable}>
           <thead>
             <tr>
               <SortableHeader field="activationId">ID</SortableHeader>
@@ -152,17 +154,70 @@ export default function ActivationArchiveTable({ isAdmin = false }: ActivationAr
                   <td>{activation.state}</td>
                   <td>
                     <div>{started.date}</div>
-                    <div className="time-utc">{started.time}</div>
+                    <div className={styles.timeUtc}>{started.time}</div>
                   </td>
                   <td>
                     <div>{ended.date}</div>
-                    <div className="time-utc">{ended.time}</div>
+                    <div className={styles.timeUtc}>{ended.time}</div>
                   </td>
                 </tr>
               );
             })}
           </tbody>
         </table>
+      </div>
+
+      {/* Mobile Card Layout */}
+      <div className={styles.mobileCards}>
+        {sortedArchivedActivations.map((activation) => {
+          const started = formatDateTime(activation.startedAt);
+          const ended = formatDateTime(activation.endedAt);
+          
+          return (
+            <div key={activation.activationId} className={styles.mobileCard}>
+              <div className={styles.cardHeader}>
+                <div className={styles.cardId}>{activation.activationId}</div>
+                <div>
+                  <div className={styles.cardName}>{activation.name}</div>
+                  <div className={styles.cardCallsign}>{activation.callsign}</div>
+                </div>
+              </div>
+              
+              <div className={styles.cardDetails}>
+                <div className={styles.cardField}>
+                  <div className={styles.cardFieldLabel}>Frequency</div>
+                  <div className={`${styles.cardFieldValue} ${styles.cardFrequency}`}>
+                    {activation.frequencyMhz.toFixed(3)} MHz
+                  </div>
+                </div>
+                
+                <div className={styles.cardField}>
+                  <div className={styles.cardFieldLabel}>Mode</div>
+                  <div className={styles.cardMode}>{activation.mode}</div>
+                </div>
+                
+                <div className={styles.cardField}>
+                  <div className={styles.cardFieldLabel}>State</div>
+                  <div className={styles.cardFieldValue}>{activation.state}</div>
+                </div>
+              </div>
+              
+              <div className={styles.cardTimes}>
+                <div className={styles.cardTimeSection}>
+                  <div className={styles.cardTimeLabel}>Started</div>
+                  <div className={styles.cardDate}>{started.date}</div>
+                  <div className={styles.cardTime}>{started.time}</div>
+                </div>
+                
+                <div className={styles.cardTimeSection}>
+                  <div className={styles.cardTimeLabel}>Ended</div>
+                  <div className={styles.cardDate}>{ended.date}</div>
+                  <div className={styles.cardTime}>{ended.time}</div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
