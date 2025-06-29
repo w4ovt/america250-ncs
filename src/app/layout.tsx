@@ -78,7 +78,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="preconnect" href="https://qrz.com" crossOrigin="anonymous" />
         
         {/* Critical CSS Resource Hints */}
-        <link rel="preload" href="/next/static/css/app/layout.css" as="style" />
+        {/* CSS is automatically optimized and inlined by Next.js 15 */}
         
         {/* Icons and Manifest */}
         <link rel="icon" href="/favicon.ico" />
