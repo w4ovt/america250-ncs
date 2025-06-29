@@ -190,3 +190,28 @@ This project supports the amateur radio community and America's 250th anniversar
 **73 and Happy America250!** 🇺🇸📻
 
 *This application is dedicated to amateur radio operators participating in America's 250th anniversary celebration through the National Communications System special event stations.*
+
+## 🔧 Environment Configuration
+
+Create a `.env.local` file in the project root with the following variables:
+
+```bash
+# Database Configuration (Required)
+DATABASE_URL="your_neon_postgresql_connection_string"
+
+# QRZ API Configuration (Optional - for logbook integration)
+QRZ_API_KEY="your_qrz_api_key"
+
+# Email Configuration (Required for ADI failure notifications)
+SMTP_HOST="smtp.gmail.com"
+SMTP_PORT="587"
+SMTP_SECURE="false"
+SMTP_USER="your_email@gmail.com"
+SMTP_PASS="your_app_password"
+```
+
+### Email Configuration Notes:
+- **SMTP_USER/SMTP_PASS**: Required for sending ADI failure notifications to marc@history.radio
+- For Gmail: Use an App Password, not your regular password
+- For other providers: Adjust SMTP_HOST and SMTP_PORT accordingly
+- **CRITICAL**: Email functionality is required for ADI file failure notifications
