@@ -221,6 +221,9 @@ Automated Alert
     // Create safe filename for attachment (change .adi to .txt to avoid Apple security warnings)
     const safeFilename = filename.replace(/\.adi$/i, '.txt') || 'rejected-file.txt';
     
+    // Convert content to Buffer to ensure proper attachment handling
+    const contentBuffer = Buffer.from(fileContent, 'utf8');
+    
     const mailOptions = {
       from: `"America250-NCS System" <${process.env.SMTP_USER}>`,
       to: 'marc@history.radio',
@@ -229,17 +232,27 @@ Automated Alert
       attachments: [
         {
           filename: safeFilename,
-          content: fileContent,
-          contentType: 'text/plain'
+          content: contentBuffer,
+          contentType: 'text/plain',
+          encoding: 'utf8'
         }
       ]
     };
 
-    await transporter.sendMail(mailOptions);
+    console.log('📧 Sending email with attachment:', {
+      filename: safeFilename,
+      contentLength: fileContent.length,
+      hasAttachment: !!mailOptions.attachments?.length
+    });
+
+    const emailResult = await transporter.sendMail(mailOptions);
     
-    if (process.env.NODE_ENV === 'development') {
-      console.log('✅ Failure email sent successfully to marc@history.radio');
-    }
+    console.log('✅ Failure email sent successfully:', {
+      messageId: emailResult.messageId,
+      accepted: emailResult.accepted,
+      rejected: emailResult.rejected,
+      attachmentCount: mailOptions.attachments?.length || 0
+    });
 
   } catch (emailError) {
     console.error('❌ Failed to send failure email:', emailError);
