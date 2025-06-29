@@ -1,0 +1,21 @@
+{
+  "name": "America250-NCS Event Portal",
+  "short_name": "America250-NCS",
+  "description": "Amateur Radio Event Management System for America's 250th Anniversary",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7ecd2",
+  "theme_color": "#683f1b",
+  "orientation": "portrait-primary",
+  "categories": ["amateur radio", "communications", "events"],
+  "lang": "en-US",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon",
+      "purpose": "any maskable"
+    }
+  ]
+} 
