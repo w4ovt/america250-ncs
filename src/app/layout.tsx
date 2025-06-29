@@ -51,12 +51,30 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        
+        {/* Performance Optimization Hints */}
+        <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="//qrz.com" />
+        <link rel="preconnect" href="https://america250.radio" />
+        <link rel="preconnect" href="https://qrz.com" crossOrigin="anonymous" />
+        
+        {/* Icons and Manifest */}
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
+        
+        {/* Mobile Optimization */}
         <meta name="theme-color" content="#683f1b" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="America250-NCS" />
+        
+        {/* Additional Security Headers */}
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="referrer" content="strict-origin-when-cross-origin" />
         <meta name="format-detection" content="telephone=no" />
+        
+        {/* Content Type Declaration */}
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
       </head>
       <body>
         {children}

@@ -1,12 +1,45 @@
 {
   "name": "america250-ncs",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "National Communications System Event Portal for America's 250th Anniversary - Amateur Radio Event Management",
   "private": true,
+  "keywords": [
+    "amateur-radio",
+    "ham-radio",
+    "america250",
+    "ncs",
+    "event-management",
+    "nextjs",
+    "volunteer-portal"
+  ],
+  "author": {
+    "name": "Marc Bowen",
+    "email": "marc@w4ovt.org",
+    "url": "https://america250.radio"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/w4ovt/america250-ncs.git"
+  },
+  "homepage": "https://america250.radio",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "type-check": "tsc --noEmit",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "build:analyze": "ANALYZE=true npm run build",
+    "clean": "rm -rf .next out",
+    "health-check": "curl -f http://localhost:3000/api/health || exit 1"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.1",
