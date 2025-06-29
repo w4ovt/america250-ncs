@@ -26,6 +26,9 @@ function validateAdiFile(content: string): { isValid: boolean; recordCount: numb
 
   for (let i = 0; i < records.length; i++) {
     const record = records[i];
+    if (!record) {
+      continue;
+    }
     
     // Skip header/comment records that don't contain QSO data
     if (!record.match(/<call:/i)) {

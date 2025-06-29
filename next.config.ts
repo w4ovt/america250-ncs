@@ -1,6 +1,29 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Performance optimizations
+  compress: true,
+  poweredByHeader: false,
+  generateEtags: true,
+  
+  // Image optimization
+  images: {
+    formats: ['image/webp', 'image/avif'],
+    domains: ['america250.radio', 'qrz.com'],
+    minimumCacheTTL: 31536000, // 1 year
+    dangerouslyAllowSVG: false,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;"
+  },
+
+  // Performance optimizations
+  experimental: {
+    optimizePackageImports: ['react', 'react-dom']
+  },
+  
+  // External packages for server components
+  serverExternalPackages: ['drizzle-orm', '@neondatabase/serverless'],
+
+  // Headers configuration
   async headers() {
     return [
       {
@@ -56,6 +79,30 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        // Static asset caching
+        source: '/public/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
+          }
+        ],
+      },
+      {
+        // Font optimization
+        source: '/fonts/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
+          },
+          {
+            key: 'Cross-Origin-Resource-Policy',
+            value: 'cross-origin'
+          }
+        ],
+      },
+      {
         // Apply headers to API routes
         source: '/api/:path*',
         headers: [
@@ -78,6 +125,16 @@ const nextConfig: NextConfig = {
           {
             key: 'Cache-Control',
             value: 'no-cache, no-store, must-revalidate'
+          }
+        ],
+      },
+      {
+        // Public API endpoints can be cached briefly
+        source: '/api/(health|activations/list|activations/archive)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=60, s-maxage=60'
           }
         ],
       }
