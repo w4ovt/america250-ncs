@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import styles from './LogbookArchiveTable.module.css';
 
 interface ADISubmission {
   id: number;
@@ -60,10 +61,10 @@ export default function LogbookArchiveTable() {
 
   if (isLoading) {
     return (
-      <div className="archive-section">
-        <h2 className="archive-title">ADI Submission Log</h2>
-        <p className="archive-description">All ADI file submissions and their processing results.</p>
-        <div style={{ textAlign: 'center', padding: '2rem' }}>
+      <div className={styles.archiveSection}>
+        <h2 className={styles.archiveTitle}>ADI Submission Log</h2>
+        <p className={styles.archiveDescription}>All ADI file submissions and their processing results.</p>
+        <div className={styles.loadingContainer}>
           Loading submissions...
         </div>
       </div>
@@ -71,11 +72,11 @@ export default function LogbookArchiveTable() {
   }
 
   return (
-    <div className="archive-section">
-      <h2 className="archive-title">ADI Submission Log</h2>
-      <p className="archive-description">All ADI file submissions and their processing results.</p>
+    <div className={styles.archiveSection}>
+      <h2 className={styles.archiveTitle}>ADI Submission Log</h2>
+      <p className={styles.archiveDescription}>All ADI file submissions and their processing results.</p>
       
-      <div className="search-section">
+      <div className={styles.searchSection}>
         <label htmlFor="archive-search" className="sr-only">Search submissions</label>
         <input
           type="text"
@@ -84,12 +85,13 @@ export default function LogbookArchiveTable() {
           placeholder="Search by filename, name, callsign, result, or file contents..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="search-input"
+          className={styles.searchInput}
         />
       </div>
       
-      <div className="archive-table-wrapper">
-        <table className="archive-table">
+      {/* Desktop/Tablet Table Layout */}
+      <div className={styles.archiveTableWrapper}>
+        <table className={styles.archiveTable}>
           <thead>
             <tr>
               <th>Filename</th>
@@ -109,21 +111,59 @@ export default function LogbookArchiveTable() {
                   <td>{submission.filename}</td>
                   <td>
                     <div>{submission.submitterName}</div>
-                    <div className="callsign">{submission.submitterCall}</div>
+                    <div className={styles.callsign}>{submission.submitterCall}</div>
                   </td>
                   <td>
-                    <span className={`result-badge ${submission.result.toLowerCase()}`}>
+                    <span className={`${styles.resultBadge} ${styles[submission.result.toLowerCase()]}`}>
                       {submission.result}
                     </span>
                   </td>
                   <td>{submission.recordCount}</td>
                   <td>{submitted.date}</td>
-                  <td className="time-utc">{submitted.time}</td>
+                  <td className={styles.timeUtc}>{submitted.time}</td>
                 </tr>
               );
             })}
           </tbody>
         </table>
+      </div>
+
+      {/* Mobile Card Layout */}
+      <div className={styles.mobileCards}>
+        {filteredADISubmissions.map((submission) => {
+          const submitted = formatDateTime(submission.submittedAt);
+          
+          return (
+            <div key={submission.id} className={styles.mobileCard}>
+              <div className={styles.cardHeader}>
+                <div className={styles.cardFilename}>{submission.filename}</div>
+                <span className={`${styles.resultBadge} ${styles[submission.result.toLowerCase()]}`}>
+                  {submission.result}
+                </span>
+              </div>
+              
+              <div className={styles.cardDetails}>
+                <div className={`${styles.cardField} ${styles.cardSubmitter}`}>
+                  <div className={styles.cardFieldLabel}>Submitter</div>
+                  <div className={styles.cardSubmitterName}>{submission.submitterName}</div>
+                  <div className={styles.cardSubmitterCall}>{submission.submitterCall}</div>
+                </div>
+                
+                <div className={styles.cardField}>
+                  <div className={styles.cardFieldLabel}>Records</div>
+                  <div className={styles.cardFieldValue}>{submission.recordCount}</div>
+                </div>
+              </div>
+              
+              <div className={styles.cardFooter}>
+                <div className={styles.cardDateTime}>
+                  <div className={styles.cardDate}>{submitted.date}</div>
+                  <div className={styles.cardTime}>{submitted.time}</div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

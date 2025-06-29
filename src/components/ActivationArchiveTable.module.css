@@ -1,0 +1,328 @@
+.archiveSection {
+  margin: 2rem 0;
+  padding: 0 1rem;
+}
+
+.archiveTitle {
+  font-family: 'librebaskerville-bold', serif;
+  font-size: 2rem;
+  color: var(--mahogany);
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.archiveDescription {
+  font-size: 1.1rem;
+  color: var(--mahogany);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  opacity: 0.8;
+}
+
+.archiveTableWrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 8px;
+  margin: 1rem 0;
+  box-shadow: 0 2px 8px rgba(104, 63, 27, 0.1);
+  background: rgba(247, 236, 210, 0.6);
+}
+
+.archiveTable {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(247, 236, 210, 0.6);
+  border-radius: 8px;
+  overflow: hidden;
+  min-width: 800px; /* Prevent table from becoming too narrow */
+}
+
+.archiveTable th {
+  background: rgba(104, 63, 27, 0.1);
+  font-weight: bold;
+  font-family: 'librebaskerville-bold', serif;
+  color: var(--mahogany);
+  padding: 1rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(104, 63, 27, 0.1);
+  white-space: nowrap;
+  position: relative;
+}
+
+.archiveTable td {
+  color: var(--mahogany);
+  font-size: 0.9rem;
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(104, 63, 27, 0.1);
+  vertical-align: top;
+}
+
+.archiveTable tr:last-child td {
+  border-bottom: none;
+}
+
+.archiveTable tr:hover {
+  background: rgba(104, 63, 27, 0.05);
+}
+
+.sortableHeader {
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s ease;
+}
+
+.sortableHeader:hover {
+  background: rgba(104, 63, 27, 0.15);
+}
+
+.sortableHeader:active {
+  background: rgba(104, 63, 27, 0.2);
+}
+
+.sortIndicator {
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+  color: var(--bronze);
+}
+
+.timeUtc {
+  font-size: 0.8rem;
+  color: var(--bronze);
+  font-style: italic;
+  margin-top: 0.25rem;
+}
+
+/* Mobile Responsive Design */
+@media (max-width: 768px) {
+  .archiveSection {
+    margin: 1rem 0;
+    padding: 0 0.5rem;
+  }
+
+  .archiveTitle {
+    font-size: 1.5rem;
+  }
+
+  .archiveDescription {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Hide table and show cards on mobile */
+  .archiveTableWrapper {
+    display: none;
+  }
+
+  .mobileCards {
+    display: block;
+  }
+}
+
+/* Mobile Cards Layout */
+.mobileCards {
+  display: none;
+}
+
+.mobileCard {
+  background: rgba(247, 236, 210, 0.8);
+  border: 2px solid var(--mahogany);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(104, 63, 27, 0.1);
+}
+
+.mobileCard:hover {
+  background: rgba(247, 236, 210, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(104, 63, 27, 0.15);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(104, 63, 27, 0.2);
+}
+
+.cardId {
+  font-family: 'librebaskerville-bold', serif;
+  font-size: 1.2rem;
+  color: var(--bronze);
+  background: rgba(104, 63, 27, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  min-width: 40px;
+  text-align: center;
+}
+
+.cardName {
+  font-family: 'librebaskerville-bold', serif;
+  font-size: 1rem;
+  color: var(--mahogany);
+  margin-left: 1rem;
+  flex: 1;
+}
+
+.cardCallsign {
+  font-family: 'librebaskerville-bold', serif;
+  font-size: 0.9rem;
+  color: var(--bronze);
+  margin-top: 0.25rem;
+}
+
+.cardDetails {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.cardField {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardFieldLabel {
+  font-family: 'librebaskerville-bold', serif;
+  font-size: 0.8rem;
+  color: var(--bronze);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.cardFieldValue {
+  font-size: 0.9rem;
+  color: var(--mahogany);
+}
+
+.cardFrequency {
+  font-family: 'librebaskerville-bold', serif;
+}
+
+.cardMode {
+  font-family: 'librebaskerville-bold', serif;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  background: rgba(104, 63, 27, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.cardTimes {
+  border-top: 1px solid rgba(104, 63, 27, 0.2);
+  padding-top: 0.75rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.cardTimeSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardTimeLabel {
+  font-family: 'librebaskerville-bold', serif;
+  font-size: 0.8rem;
+  color: var(--bronze);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.cardDate {
+  font-size: 0.9rem;
+  color: var(--mahogany);
+  margin-bottom: 0.25rem;
+}
+
+.cardTime {
+  font-size: 0.8rem;
+  color: var(--bronze);
+  font-style: italic;
+}
+
+/* Desktop responsiveness */
+@media (min-width: 769px) {
+  .mobileCards {
+    display: none;
+  }
+
+  .archiveTableWrapper {
+    display: block;
+  }
+}
+
+/* Tablet adjustments */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .archiveTable {
+    min-width: 700px;
+  }
+
+  .archiveTable th,
+  .archiveTable td {
+    padding: 0.6rem 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .archiveTable th {
+    font-size: 0.9rem;
+  }
+}
+
+/* Very small mobile screens */
+@media (max-width: 480px) {
+  .archiveSection {
+    padding: 0 0.25rem;
+  }
+
+  .archiveTitle {
+    font-size: 1.3rem;
+  }
+
+  .mobileCard {
+    padding: 0.75rem;
+  }
+
+  .cardHeader {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .cardName {
+    margin-left: 0;
+  }
+
+  .cardDetails {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .cardTimes {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}
+
+/* Loading state */
+.loadingContainer {
+  text-align: center;
+  padding: 2rem;
+  color: var(--mahogany);
+  font-style: italic;
+}
+
+/* Empty state */
+.emptyState {
+  text-align: center;
+  padding: 2rem;
+  color: var(--mahogany);
+  opacity: 0.7;
+  font-style: italic;
+} 
