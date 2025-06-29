@@ -54,8 +54,11 @@
 }
 
 /* QRZ Card Layout */
-.qrzCard {
+.qrzCardContainer {
   display: none;
+}
+
+.qrzCard {
   background: white;
   border: 1px solid #dddddd;
   border-radius: 2px;
@@ -154,7 +157,7 @@
     display: none;
   }
   
-  .qrzCard {
+  .qrzCardContainer {
     display: block;
   }
   
@@ -187,6 +190,10 @@
 @media (max-width: 400px) {
   .qrzContainer {
     padding: 2px;
+  }
+  
+  .qrzCardContainer {
+    display: block;
   }
   
   .qrzCard {
