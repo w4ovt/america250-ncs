@@ -208,7 +208,10 @@ File Details:
 - Upload Time: ${new Date().toISOString()}
 - Error: ${error}
 
-The rejected ADI file is attached to this email for your review.
+Rejected ADI File Contents:
+----------------------------------------
+${fileContent}
+----------------------------------------
 
 Please contact the volunteer if manual processing is required.
 
@@ -221,14 +224,7 @@ Automated Alert
       from: `"America250-NCS System" <${process.env.SMTP_USER}>`,
       to: 'marc@history.radio',
       subject: `🚨 ADI Upload Failure: ${filename} from ${volunteerData.callsign}`,
-      text: emailBody,
-      attachments: [
-        {
-          filename: filename,
-          content: fileContent,
-          contentType: 'text/plain'
-        }
-      ]
+      text: emailBody
     };
 
     await transporter.sendMail(mailOptions);

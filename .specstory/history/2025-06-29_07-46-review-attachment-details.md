@@ -14747,11 +14747,124 @@ from: process.env.SMTP_USER || `"America250-NCS System" <noreply@america250.radi
 
 ---
 
+```bash
+git add -A && git commit -m "🔧 Fix SMTP from address for Google Workspace compatibility
 
+- Always use SMTP_USER (marc@history.radio) as from address  
+- Remove fallback to noreply@america250.radio domain
+- Resolves Google Workspace SMTP restriction that blocks external domains
+- This should fix authentication issues without changing admin settings"
+```
+
+```
+<This should fix authentication issues without changing admin settings"
+[main 5b6a803] 🔧 Fix SMTP from address for Google Workspace compatibility
+ 2 files changed, 1570 insertions(+), 1 deletion(-)
+marcbowen@Mac-Studio america250-ncs %
+```
 
 ---
 
 
+
+---
+
+_**User**_
+
+resubmit the git add command - it timed out
+
+---
+
+_**Assistant**_
+
+
+
+---
+
+```bash
+git push
+```
+
+```
+marcbowen@Mac-Studio america250-ncs % git push
+Enumerating objects: 21, done.
+Counting objects: 100% (21/21), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (9/9), done.
+Writing objects: 100% (11/11), 11.52 KiB | 3.84 MiB/s, done.
+Total 11 (delta 7), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (7/7), completed with 7 local objects.
+To https://github.com/w4ovt/america250-ncs.git
+   9bfa957..5b6a803  main -> main
+marcbowen@Mac-Studio america250-ncs %
+```
+
+---
+
+
+
+---
+
+✅ **Changes Pushed Successfully!**
+
+## 🚀 **Fix Deployed:**
+- **From address** now uses `marc@history.radio` (your domain)
+- **No more external domain** (america250.radio) in the from field
+- **Should bypass Google Workspace SMTP restriction**
+
+## 🧪 **Ready to Test:**
+
+1. **Wait 2-3 minutes** for Vercel deployment
+2. **Go to:** https://www.america250.radio/volunteer
+3. **Upload malformed ADI file**
+4. **Should now work** since we're sending from your authenticated domain
+
+## 📧 **What Changed:**
+**Before:** `from: "America250-NCS System" <noreply@america250.radio>`  
+**After:** `from: "America250-NCS System" <marc@history.radio>`
+
+**This should resolve the Google Workspace authentication issue without changing your admin settings!**
+
+**Ready to test the email functionality now?**
+
+---
+
+_**User**_
+
+What about the EnvVar settings in vercel???
+
+---
+
+_**Assistant**_
+
+
+
+---
+
+**Great question! Your Vercel environment variables are perfect as they are!**
+
+## ✅ **Current Vercel Env Vars (Keep These):**
+- **SMTP_HOST** = `smtp.gmail.com`
+- **SMTP_PORT** = `587`
+- **SMTP_SECURE** = `false`
+- **SMTP_USER** = `marc@history.radio`
+- **SMTP_PASS** = `[your_16_char_app_password]`
+
+## 🔧 **No Changes Needed!**
+
+**The code fix we just deployed uses these existing variables correctly:**
+- **SMTP_USER** is now used as the `from` address 
+- **No more external domain fallback**
+- **Same authentication credentials**
+
+## 📧 **What the Fix Does:**
+**Before:** Email tries to send from `noreply@america250.radio` (blocked by Workspace)  
+**After:** Email sends from `marc@history.radio` (your authenticated domain)
+
+## 🚀 **Ready to Test:**
+**Your environment variables are already configured correctly. The deployment should work now with the domain fix!**
+
+**Go ahead and test the malformed ADI upload - the email should finally work!**
 
 ---
 
