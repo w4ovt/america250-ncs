@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { db } from '../../../../db';
-import { pins, volunteers, activations, logSubmissions, adiSubmissions } from '../../../../db/schema';
-import { sql, count } from 'drizzle-orm';
+import { count, sql } from 'drizzle-orm';
+import { activations, adiSubmissions, logSubmissions, pins, volunteers } from '../../../../db/schema';
 
 export async function GET() {
   const requestId = `status_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
@@ -72,7 +72,10 @@ export async function GET() {
     
   } catch (error) {
     const responseTime = Date.now() - startTime;
-    console.error(`[${requestId}] Admin status error (${responseTime}ms):`, error);
+    // Log error for monitoring (would use structured logging in production)
+    if (process.env.NODE_ENV === 'development') {
+      console.error(`[${requestId}] Admin status error (${responseTime}ms):`, error);
+    }
     
     const errorResponse = NextResponse.json({
       status: 'error',

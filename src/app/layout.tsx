@@ -7,7 +7,10 @@ if (typeof window === 'undefined' && process.env.NODE_ENV === 'production') {
   import('../lib/env-validation').then(({ validateEnvironment }) => {
     validateEnvironment();
   }).catch((error) => {
-    console.warn('Environment validation could not be loaded:', error);
+    // Only log environment validation errors in development
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('Environment validation could not be loaded:', error);
+    }
   });
 }
 

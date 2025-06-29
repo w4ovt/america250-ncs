@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
+import { desc, eq, isNotNull } from 'drizzle-orm';
 import { db } from '../../../../db';
 import { activations, volunteers } from '../../../../db/schema';
-import { eq, isNotNull, desc } from 'drizzle-orm';
 
 export async function GET() {
   try {
@@ -26,9 +26,13 @@ export async function GET() {
     return NextResponse.json(archivedActivations);
 
   } catch (error) {
-    console.error('Activation archive error:', error);
+    // Log error for monitoring (would use structured logging in production)
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Activation archive error:', error);
+    }
+    
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Failed to retrieve archived activations' },
       { status: 500 }
     );
   }

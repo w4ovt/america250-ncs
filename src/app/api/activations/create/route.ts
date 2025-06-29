@@ -42,9 +42,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(newActivation[0]);
 
   } catch (error) {
-    console.error('Create activation error:', error);
+    // Log error for monitoring (would use structured logging in production)
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Create activation error:', error);
+    }
+    
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Failed to create activation' },
       { status: 500 }
     );
   }

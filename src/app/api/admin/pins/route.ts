@@ -8,7 +8,10 @@ export async function GET() {
     const allPins = await db().select().from(pins);
     return NextResponse.json(allPins);
   } catch (error) {
-    console.error('Failed to fetch pins:', error);
+    // Log error for monitoring (would use structured logging in production)
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Failed to fetch pins:', error);
+    }
     return NextResponse.json(
       { error: 'Failed to fetch pins' },
       { status: 500 }
@@ -54,7 +57,10 @@ export async function POST(request: NextRequest) {
     const newPin = await db().insert(pins).values({ pin, role }).returning();
     return NextResponse.json(newPin[0]);
   } catch (error) {
-    console.error('Failed to create pin:', error);
+    // Log error for monitoring (would use structured logging in production)
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Failed to create pin:', error);
+    }
     return NextResponse.json(
       { error: 'Failed to create pin' },
       { status: 500 }

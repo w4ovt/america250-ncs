@@ -16,7 +16,10 @@ export async function POST(request: NextRequest) {
     
     return NextResponse.json(newVolunteer[0]);
   } catch (error) {
-    console.error('Failed to create volunteer:', error);
+    // Log error for monitoring (would use structured logging in production)
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Failed to create volunteer:', error);
+    }
     return NextResponse.json(
       { error: 'Failed to create volunteer' },
       { status: 500 }
@@ -36,7 +39,10 @@ export async function GET() {
     return NextResponse.json(volunteerList);
 
   } catch (error) {
-    console.error('Error fetching volunteers:', error);
+    // Log error for monitoring (would use structured logging in production)
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error fetching volunteers:', error);
+    }
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

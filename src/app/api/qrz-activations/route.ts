@@ -1,7 +1,7 @@
+import { NextResponse } from 'next/server';
+import { eq, isNull } from 'drizzle-orm';
 import { db } from '../../../db';
 import { activations, volunteers } from '../../../db/schema';
-import { isNull, eq } from 'drizzle-orm';
-import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
@@ -138,7 +138,11 @@ export async function GET() {
       },
     });
   } catch (error) {
-    console.error('Error generating QRZ activations HTML:', error);
+    // Log error for monitoring (would use structured logging in production)
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error generating QRZ activations HTML:', error);
+    }
+    
     return new NextResponse(`
 <!DOCTYPE html>
 <html>
