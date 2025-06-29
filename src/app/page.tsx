@@ -513,7 +513,7 @@ export default function HomePage() {
                   margin: '0 auto 2rem auto'
                 }}>
                   From the Appalachian frontier to global history — discover why the Battle of Kings Mountain 
-                  didn't just win American independence, but <strong>saved the sovereignty of every nation on Earth</strong>. 
+                  didn&apos;t just win American independence, but <strong>saved the sovereignty of every nation on Earth</strong>. 
                   Learn the untold story of the Backwater Men who changed the course of world history.
                 </p>
                 
