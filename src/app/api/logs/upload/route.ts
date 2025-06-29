@@ -221,8 +221,9 @@ Automated Alert
     // Create safe filename for attachment (change .adi to .txt to avoid Apple security warnings)
     const safeFilename = filename.replace(/\.adi$/i, '.txt') || 'rejected-file.txt';
     
-    // Convert content to Buffer to ensure proper attachment handling
+    // Try multiple approaches for attachment - Vercel/nodemailer can be finicky
     const contentBuffer = Buffer.from(fileContent, 'utf8');
+    const contentBase64 = contentBuffer.toString('base64');
     
     const mailOptions = {
       from: `"America250-NCS System" <${process.env.SMTP_USER}>`,
@@ -232,9 +233,9 @@ Automated Alert
       attachments: [
         {
           filename: safeFilename,
-          content: contentBuffer,
+          content: contentBase64,
           contentType: 'text/plain',
-          encoding: 'utf8'
+          encoding: 'base64'
         }
       ]
     };
