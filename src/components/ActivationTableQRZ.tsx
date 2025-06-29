@@ -141,7 +141,7 @@ export default function ActivationTableQRZ() {
       </table>
 
       {/* Mobile Card View */}
-      <div style={{ display: 'none' }}>
+      <div className={styles.qrzCardContainer}>
         {activations.length === 0 ? (
           <div className={styles.qrzCard}>
             <div className={styles.qrzCardEmpty}>No active activations</div>

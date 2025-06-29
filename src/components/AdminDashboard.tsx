@@ -374,19 +374,19 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
   if (isLoading) {
     return (
       <div className={styles.adminDashboard}>
-        <div className="skeleton skeleton-text" style={{ width: '300px', height: '2rem', marginBottom: '2rem' }}></div>
+        <div className="skeleton skeleton-text" style={{ width: '100%', maxWidth: '300px', height: '2rem', marginBottom: '2rem' }}></div>
         
         {/* Reset Counter Section Skeleton */}
         <div className={styles.adminSection}>
-          <div className="skeleton skeleton-text" style={{ width: '200px', height: '1.5rem', marginBottom: '1rem' }}></div>
+          <div className="skeleton skeleton-text" style={{ width: '100%', maxWidth: '200px', height: '1.5rem', marginBottom: '1rem' }}></div>
           <div className={styles.centeredBlock}>
-            <div className="skeleton skeleton-text" style={{ width: '250px', height: '2.5rem', borderRadius: '6px' }}></div>
+            <div className="skeleton skeleton-text" style={{ width: '100%', maxWidth: '250px', height: '2.5rem', borderRadius: '6px' }}></div>
           </div>
         </div>
 
         {/* End Activations Table Skeleton */}
         <div className={styles.adminSection}>
-          <div className="skeleton skeleton-text" style={{ width: '150px', height: '1.5rem', marginBottom: '1rem' }}></div>
+          <div className="skeleton skeleton-text" style={{ width: '100%', maxWidth: '150px', height: '1.5rem', marginBottom: '1rem' }}></div>
           <div className={styles.activationsTableWrapper}>
             <table className="skeleton-table">
               <thead>
@@ -419,7 +419,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
 
         {/* Create Activation Form Skeleton */}
         <div className={styles.adminSection}>
-          <div className="skeleton skeleton-text" style={{ width: '150px', height: '1.5rem', marginBottom: '1rem' }}></div>
+          <div className="skeleton skeleton-text" style={{ width: '100%', maxWidth: '150px', height: '1.5rem', marginBottom: '1rem' }}></div>
           <div className={styles.pinCreateForm}>
             <div className={styles.formRow}>
               <div className={styles.formGroup}>
@@ -443,7 +443,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
 
         {/* Create PIN Form Skeleton */}
         <div className={styles.adminSection}>
-          <div className="skeleton skeleton-text" style={{ width: '100px', height: '1.5rem', marginBottom: '1rem' }}></div>
+          <div className="skeleton skeleton-text" style={{ width: '100%', maxWidth: '100px', height: '1.5rem', marginBottom: '1rem' }}></div>
           <div className={styles.pinCreateForm}>
             <div className={styles.formRow}>
               <div className={styles.formGroup}>
