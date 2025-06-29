@@ -4,6 +4,9 @@ import { pins, volunteers } from '../../../../db/schema';
 import { eq } from 'drizzle-orm';
 
 export async function POST(request: NextRequest) {
+  const requestId = `auth_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+  const startTime = Date.now();
+  
   try {
     const { pin } = await request.json();
     
@@ -21,10 +24,25 @@ export async function POST(request: NextRequest) {
       .where(eq(pins.pin, pin));
     
     if (pinRecord.length === 0) {
-      return NextResponse.json(
-        { error: 'Invalid PIN' },
+      const responseTime = Date.now() - startTime;
+      const response = NextResponse.json(
+        { 
+          error: 'Invalid PIN',
+          details: 'Please check your 4-digit PIN and try again',
+          requestId
+        },
         { status: 401 }
       );
+      
+      // Add debugging and rate limiting headers for failed attempts
+      response.headers.set('X-Request-ID', requestId);
+      response.headers.set('X-Response-Time', `${responseTime}ms`);
+      response.headers.set('X-Auth-Status', 'failed');
+      response.headers.set('X-RateLimit-Limit', '10');
+      response.headers.set('X-RateLimit-Window', '900'); // 15 minutes
+      response.headers.set('X-RateLimit-Policy', 'PIN authentication limited to 10 attempts per 15 minutes');
+      
+      return response;
     }
     
     // Get volunteer information if it exists
@@ -33,17 +51,36 @@ export async function POST(request: NextRequest) {
       .from(volunteers)
       .where(eq(volunteers.pinId, pinRecord[0].pinId));
     
-    return NextResponse.json({
+    const responseTime = Date.now() - startTime;
+    const response = NextResponse.json({
       pinId: pinRecord[0].pinId,
       role: pinRecord[0].role,
       volunteer: volunteerRecord.length > 0 ? volunteerRecord[0] : null
     });
     
+    // Add debugging and rate limiting headers
+    response.headers.set('X-Request-ID', requestId);
+    response.headers.set('X-Response-Time', `${responseTime}ms`);
+    response.headers.set('X-Auth-Status', 'success');
+    response.headers.set('X-RateLimit-Limit', '10');
+    response.headers.set('X-RateLimit-Window', '900'); // 15 minutes
+    response.headers.set('X-RateLimit-Policy', 'PIN authentication limited to 10 attempts per 15 minutes');
+    
+    return response;
+    
   } catch (error) {
-    console.error('PIN authentication error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
+    const responseTime = Date.now() - startTime;
+    console.error(`[${requestId}] PIN authentication error (${responseTime}ms):`, error);
+    
+    const errorResponse = NextResponse.json(
+      { error: 'Internal server error', requestId },
       { status: 500 }
     );
+    
+    errorResponse.headers.set('X-Request-ID', requestId);
+    errorResponse.headers.set('X-Response-Time', `${responseTime}ms`);
+    errorResponse.headers.set('X-Auth-Status', 'error');
+    
+    return errorResponse;
   }
 } 

@@ -178,6 +178,21 @@ export default function OurStory() {
               height={233}
               className={styles.commemorativePlaque}
             />
+            <div style={{
+              textAlign: 'center',
+              marginTop: '1rem',
+              padding: '0.75rem',
+              background: 'rgba(199, 161, 89, 0.1)',
+              borderRadius: '8px',
+              border: '1px solid var(--bronze)'
+            }}>
+              <a 
+                href="mailto:marc@history.radio" 
+                className={styles.emailLink}
+              >
+                📧 marc@history.radio
+              </a>
+            </div>
           </div>
         </div>
       </div>

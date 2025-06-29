@@ -132,9 +132,11 @@ export default function MeetTheFoundersPage() {
                   textDecoration: 'none'
                 }}
               >
-                                                  <img
+                                                  <Image
                    src="/books/paul-harvey-video.webp"
                    alt="Paul Harvey - Declaration of Independence: Freedom to Die"
+                   width={500}
+                   height={281}
                    style={{
                      width: '100%',
                      maxWidth: '500px',
@@ -383,9 +385,11 @@ export default function MeetTheFoundersPage() {
                  justifyItems: 'center'
                }}>
                 <div style={{ textAlign: 'center' }}>
-                                     <img
+                                     <Image
                      src="/books/american-scripture.webp"
                      alt="American Scripture by Pauline Maier"
+                     width={200}
+                     height={300}
                      style={{
                        width: '100%',
                        maxWidth: '200px',
@@ -413,9 +417,11 @@ export default function MeetTheFoundersPage() {
                 </div>
 
                 <div style={{ textAlign: 'center' }}>
-                                     <img
+                                     <Image
                      src="/books/global-history.webp"
                      alt="The Global History of the Declaration of Independence"
+                     width={200}
+                     height={300}
                      style={{
                        width: '100%',
                        maxWidth: '200px',
@@ -443,9 +449,11 @@ export default function MeetTheFoundersPage() {
                 </div>
 
                 <div style={{ textAlign: 'center' }}>
-                  <img
+                  <Image
                     src="/books/our-lives.webp"
                     alt="Our Lives, Our Fortunes and Our Sacred Honor"
+                    width={200}
+                    height={300}
                     style={{
                       width: '100%',
                       maxWidth: '200px',
@@ -473,9 +481,11 @@ export default function MeetTheFoundersPage() {
                 </div>
 
                 <div style={{ textAlign: 'center' }}>
-                  <img
+                  <Image
                     src="/books/signing-lives.webp"
                     alt="Signing Their Lives Away"
+                    width={200}
+                    height={300}
                     style={{
                       width: '100%',
                       maxWidth: '200px',
@@ -540,9 +550,11 @@ export default function MeetTheFoundersPage() {
                 flexWrap: 'wrap'
               }}>
                 <div style={{ textAlign: 'center' }}>
-                  <img
+                  <Image
                     src="/books/if-a-kid.webp"
                     alt="If a Kid Ran America"
+                    width={180}
+                    height={270}
                     style={{
                       width: '100%',
                       maxWidth: '180px',
@@ -570,9 +582,11 @@ export default function MeetTheFoundersPage() {
                 </div>
 
                 <div style={{ textAlign: 'center' }}>
-                  <img
+                  <Image
                     src="/books/words-made-america.webp"
                     alt="The Words That Made America"
+                    width={180}
+                    height={270}
                     style={{
                       width: '100%',
                       maxWidth: '180px',

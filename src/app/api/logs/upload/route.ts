@@ -5,7 +5,7 @@ import { logSubmissions, adiSubmissions } from '../../../../db/schema';
 const QRZ_API_KEY = process.env.QRZ_API_KEY || '';
 
 if (!QRZ_API_KEY) {
-  console.error('QRZ_API_KEY environment variable is not set');
+  console.error('QRZ_API_KEY environment variable is not set - ADI uploads will fail');
 }
 
 interface UploadRequest {
@@ -65,10 +65,7 @@ function validateAdiFile(content: string): { isValid: boolean; recordCount: numb
 }
 
 async function submitToQRZ(fileContent: string): Promise<{ success: boolean; count?: number; logId?: string; error?: string }> {
-  console.log('=== SUBMIT TO QRZ FUNCTION START ===');
-  console.log('Timestamp:', new Date().toISOString());
-  console.log('File content length:', fileContent.length);
-  console.log('=== SUBMIT TO QRZ FUNCTION START ===');
+  // QRZ submission started
   
   try {
     // Remove header content (everything before the first <Call: field)
@@ -136,31 +133,25 @@ async function submitToQRZ(fileContent: string): Promise<{ success: boolean; cou
       
       const responseText = await response.text();
       
-      console.log('=== QRZ API RESPONSE START ===');
-      console.log('Status:', response.status);
-      console.log('Status Text:', response.statusText);
-      console.log('Response Headers:', Object.fromEntries(response.headers.entries()));
-      console.log('Response Body:', responseText);
-      console.log('Timestamp:', new Date().toISOString());
-      console.log('=== QRZ API RESPONSE END ===');
+          // QRZ API response received
       
       // Parse the response
       const responseParams = new URLSearchParams(responseText);
       const result = responseParams.get('RESULT');
       const logId = responseParams.get('LOGID');
-      const count = responseParams.get('COUNT');
+      // Note: COUNT parameter is available but not currently used
       const reason = responseParams.get('REASON');
       
       // Handle different response scenarios
       if (result === 'OK' || result === 'REPLACE') {
         successCount++;
         if (logId) lastLogId = logId;
-        console.log(`QRZ API success for record: LOGID=${logId}, COUNT=${count}`);
+        // QRZ API success
       } else if (result === 'FAIL' && reason && reason.includes('duplicate')) {
         // Duplicate records should be treated as success since they already exist
         successCount++;
         if (logId) lastLogId = logId;
-        console.log(`QRZ API duplicate (treated as success): LOGID=${logId}, COUNT=${count}, REASON=${reason}`);
+        // QRZ API duplicate (treated as success)
       } else {
         console.error('QRZ API failed for record:', {
           result,
@@ -171,11 +162,7 @@ async function submitToQRZ(fileContent: string): Promise<{ success: boolean; cou
     }
     
     if (successCount > 0) {
-      console.log('=== SUBMIT TO QRZ FUNCTION SUCCESS ===');
-      console.log('Success count:', successCount);
-      console.log('Last log ID:', lastLogId);
-      console.log('Timestamp:', new Date().toISOString());
-      console.log('=== SUBMIT TO QRZ FUNCTION SUCCESS ===');
+        // QRZ submission completed successfully
       
       return {
         success: true,
@@ -183,10 +170,7 @@ async function submitToQRZ(fileContent: string): Promise<{ success: boolean; cou
         logId: lastLogId
       };
     } else {
-      console.log('=== SUBMIT TO QRZ FUNCTION FAILURE ===');
-      console.log('No records successfully uploaded');
-      console.log('Timestamp:', new Date().toISOString());
-      console.log('=== SUBMIT TO QRZ FUNCTION FAILURE ===');
+        // QRZ submission failed - no records uploaded
       
       return {
         success: false,
@@ -195,10 +179,7 @@ async function submitToQRZ(fileContent: string): Promise<{ success: boolean; cou
     }
     
   } catch (error) {
-    console.log('=== SUBMIT TO QRZ FUNCTION ERROR ===');
-    console.log('Error:', error);
-    console.log('Timestamp:', new Date().toISOString());
-    console.log('=== SUBMIT TO QRZ FUNCTION ERROR ===');
+      // QRZ submission error occurred
     
     console.error('QRZ API error:', error);
     return {

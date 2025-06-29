@@ -21,7 +21,7 @@ export async function POST(request: Request) {
       
       // Force mode: Delete all activations first
       await db().delete(activations);
-      console.log(`Deleted ${existingActivations.length} existing activations`);
+      // Existing activations deleted
     }
 
     // Reset the activation_id sequence to 1

@@ -37,7 +37,10 @@ export async function POST(request: NextRequest) {
     // If a PIN is provided, validate it
     if (pin) {
       if (!/^[0-9]{4}$/.test(pin)) {
-        return NextResponse.json({ error: 'PIN must be exactly 4 digits' }, { status: 400 });
+        return NextResponse.json({ 
+          error: 'PIN must be exactly 4 digits',
+          details: 'Current format required: 0000-9999'
+        }, { status: 400 });
       }
       const existing = await db().select().from(pins).where(eq(pins.pin, pin));
       if (existing.length > 0) {

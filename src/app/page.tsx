@@ -24,9 +24,12 @@ export default function HomePage() {
               maxWidth: '800px'
             }}
           >
-            <img
+            <Image
               src="/america250-ncs-header-image.webp"
               alt="America250 NCS Header"
+              width={800}
+              height={509}
+              priority
               style={{
                 width: "100%",
                 height: "auto",
@@ -103,10 +106,11 @@ export default function HomePage() {
           
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
-            gap: '2rem',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '1.5rem',
             marginBottom: '2rem'
-          }}>
+          }} className="responsive-grid"
+          >
             {/* QSL Cards Teaser */}
             <Link href="/qsl-cards" style={{ textDecoration: 'none' }}>
               <div style={{
@@ -296,10 +300,11 @@ export default function HomePage() {
           {/* Battle Schedule and Certificate Layout */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
-            gap: '2rem',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '1.5rem',
             marginBottom: '2rem'
-          }}>
+          }} className="certificate-grid"
+          >
             {/* Left Column: Cornwallis & Battle Schedule */}
             <div style={{
               background: 'rgba(247, 241, 226, 0.8)',
@@ -310,9 +315,11 @@ export default function HomePage() {
             }}>
               {/* Cornwallis Portrait */}
               <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-                <img
+                <Image
                   src="/cornwallis.webp"
                   alt="British Lord Charles Cornwallis"
+                  width={350}
+                  height={350}
                   style={{
                     width: '200px',
                     height: '200px',
@@ -415,9 +422,11 @@ export default function HomePage() {
               }}>
                 YOUR VICTORY CERTIFICATE
               </h4>
-              <img
+              <Image
                 src="/ccc-certificate.webp"
                 alt="Chasing Cornwallis Challenge Certificate"
+                width={800}
+                height={600}
                 style={{
                   width: '100%',
                   height: 'auto',
