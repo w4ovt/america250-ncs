@@ -229,4 +229,18 @@
     width: 280px;
     height: 187px;
   }
+}
+
+.emailLink {
+  font-family: 'librebaskerville-bold', serif;
+  font-size: 1.1rem;
+  color: var(--mahogany);
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.emailLink:hover {
+  color: var(--bronze);
+  text-decoration: underline;
 } 

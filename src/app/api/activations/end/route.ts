@@ -4,6 +4,9 @@ import { activations } from '../../../../db/schema';
 import { eq } from 'drizzle-orm';
 
 export async function POST(request: NextRequest) {
+  const requestId = `end_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+  const startTime = Date.now();
+  
   try {
     const { activationId } = await request.json();
     
@@ -21,19 +24,44 @@ export async function POST(request: NextRequest) {
       .returning();
     
     if (updatedActivation.length === 0) {
-      return NextResponse.json(
-        { error: 'Activation not found' },
+      const responseTime = Date.now() - startTime;
+      const notFoundResponse = NextResponse.json(
+        { error: 'Activation not found', requestId },
         { status: 404 }
       );
+      
+      notFoundResponse.headers.set('X-Request-ID', requestId);
+      notFoundResponse.headers.set('X-Response-Time', `${responseTime}ms`);
+      notFoundResponse.headers.set('X-Operation', 'activation-end');
+      notFoundResponse.headers.set('X-Error-Type', 'not-found');
+      
+      return notFoundResponse;
     }
     
-    return NextResponse.json(updatedActivation[0]);
+    const responseTime = Date.now() - startTime;
+    const response = NextResponse.json(updatedActivation[0]);
+    
+    response.headers.set('X-Request-ID', requestId);
+    response.headers.set('X-Response-Time', `${responseTime}ms`);
+    response.headers.set('X-Operation', 'activation-end');
+    response.headers.set('X-Activation-ID', activationId.toString());
+    
+    return response;
     
   } catch (error) {
-    console.error('End activation error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
+    const responseTime = Date.now() - startTime;
+    console.error(`[${requestId}] End activation error (${responseTime}ms):`, error);
+    
+    const errorResponse = NextResponse.json(
+      { error: 'Internal server error', requestId },
       { status: 500 }
     );
+    
+    errorResponse.headers.set('X-Request-ID', requestId);
+    errorResponse.headers.set('X-Response-Time', `${responseTime}ms`);
+    errorResponse.headers.set('X-Operation', 'activation-end');
+    errorResponse.headers.set('X-Error-Type', 'database');
+    
+    return errorResponse;
   }
 } 
