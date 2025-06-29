@@ -311,10 +311,13 @@ export default function HomePage() {
               padding: '1.5rem',
               borderRadius: '12px',
               border: '2px solid var(--bronze)',
-              boxShadow: '0 4px 12px rgba(104, 63, 27, 0.1)'
-            }}>
+              boxShadow: '0 4px 12px rgba(104, 63, 27, 0.1)',
+              minWidth: 0,
+              overflow: 'hidden'
+            }} className="battle-schedule-column"
+            >
               {/* Cornwallis Portrait */}
-              <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+              <div style={{ textAlign: 'center', marginBottom: '1.5rem' }} className="cornwallis-portrait">
                 <Image
                   src="/cornwallis.webp"
                   alt="British Lord Charles Cornwallis"
@@ -326,7 +329,8 @@ export default function HomePage() {
                     borderRadius: '50%',
                     border: '4px solid var(--bronze)',
                     boxShadow: '0 4px 12px rgba(104, 63, 27, 0.2)',
-                    objectFit: 'cover'
+                    objectFit: 'cover',
+                    maxWidth: '100%'
                   }}
                 />
                 <p style={{
@@ -334,8 +338,11 @@ export default function HomePage() {
                   fontSize: '1rem',
                   fontStyle: 'italic',
                   color: 'var(--bronze)',
-                  fontFamily: 'librebaskerville-bold, serif'
-                }}>
+                  fontFamily: 'librebaskerville-bold, serif',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap'
+                }} className="cornwallis-caption">
                   British Lord Charles Cornwallis
                 </p>
               </div>
@@ -354,12 +361,14 @@ export default function HomePage() {
                   textAlign: 'center',
                   fontFamily: 'librebaskerville-bold, serif',
                   fontSize: '1.1rem',
-                  letterSpacing: '0.05em'
-                }}>
+                  letterSpacing: '0.05em',
+                  overflow: 'hidden'
+                }} className="battle-schedule-header">
                   2025 CHALLENGE EVENTS
                 </div>
                 
-                <div style={{ padding: '1rem' }}>
+                <div style={{ padding: '0.75rem' }} className="battle-schedule-content"
+                >
                   {[
                     { call: 'K4C', battle: 'Battle of Cowpens', dates: 'Jan 17-19' },
                     { call: 'K4B', battle: 'Battle of Moores Creek Bridge', dates: 'Feb 27-28' },
@@ -370,32 +379,43 @@ export default function HomePage() {
                   ].map((event, index) => (
                     <div key={index} style={{
                       display: 'grid',
-                      gridTemplateColumns: '60px 1fr 80px',
-                      gap: '0.75rem',
+                      gridTemplateColumns: '50px 1fr 70px',
+                      gap: '0.5rem',
                       padding: '0.5rem 0',
                       borderBottom: index < 5 ? '1px solid var(--bronze)' : 'none',
-                      alignItems: 'center'
-                    }}>
+                      alignItems: 'center',
+                      minWidth: 0
+                    }} className="battle-schedule-row">
                       <div style={{
                         fontFamily: 'librebaskerville-bold, serif',
                         color: 'var(--mahogany)',
                         fontWeight: 'bold',
-                        fontSize: '1rem'
+                        fontSize: '0.9rem',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap'
                       }}>
                         {event.call}
                       </div>
                       <div style={{
                         fontFamily: 'librebaskerville-regular, serif',
                         color: 'var(--mahogany)',
-                        fontSize: '0.95rem'
+                        fontSize: '0.85rem',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        minWidth: 0
                       }}>
                         {event.battle}
                       </div>
                       <div style={{
                         fontFamily: 'librebaskerville-regular, serif',
                         color: 'var(--bronze)',
-                        fontSize: '0.9rem',
-                        textAlign: 'right'
+                        fontSize: '0.8rem',
+                        textAlign: 'right',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap'
                       }}>
                         {event.dates}
                       </div>
@@ -412,8 +432,11 @@ export default function HomePage() {
               borderRadius: '12px',
               border: '2px solid var(--bronze)',
               boxShadow: '0 4px 12px rgba(104, 63, 27, 0.1)',
-              textAlign: 'center'
-            }}>
+              textAlign: 'center',
+              minWidth: 0,
+              overflow: 'hidden'
+            }} className="certificate-column"
+            >
               <h4 style={{
                 fontFamily: 'librebaskerville-bold, serif',
                 color: 'var(--mahogany)',
