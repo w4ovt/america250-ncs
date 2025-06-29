@@ -110,7 +110,7 @@ export default function K4ADropzone({ disabled = false, volunteerData }: K4ADrop
     if (disabled || !isAuthenticated) return;
 
     const files = e.dataTransfer.files;
-    if (files.length > 0) {
+    if (files.length > 0 && files[0]) {
       handleFileSelect(files[0]);
     }
   }, [disabled, isAuthenticated, handleFileSelect]);

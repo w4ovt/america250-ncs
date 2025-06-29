@@ -52,11 +52,30 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         
+        {/* Critical Font Preloading */}
+        <link
+          rel="preload"
+          href="/fonts/librebaskerville-regular.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/librebaskerville-bold.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        
         {/* Performance Optimization Hints */}
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//qrz.com" />
         <link rel="preconnect" href="https://america250.radio" />
         <link rel="preconnect" href="https://qrz.com" crossOrigin="anonymous" />
+        
+        {/* Critical CSS Resource Hints */}
+        <link rel="preload" href="/next/static/css/app/layout.css" as="style" />
         
         {/* Icons and Manifest */}
         <link rel="icon" href="/favicon.ico" />
@@ -75,6 +94,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         
         {/* Content Type Declaration */}
         <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+        
+        {/* Performance Monitoring */}
+        <meta name="generator" content="Next.js 15.3.4" />
       </head>
       <body>
         {children}

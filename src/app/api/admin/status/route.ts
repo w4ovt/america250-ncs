@@ -9,12 +9,19 @@ export async function GET() {
   
   try {
     // Get basic counts from each table for health overview
-    const [pinCount] = await db().select({ count: count() }).from(pins);
-    const [volunteerCount] = await db().select({ count: count() }).from(volunteers);
-    const [activeActivationCount] = await db().select({ count: count() }).from(activations).where(sql`ended_at IS NULL`);
-    const [totalActivationCount] = await db().select({ count: count() }).from(activations);
-    const [logSubmissionCount] = await db().select({ count: count() }).from(logSubmissions);
-    const [adiSubmissionCount] = await db().select({ count: count() }).from(adiSubmissions);
+    const pinCountResult = await db().select({ count: count() }).from(pins);
+    const volunteerCountResult = await db().select({ count: count() }).from(volunteers);
+    const activeActivationCountResult = await db().select({ count: count() }).from(activations).where(sql`ended_at IS NULL`);
+    const totalActivationCountResult = await db().select({ count: count() }).from(activations);
+    const logSubmissionCountResult = await db().select({ count: count() }).from(logSubmissions);
+    const adiSubmissionCountResult = await db().select({ count: count() }).from(adiSubmissions);
+    
+    const pinCount = pinCountResult[0] || { count: 0 };
+    const volunteerCount = volunteerCountResult[0] || { count: 0 };
+    const activeActivationCount = activeActivationCountResult[0] || { count: 0 };
+    const totalActivationCount = totalActivationCountResult[0] || { count: 0 };
+    const logSubmissionCount = logSubmissionCountResult[0] || { count: 0 };
+    const adiSubmissionCount = adiSubmissionCountResult[0] || { count: 0 };
     
     const responseTime = Date.now() - startTime;
     

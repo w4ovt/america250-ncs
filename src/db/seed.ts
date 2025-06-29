@@ -4,8 +4,15 @@ import { pins, volunteers } from './schema';
 async function seed() {
   try {
     // Insert PINs
-    const [marcPin] = await db().insert(pins).values({ pin: '7317', role: 'admin' }).returning();
-    const [stanPin] = await db().insert(pins).values({ pin: '7373', role: 'volunteer' }).returning();
+    const marcPinResult = await db().insert(pins).values({ pin: '7317', role: 'admin' }).returning();
+    const stanPinResult = await db().insert(pins).values({ pin: '7373', role: 'volunteer' }).returning();
+
+    const marcPin = marcPinResult[0];
+    const stanPin = stanPinResult[0];
+
+    if (!marcPin || !stanPin) {
+      throw new Error('Failed to create PINs');
+    }
 
     // Insert volunteers
     await db().insert(volunteers).values({

@@ -45,16 +45,22 @@ export async function POST(request: NextRequest) {
       return response;
     }
     
+    // Get the pin record (guaranteed to exist due to length check above)
+    const pinData = pinRecord[0];
+    if (!pinData) {
+      throw new Error('PIN record not found after validation');
+    }
+    
     // Get volunteer information if it exists
     const volunteerRecord = await db()
       .select()
       .from(volunteers)
-      .where(eq(volunteers.pinId, pinRecord[0].pinId));
+      .where(eq(volunteers.pinId, pinData.pinId));
     
     const responseTime = Date.now() - startTime;
     const response = NextResponse.json({
-      pinId: pinRecord[0].pinId,
-      role: pinRecord[0].role,
+      pinId: pinData.pinId,
+      role: pinData.role,
       volunteer: volunteerRecord.length > 0 ? volunteerRecord[0] : null
     });
     
