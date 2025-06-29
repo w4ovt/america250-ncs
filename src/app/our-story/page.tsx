@@ -10,9 +10,11 @@ export default function OurStory() {
         <div className="container" style={{ marginTop: '2rem' }}>
       {/* Header Image - Backwater Men Painting */}
       <div className={styles.headerImage}>
-        <img 
+        <Image 
           src="/backwater-men.webp" 
           alt="The Backwater Men by Richard Luce" 
+          width={800}
+          height={653}
           style={{width: "100%", maxWidth: "800px", height: "auto", display: "block", margin: "0 auto"}}
         />
       </div>
@@ -26,7 +28,7 @@ export default function OurStory() {
           <p className={styles.openingParagraph}>
             In the shadow of the Appalachian Mountains, where the echoes of musket fire still whisper through the hollers, 
             lies a story that changed the course of human history. Not just American history—<strong>world history</strong>. 
-            The Battle of Kings Mountain on October 7, 1780, was the moment when frontier militia didn't just defeat a British army—they 
+            The Battle of Kings Mountain on October 7, 1780, was the moment when frontier militia didn&apos;t just defeat a British army—they 
             saved the sovereignty of every nation that exists today.
           </p>
 
@@ -46,27 +48,27 @@ export default function OurStory() {
 
           <p>
             But in a remote corner of South Carolina, on a ridge that barely qualified as a mountain, a thousand frontier fighters—
-            <em>men who were supposed to lose</em>—changed everything. In one hour and five minutes, they didn't just win a battle. <strong>They won the future freedom of the world</strong>.
+            <em>men who were supposed to lose</em>—changed everything. In one hour and five minutes, they didn&apos;t just win a battle. <strong>They won the future freedom of the world</strong>.
           </p>
 
           <p>
-            These weren't soldiers in the traditional sense. They were farmers, hunters, blacksmiths, and preachers who had learned 
+            These weren&apos;t soldiers in the traditional sense. They were farmers, hunters, blacksmiths, and preachers who had learned 
             to fight by defending their families against Cherokee raids and British incursions. They had traveled hundreds of miles, 
             through mountain passes and river crossings, sleeping in the rain, marching through snow, often without food, 
             driven by something more powerful than patriotism—<strong>the absolute certainty that freedom dies if good men do nothing</strong>.
           </p>
 
           <p>
-            The British called them "<em>damned banditti</em>," "<em>backwoods mongrels</em>," "<em>backwater men</em>." 
-            Major Patrick Ferguson, the British commander, had threatened to "<em>march his army over the mountains, hang the leaders, 
-            and lay waste to the country with fire and sword</em>." He had no idea he was about to face men who had been 
+            The British called them &quot;<em>damned banditti</em>,&quot; &quot;<em>backwoods mongrels</em>,&quot; &quot;<em>backwater men</em>.&quot; 
+            Major Patrick Ferguson, the British commander, had threatened to &quot;<em>march his army over the mountains, hang the leaders, 
+            and lay waste to the country with fire and sword</em>.&quot; He had no idea he was about to face men who had been 
             forged by the frontier itself.
           </p>
 
           <p>
-            When Colonel William Campbell gave the order to "<em>scream like hell and fight like devils</em>," 
-            these mountain men didn't fight like European soldiers. They fought like Americans—<strong>free Americans</strong>. 
-            They used trees for cover, they shot from behind rocks, they gave Ferguson what they called "Indian play"—
+            When Colonel William Campbell gave the order to &quot;<em>scream like hell and fight like devils</em>,&quot; 
+            these mountain men didn&apos;t fight like European soldiers. They fought like Americans—<strong>free Americans</strong>. 
+            They used trees for cover, they shot from behind rocks, they gave Ferguson what they called &quot;Indian play&quot;—
             the kind of warfare that turns conventional military wisdom upside down.
           </p>
 
@@ -76,7 +78,7 @@ export default function OurStory() {
           </p>
 
           <p>
-            <strong>But here's what haunts me</strong>: How many people today know this story? How many Americans understand that 
+            <strong>But here&apos;s what haunts me</strong>: How many people today know this story? How many Americans understand that 
             their freedom—and the freedom of billions of people worldwide—was secured by a thousand frontiersmen who history 
             has largely forgotten? How many realize that without Kings Mountain, there would have been no Yorktown, no Constitution, 
             no beacon of liberty for the world to follow?
@@ -87,8 +89,8 @@ export default function OurStory() {
           </p>
 
           <p>
-            We teach Valley Forge. We teach Bunker Hill. We teach Lexington and Concord. <strong>But we've forgotten the battle 
-            that actually decided the war.</strong> We've forgotten the men who saved not just America, but the concept of 
+            We teach Valley Forge. We teach Bunker Hill. We teach Lexington and Concord. <strong>But we&apos;ve forgotten the battle 
+            that actually decided the war.</strong> We&apos;ve forgotten the men who saved not just America, but the concept of 
             national sovereignty itself.
           </p>
 
@@ -98,25 +100,25 @@ export default function OurStory() {
 
           <p>
             Every QSO during this America250 celebration, every activation, every log entry is an act of remembrance. 
-            When we make contact across the airwaves, we're doing what these mountain men did—<strong>we're connecting across 
+            When we make contact across the airwaves, we&apos;re doing what these mountain men did—<strong>we&apos;re connecting across 
             impossible distances to preserve something precious</strong>. They connected through mountain passes and river crossings; 
             we connect through radio waves and digital signals. But the mission is the same: <strong>to keep the flame of freedom alive</strong>.
           </p>
 
           <p>
             When foreign operators answer our calls, when they log our contacts, when they participate in our commemorations, 
-            they're not just playing radio—<strong>they're celebrating their own freedom</strong>. Because every country that exists 
+            they&apos;re not just playing radio—<strong>they&apos;re celebrating their own freedom</strong>. Because every country that exists 
             today as a sovereign nation exists because a thousand American frontiersmen climbed a South Carolina mountain 
             and refused to surrender to tyranny.
           </p>
 
           <p>
-            This is bigger than amateur radio. This is bigger than America's 250th anniversary. <strong>This is about memory itself</strong>—
+            This is bigger than amateur radio. This is bigger than America&apos;s 250th anniversary. <strong>This is about memory itself</strong>—
             the sacred duty to remember those who paid the price for every breath of free air we breathe today.
           </p>
 
           <p>
-            In 1976, during America's bicentennial, there were parades and celebrations, but the deeper stories remained buried. 
+            In 1976, during America&apos;s bicentennial, there were parades and celebrations, but the deeper stories remained buried. 
             In 2026, we face the same choice: superficial celebration or profound remembrance. <strong>We choose remembrance</strong>.
           </p>
 
@@ -135,9 +137,9 @@ export default function OurStory() {
           <h2 className={styles.sectionTitle}>THE BACKWATER MEN</h2>
           
           <p className={styles.backwaterQuote}>
-            "The Backwater Men was a derogatory name given to the pioneers who settled over the Blue Ridge Mountains. 
+            &quot;The Backwater Men was a derogatory name given to the pioneers who settled over the Blue Ridge Mountains. 
             Other names given to them by the British included overmountain men, backwoods mongrels and damned banditti. 
-            However these men proved to be a formidable force by totally defeating Maj. Patrick Ferguson's larger Tory army at Kings Mountain."
+            However these men proved to be a formidable force by totally defeating Maj. Patrick Ferguson&apos;s larger Tory army at Kings Mountain.&quot;
           </p>
           
           <p className={styles.artistCredit}>
@@ -147,7 +149,7 @@ export default function OurStory() {
 
           <p className={styles.backwaterExplanation}>
             For the frontier militia to travel from their mountain settlements to Kings Mountain, they had to cross watersheds along the way—
-            rivers, streams, and creeks that flowed down from the Appalachian peaks. They were men who lived "back" of the "water," 
+            rivers, streams, and creeks that flowed down from the Appalachian peaks. They were men who lived &quot;back&quot; of the &quot;water,&quot; 
             behind the natural barriers that separated the civilized world from the wilderness. To the British, this made them backward, 
             uncivilized, lesser. <strong>To history, it made them unstoppable</strong>.
           </p>
@@ -161,15 +163,19 @@ export default function OurStory() {
 
         {/* Marc's Photo */}
         <div className={styles.founderSection}>
-          <img 
+          <Image 
             src="/marc-ncs.webp" 
             alt="Marc Bowen W4OVT at his amateur radio station" 
+            width={400}
+            height={400}
             className={styles.founderPhoto}
           />
           <div className={styles.contactInfo}>
-            <img 
+            <Image 
               src="/marc-plaque.webp" 
               alt="Marc Bowen W4OVT Commemorative Plaque - Founder & Facilitator, Chasing Cornwallis Challenge" 
+              width={350}
+              height={233}
               className={styles.commemorativePlaque}
             />
           </div>
