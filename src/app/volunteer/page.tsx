@@ -214,6 +214,35 @@ export default function VolunteerPage() {
                     </tr>
                   </tbody>
                 </table>
+                
+                {/* Mobile Card Layout */}
+                <div className={styles.placeholderCard}>
+                  <div className={styles.placeholderCardItem}>
+                    <div className={styles.placeholderCardHeader}>
+                      <div className={styles.placeholderCardTitle}>PIN: 7317</div>
+                      <span>Reserved</span>
+                    </div>
+                    <div className={styles.placeholderCardDetails}>
+                      <div>
+                        <div className={styles.placeholderCardLabel}>Role</div>
+                        <div>Admin</div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className={styles.placeholderCardItem}>
+                    <div className={styles.placeholderCardHeader}>
+                      <div className={styles.placeholderCardTitle}>PIN: 7373</div>
+                      <span>Reserved</span>
+                    </div>
+                    <div className={styles.placeholderCardDetails}>
+                      <div>
+                        <div className={styles.placeholderCardLabel}>Role</div>
+                        <div>Admin</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className={styles.authNotice}>
                 <p>This feature is interactive for authenticated volunteers or admins. Enter PIN above to activate.</p>

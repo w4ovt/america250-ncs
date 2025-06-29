@@ -896,8 +896,8 @@
 }
 
 .searchBox {
-  flex: 1;
   min-width: 200px;
+  width: 100%;
 }
 
 .searchInput {
@@ -1169,7 +1169,6 @@
 .modalBody {
   padding: 1rem;
   overflow-y: auto;
-  flex: 1;
 }
 
 .adiContent {
