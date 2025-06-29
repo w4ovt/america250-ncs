@@ -695,7 +695,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                   <td>
                     {pin.pin}
                     {RESERVED_PINS.includes(pin.pin) && (
-                      <span className={styles.reservedBadge} style={{ marginLeft: '20px' }}>Reserved</span>
+                      <span className={styles.reservedBadge}>Reserved</span>
                     )}
                   </td>
                   <td>{pin.role}</td>
@@ -703,8 +703,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                     <button
                       onClick={() => handleDeletePin(pin.pinId, pin.pin)}
                       disabled={isDeleting === pin.pinId || RESERVED_PINS.includes(pin.pin)}
-                      className="btn btn-danger"
-                      style={{ fontSize: '0.9rem', padding: '0.4rem 0.8rem' }}
+                      className={styles.deleteBtn}
                     >
                       {isDeleting === pin.pinId ? 'Deleting...' : 'Delete'}
                     </button>
@@ -713,6 +712,41 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile Card Layout for PINs */}
+        <div className={styles.pinsCard}>
+          {pins.map((pin) => (
+            <div key={pin.pinId} className={styles.pinCard}>
+              <div className={styles.pinCardHeader}>
+                <h4 className={styles.pinCardTitle}>
+                  PIN: {pin.pin}
+                </h4>
+                <div className={styles.pinCardStatus}>
+                  {RESERVED_PINS.includes(pin.pin) && (
+                    <span className={styles.reservedBadge}>Reserved</span>
+                  )}
+                </div>
+              </div>
+              
+              <div className={styles.pinCardDetails}>
+                <div className={styles.pinCardDetail}>
+                  <span className={styles.pinCardLabel}>Role</span>
+                  <span className={styles.pinCardValue}>{pin.role}</span>
+                </div>
+              </div>
+              
+              <div className={styles.pinCardActions}>
+                <button
+                  onClick={() => handleDeletePin(pin.pinId, pin.pin)}
+                  disabled={isDeleting === pin.pinId || RESERVED_PINS.includes(pin.pin)}
+                  className={styles.deleteBtn}
+                >
+                  {isDeleting === pin.pinId ? 'Deleting...' : 'Delete'}
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
