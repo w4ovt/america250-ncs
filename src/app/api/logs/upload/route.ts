@@ -218,7 +218,7 @@ Automated Alert
     `.trim();
 
     const mailOptions = {
-      from: process.env.SMTP_USER || `"America250-NCS System" <noreply@america250.radio>`,
+      from: `"America250-NCS System" <${process.env.SMTP_USER}>`,
       to: 'marc@history.radio',
       subject: `🚨 ADI Upload Failure: ${filename} from ${volunteerData.callsign}`,
       text: emailBody,
