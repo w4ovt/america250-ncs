@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+
+# Main pages
+Allow: /volunteer
+Allow: /archive
+Allow: /our-mission
+Allow: /our-story
+Allow: /meet-the-founders
+Allow: /qsl-cards
+
+# Disallow admin areas
+Disallow: /admin
+Disallow: /api/
+Disallow: /iframe/
+
+# Sitemap location
+Sitemap: https://america250.radio/sitemap.xml
+
+# Contact information
+# Amateur Radio Event Portal - America250-NCS
+# Contact: marc@w4ovt.org
+# Operated by: W4OVT 
