@@ -102,25 +102,8 @@ async function submitToQRZ(fileContent: string): Promise<{ success: boolean; cou
         ADIF: singleRecord
       };
       
-      console.log('Submitting individual record to QRZ:', {
-        KEY: QRZ_API_KEY,
-        ACTION: 'INSERT',
-        ADIF: singleRecord.substring(0, 100) + '...'
-      });
-      
       // Make the API call to QRZ
       const requestBody = new URLSearchParams(qrzData).toString();
-      
-      console.log('=== QRZ API REQUEST START ===');
-      console.log('URL:', 'https://logbook.qrz.com/api');
-      console.log('Method:', 'POST');
-      console.log('Headers:', {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'User-Agent': 'America250-NCS/1.0.0 (W4OVT)'
-      });
-      console.log('Body:', requestBody);
-      console.log('Timestamp:', new Date().toISOString());
-      console.log('=== QRZ API REQUEST END ===');
       
       const response = await fetch('https://logbook.qrz.com/api', {
         method: 'POST',
