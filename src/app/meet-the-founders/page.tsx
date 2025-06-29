@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import Navigation from '../../components/Navigation';
 
@@ -6,48 +8,178 @@ export default function MeetTheFoundersPage() {
     <>
       <Navigation />
       <main className="parchment-bg">
-        <div className="container" style={{ marginTop: '2rem' }}>
+        <div className="container" style={{ 
+          marginTop: '6rem',
+          background: 'none !important',
+          boxShadow: 'none !important',
+          padding: '0 1rem',
+          position: 'relative'
+        }}>
+          {/* Desktop opacity background that extends above header */}
+          <div style={{
+            position: 'absolute',
+            top: '-4rem',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: '100%',
+            maxWidth: '900px',
+            height: 'calc(100% + 6rem)',
+            background: 'rgba(247, 241, 226, 0.6)',
+            borderRadius: '8px',
+            zIndex: -1,
+            pointerEvents: 'none'
+          }}></div>
           {/* Page Header with Quill */}
           <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            background: 'rgba(247, 241, 226, 0.9)',
+            padding: '2rem',
+            borderRadius: '12px',
+            border: '3px solid var(--bronze)',
+            boxShadow: '0 4px 12px rgba(104, 63, 27, 0.15)',
             marginBottom: '2rem',
-            flexWrap: 'wrap',
-            gap: '1rem',
-            paddingBottom: '2rem',
-            borderBottom: '2px solid var(--bronze)'
+            textAlign: 'center'
           }}>
             <h1 style={{
               fontFamily: 'librebaskerville-bold, serif',
-              fontSize: '3rem',
+              fontSize: 'clamp(2rem, 8vw, 3rem)',
               color: 'var(--mahogany)',
-              margin: 0,
+              margin: '0 0 1rem 0',
               textAlign: 'center',
-              textShadow: '2px 2px 4px rgba(104, 63, 27, 0.1)'
+              textShadow: '2px 2px 4px rgba(104, 63, 27, 0.1)',
+              lineHeight: '1.2'
             }}>
               Declaration of Independence
             </h1>
-            <Image
-              src="/inkwell.webp"
-              alt="Ornate Quill and Inkwell"
-              width={100}
-              height={125}
-              style={{ 
-                width: 'auto',
-                height: 'auto',
-                filter: 'drop-shadow(2px 2px 4px rgba(104, 63, 27, 0.3))'
-              }}
-            />
+            
             <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '1rem',
+              marginBottom: '1rem',
+              flexWrap: 'wrap'
+            }}>
+              <Image
+                src="/inkwell.webp"
+                alt="Ornate Quill and Inkwell"
+                width={100}
+                height={125}
+                style={{ 
+                  width: 'auto',
+                  height: 'auto',
+                  maxHeight: '100px',
+                  filter: 'drop-shadow(2px 2px 4px rgba(104, 63, 27, 0.3))'
+                }}
+              />
+              <div style={{
+                fontFamily: 'librebaskerville-bold, serif',
+                fontSize: 'clamp(1.2rem, 4vw, 1.5rem)',
+                color: 'var(--bronze)',
+                fontStyle: 'italic',
+                textAlign: 'center'
+              }}>
+                &quot;The Rest of the Story&quot;
+              </div>
+            </div>
+          </div>
+
+          {/* Paul Harvey Video Section */}
+          <div style={{
+            background: 'rgba(247, 241, 226, 0.9)',
+            padding: '2rem',
+            borderRadius: '12px',
+            border: '3px solid var(--bronze)',
+            boxShadow: '0 4px 12px rgba(104, 63, 27, 0.15)',
+            marginBottom: '2rem',
+            textAlign: 'center'
+          }}>
+            <h2 style={{
               fontFamily: 'librebaskerville-bold, serif',
-              fontSize: '1.5rem',
+              fontSize: '2.2rem',
+              color: 'var(--mahogany)',
+              marginBottom: '1rem',
+              textShadow: '2px 2px 4px rgba(104, 63, 27, 0.1)'
+            }}>
+              🎙️ Paul Harvey&apos;s &quot;Freedom to Die&quot;
+            </h2>
+            <p style={{
+              fontSize: '1.2rem',
+              lineHeight: '1.6',
+              color: 'var(--mahogany)',
+              marginBottom: '1.5rem',
+              fontStyle: 'italic'
+            }}>
+              The legendary broadcaster&apos;s stirring tribute to the signers of the Declaration of Independence
+            </p>
+            
+            <div style={{
+              position: 'relative',
+              display: 'inline-block',
+              borderRadius: '8px',
+              overflow: 'hidden',
+              boxShadow: '0 4px 15px rgba(104, 63, 27, 0.3)',
+              marginBottom: '1rem',
+              width: '100%',
+              maxWidth: '500px'
+            }}>
+                             <a 
+                 href="https://youtu.be/_XJperPKQvA?si=WQqAClRKOfeOx9rw"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                style={{
+                  display: 'block',
+                  position: 'relative',
+                  textDecoration: 'none'
+                }}
+              >
+                                                  <img
+                   src="/books/paul-harvey-video.webp"
+                   alt="Paul Harvey - Declaration of Independence: Freedom to Die"
+                   style={{
+                     width: '100%',
+                     maxWidth: '500px',
+                     height: 'auto',
+                     display: 'block',
+                     transition: 'transform 0.3s ease, filter 0.3s ease'
+                   }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.transform = 'scale(1.02)';
+                    e.currentTarget.style.filter = 'brightness(1.1)';
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.transform = 'scale(1)';
+                    e.currentTarget.style.filter = 'brightness(1)';
+                  }}
+                />
+                <div style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  background: 'rgba(0, 0, 0, 0.7)',
+                  borderRadius: '50%',
+                  width: '80px',
+                  height: '80px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '2rem',
+                  color: 'white',
+                  transition: 'all 0.3s ease'
+                }}>
+                  ▶️
+                </div>
+              </a>
+            </div>
+            
+            <p style={{
+              fontSize: '1rem',
               color: 'var(--bronze)',
               fontStyle: 'italic',
-              textAlign: 'center'
+              margin: 0
             }}>
-              &quot;The Rest of the Story&quot;
-            </div>
+              Click to watch this powerful 4-minute tribute on YouTube
+            </p>
           </div>
           
           <div style={{ 
@@ -212,6 +344,277 @@ export default function MeetTheFoundersPage() {
                 <div style={{ lineHeight: '1.6', fontSize: '1.05rem' }}>
                   <strong>Last Survivor:</strong> Charles Carroll of Carrollton was the last surviving signer, dying at age 95 in 1832—linking the founding generation to the era of Andrew Jackson.
                 </div>
+              </div>
+            </div>
+
+            {/* Adult Reading Section */}
+            <div style={{
+              background: 'rgba(247, 241, 226, 0.9)',
+              padding: '2rem',
+              borderRadius: '12px',
+              border: '3px solid var(--bronze)',
+              boxShadow: '0 4px 12px rgba(104, 63, 27, 0.15)',
+              marginBottom: '2rem'
+            }}>
+              <h2 style={{
+                fontFamily: 'librebaskerville-bold, serif',
+                fontSize: '2.5rem',
+                color: 'var(--mahogany)',
+                textAlign: 'center',
+                marginBottom: '1rem',
+                textShadow: '2px 2px 4px rgba(104, 63, 27, 0.1)'
+              }}>
+                📚 Suggested Reading
+              </h2>
+              <p style={{
+                fontSize: '1.2rem',
+                textAlign: 'center',
+                color: 'var(--bronze)',
+                fontStyle: 'italic',
+                marginBottom: '2rem'
+              }}>
+                Deepen your understanding of America&apos;s founding with these essential books
+              </p>
+              
+                             <div style={{
+                 display: 'grid',
+                 gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                 gap: '1.5rem',
+                 justifyItems: 'center'
+               }}>
+                <div style={{ textAlign: 'center' }}>
+                                     <img
+                     src="/books/american-scripture.webp"
+                     alt="American Scripture by Pauline Maier"
+                     style={{
+                       width: '100%',
+                       maxWidth: '200px',
+                       height: 'auto',
+                       aspectRatio: '2/3',
+                       borderRadius: '8px',
+                       boxShadow: '0 4px 15px rgba(104, 63, 27, 0.3)',
+                       marginBottom: '1rem',
+                       transition: 'transform 0.3s ease'
+                     }}
+                    onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                    onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                  />
+                  <h4 style={{
+                    fontFamily: 'librebaskerville-bold, serif',
+                    color: 'var(--mahogany)',
+                    fontSize: '1.1rem',
+                    marginBottom: '0.5rem'
+                  }}>
+                    American Scripture
+                  </h4>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--bronze)', fontStyle: 'italic' }}>
+                    by Pauline Maier
+                  </p>
+                </div>
+
+                <div style={{ textAlign: 'center' }}>
+                                     <img
+                     src="/books/global-history.webp"
+                     alt="The Global History of the Declaration of Independence"
+                     style={{
+                       width: '100%',
+                       maxWidth: '200px',
+                       height: 'auto',
+                       aspectRatio: '2/3',
+                       borderRadius: '8px',
+                       boxShadow: '0 4px 15px rgba(104, 63, 27, 0.3)',
+                       marginBottom: '1rem',
+                       transition: 'transform 0.3s ease'
+                     }}
+                    onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                    onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                  />
+                  <h4 style={{
+                    fontFamily: 'librebaskerville-bold, serif',
+                    color: 'var(--mahogany)',
+                    fontSize: '1.1rem',
+                    marginBottom: '0.5rem'
+                  }}>
+                    The Global History of the Declaration of Independence
+                  </h4>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--bronze)', fontStyle: 'italic' }}>
+                    by David Armitage
+                  </p>
+                </div>
+
+                <div style={{ textAlign: 'center' }}>
+                  <img
+                    src="/books/our-lives.webp"
+                    alt="Our Lives, Our Fortunes and Our Sacred Honor"
+                    style={{
+                      width: '100%',
+                      maxWidth: '200px',
+                      height: 'auto',
+                      aspectRatio: '2/3',
+                      borderRadius: '8px',
+                      boxShadow: '0 4px 15px rgba(104, 63, 27, 0.3)',
+                      marginBottom: '1rem',
+                      transition: 'transform 0.3s ease'
+                    }}
+                    onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                    onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                  />
+                  <h4 style={{
+                    fontFamily: 'librebaskerville-bold, serif',
+                    color: 'var(--mahogany)',
+                    fontSize: '1.1rem',
+                    marginBottom: '0.5rem'
+                  }}>
+                    Our Lives, Our Fortunes and Our Sacred Honor
+                  </h4>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--bronze)', fontStyle: 'italic' }}>
+                    by Richard R. Beeman
+                  </p>
+                </div>
+
+                <div style={{ textAlign: 'center' }}>
+                  <img
+                    src="/books/signing-lives.webp"
+                    alt="Signing Their Lives Away"
+                    style={{
+                      width: '100%',
+                      maxWidth: '200px',
+                      height: 'auto',
+                      aspectRatio: '2/3',
+                      borderRadius: '8px',
+                      boxShadow: '0 4px 15px rgba(104, 63, 27, 0.3)',
+                      marginBottom: '1rem',
+                      transition: 'transform 0.3s ease'
+                    }}
+                    onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                    onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                  />
+                  <h4 style={{
+                    fontFamily: 'librebaskerville-bold, serif',
+                    color: 'var(--mahogany)',
+                    fontSize: '1.1rem',
+                    marginBottom: '0.5rem'
+                  }}>
+                    Signing Their Lives Away
+                  </h4>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--bronze)', fontStyle: 'italic' }}>
+                    by Denise Kiernan & Joseph D&apos;Agnese
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Kids Corner Section */}
+            <div style={{
+              background: 'rgba(247, 241, 226, 0.9)',
+              padding: '2rem',
+              borderRadius: '12px',
+              border: '3px solid var(--bronze)',
+              boxShadow: '0 4px 12px rgba(104, 63, 27, 0.15)',
+              marginBottom: '2rem'
+            }}>
+              <h2 style={{
+                fontFamily: 'librebaskerville-bold, serif',
+                fontSize: '2.5rem',
+                color: 'var(--mahogany)',
+                textAlign: 'center',
+                marginBottom: '1rem',
+                textShadow: '2px 2px 4px rgba(104, 63, 27, 0.1)'
+              }}>
+                🎨 Kid&apos;s Corner
+              </h2>
+              <p style={{
+                fontSize: '1.2rem',
+                textAlign: 'center',
+                color: 'var(--bronze)',
+                fontStyle: 'italic',
+                marginBottom: '2rem'
+              }}>
+                Fun and engaging books to help young patriots learn about America&apos;s founding
+              </p>
+              
+              <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                gap: '2rem',
+                flexWrap: 'wrap'
+              }}>
+                <div style={{ textAlign: 'center' }}>
+                  <img
+                    src="/books/if-a-kid.webp"
+                    alt="If a Kid Ran America"
+                    style={{
+                      width: '100%',
+                      maxWidth: '180px',
+                      height: 'auto',
+                      aspectRatio: '2/3',
+                      borderRadius: '8px',
+                      boxShadow: '0 4px 15px rgba(104, 63, 27, 0.3)',
+                      marginBottom: '1rem',
+                      transition: 'transform 0.3s ease'
+                    }}
+                    onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05) rotate(2deg)'}
+                    onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1) rotate(0deg)'}
+                  />
+                  <h4 style={{
+                    fontFamily: 'librebaskerville-bold, serif',
+                    color: 'var(--mahogany)',
+                    fontSize: '1.1rem',
+                    marginBottom: '0.5rem'
+                  }}>
+                    If a Kid Ran America
+                  </h4>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--bronze)', fontStyle: 'italic' }}>
+                    by Catherine Stier
+                  </p>
+                </div>
+
+                <div style={{ textAlign: 'center' }}>
+                  <img
+                    src="/books/words-made-america.webp"
+                    alt="The Words That Made America"
+                    style={{
+                      width: '100%',
+                      maxWidth: '180px',
+                      height: 'auto',
+                      aspectRatio: '2/3',
+                      borderRadius: '8px',
+                      boxShadow: '0 4px 15px rgba(104, 63, 27, 0.3)',
+                      marginBottom: '1rem',
+                      transition: 'transform 0.3s ease'
+                    }}
+                    onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05) rotate(-2deg)'}
+                    onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1) rotate(0deg)'}
+                  />
+                  <h4 style={{
+                    fontFamily: 'librebaskerville-bold, serif',
+                    color: 'var(--mahogany)',
+                    fontSize: '1.1rem',
+                    marginBottom: '0.5rem'
+                  }}>
+                    The Words That Made America
+                  </h4>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--bronze)', fontStyle: 'italic' }}>
+                    by Susan Goldman Rubin
+                  </p>
+                </div>
+              </div>
+              
+              <div style={{
+                marginTop: '1.5rem',
+                padding: '1rem',
+                background: 'rgba(255, 255, 255, 0.3)',
+                borderRadius: '8px',
+                textAlign: 'center'
+              }}>
+                <p style={{
+                  fontSize: '1rem',
+                  color: 'var(--mahogany)',
+                  fontFamily: 'librebaskerville-bold, serif',
+                  margin: 0
+                }}>
+                  🌟 Perfect for ages 8-12 • Inspire the next generation of patriots! 🌟
+                </p>
               </div>
             </div>
           </div>
