@@ -154,6 +154,24 @@ export default function Navigation() {
             >
               MEET THE FOUNDERS
             </Link>
+            
+            <Link href="/our-story" style={{
+              fontFamily: 'librebaskerville-bold, serif',
+              fontSize: '1.1rem',
+              color: 'var(--linen)',
+              textDecoration: 'none',
+              padding: '0.5rem 1rem',
+              borderRadius: '6px',
+              transition: 'all 0.2s ease',
+              position: 'relative',
+              overflow: 'hidden',
+              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)',
+              zIndex: 2
+            }}
+            className="nav-link"
+            >
+              OUR STORY
+            </Link>
           </div>
         </div>
       </nav>
@@ -183,6 +201,9 @@ export default function Navigation() {
             </Link>
             <Link href="/meet-the-founders" className={styles.menuLink} onClick={closeMenu}>
               Meet the Founders
+            </Link>
+            <Link href="/our-story" className={styles.menuLink} onClick={closeMenu}>
+              Our Story
             </Link>
           </div>
         </div>

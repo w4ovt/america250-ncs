@@ -1,0 +1,184 @@
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  line-height: 1.8;
+}
+
+.headerImage {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.content {
+  color: var(--text-color);
+}
+
+.mainTitle {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 3rem;
+  font-weight: bold;
+  text-align: center;
+  color: var(--mahogany);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  margin-bottom: 3rem;
+  letter-spacing: 3px;
+}
+
+.narrative {
+  margin-bottom: 4rem;
+}
+
+.narrative p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  text-align: justify;
+}
+
+.openingParagraph {
+  font-size: 1.3rem !important;
+  font-weight: 500;
+  color: var(--mahogany);
+  border-left: 4px solid var(--bronze);
+  padding-left: 1.5rem;
+  margin-bottom: 2rem !important;
+  font-style: italic;
+}
+
+.closingParagraph {
+  font-size: 1.2rem !important;
+  font-weight: bold;
+  color: var(--mahogany);
+  text-align: center !important;
+  border: 2px solid var(--bronze);
+  padding: 1.5rem;
+  background: rgba(139, 69, 19, 0.05);
+  border-radius: 8px;
+  margin: 2rem 0 !important;
+}
+
+.signature {
+  text-align: center !important;
+  font-size: 1.1rem !important;
+  color: var(--mahogany);
+  font-weight: 500;
+  margin-top: 2rem !important;
+}
+
+.backwaterSection {
+  background: rgba(139, 69, 19, 0.05);
+  border: 2px solid var(--bronze);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 3rem 0;
+}
+
+.sectionTitle {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--mahogany);
+  text-align: center;
+  margin-bottom: 1.5rem;
+  letter-spacing: 2px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.backwaterQuote {
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--mahogany);
+  text-align: center;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: rgba(247, 241, 226, 0.8);
+  border-radius: 8px;
+  border-left: 4px solid var(--bronze);
+}
+
+.artistCredit {
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.artistLink {
+  color: var(--mahogany);
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.artistLink:hover {
+  text-decoration: underline;
+  color: var(--bronze);
+}
+
+.backwaterExplanation {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  text-align: justify;
+}
+
+.founderSection {
+  text-align: center;
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 3px solid var(--bronze);
+}
+
+.founderPhoto {
+  width: 100%;
+  max-width: 450px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  border: 3px solid var(--bronze);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .mainTitle {
+    font-size: 2.2rem;
+    letter-spacing: 2px;
+  }
+  
+  .narrative p {
+    font-size: 1rem;
+    text-align: left;
+  }
+  
+  .openingParagraph {
+    font-size: 1.1rem !important;
+    text-align: left !important;
+  }
+  
+  .closingParagraph {
+    font-size: 1.1rem !important;
+    text-align: left !important;
+  }
+  
+  .backwaterQuote {
+    font-size: 1.1rem;
+    text-align: left;
+  }
+  
+  .backwaterExplanation {
+    font-size: 1rem;
+    text-align: left;
+  }
+  
+  .backwaterSection {
+    padding: 1.5rem;
+  }
+  
+  .sectionTitle {
+    font-size: 1.6rem;
+  }
+} 

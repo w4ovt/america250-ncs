@@ -439,6 +439,98 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+
+        {/* Our Mission Promotional Block */}
+        <section style={{ marginTop: '3rem', marginBottom: '2rem' }}>
+          {/* Brass Separator Bar */}
+          <div style={{
+            height: '4px',
+            background: 'linear-gradient(90deg, var(--bronze) 0%, #D4AF37 50%, var(--bronze) 100%)',
+            boxShadow: '0 2px 6px rgba(212, 175, 55, 0.6)',
+            margin: '2rem 0',
+            borderRadius: '2px'
+          }}></div>
+
+          {/* Full-width Promotional Block */}
+          <Link href="/our-story" style={{ textDecoration: 'none' }}>
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(139, 69, 19, 0.1) 0%, rgba(199, 161, 89, 0.1) 100%)',
+              padding: '3rem 2rem',
+              borderRadius: '12px',
+              border: '3px solid var(--bronze)',
+              boxShadow: '0 6px 20px rgba(104, 63, 27, 0.15)',
+              transition: 'all 0.3s ease',
+              cursor: 'pointer',
+              textAlign: 'center',
+              position: 'relative',
+              overflow: 'hidden'
+            }}
+            className="mission-promo-card"
+            >
+              {/* Background Pattern */}
+              <div style={{
+                position: 'absolute',
+                top: '0',
+                left: '0',
+                right: '0',
+                bottom: '0',
+                opacity: '0.05',
+                backgroundImage: 'radial-gradient(circle, var(--mahogany) 1px, transparent 1px)',
+                backgroundSize: '20px 20px',
+                pointerEvents: 'none'
+              }}></div>
+              
+              <div style={{ position: 'relative', zIndex: 1 }}>
+                <h2 style={{
+                  fontFamily: 'librebaskerville-bold, serif',
+                  fontSize: '2.5rem',
+                  color: 'var(--mahogany)',
+                  margin: '0 0 1rem 0',
+                  textShadow: '2px 2px 4px rgba(104, 63, 27, 0.2)',
+                  letterSpacing: '0.1em'
+                }}>
+                  DISCOVER THE EPIC STORY
+                </h2>
+                
+                <h3 style={{
+                  fontFamily: 'librebaskerville-bold, serif',
+                  fontSize: '1.4rem',
+                  color: 'var(--bronze)',
+                  margin: '0 0 1.5rem 0',
+                  fontStyle: 'italic',
+                  letterSpacing: '0.05em'
+                }}>
+                  Behind America250
+                </h3>
+                
+                <p style={{
+                  fontSize: '1.3rem',
+                  lineHeight: '1.6',
+                  color: 'var(--mahogany)',
+                  marginBottom: '2rem',
+                  fontFamily: 'librebaskerville-regular, serif',
+                  maxWidth: '800px',
+                  margin: '0 auto 2rem auto'
+                }}>
+                  From the Appalachian frontier to global history — discover why the Battle of Kings Mountain 
+                  didn't just win American independence, but <strong>saved the sovereignty of every nation on Earth</strong>. 
+                  Learn the untold story of the Backwater Men who changed the course of world history.
+                </p>
+                
+                <div style={{
+                  fontFamily: 'librebaskerville-bold, serif',
+                  fontSize: '1.2rem',
+                  color: 'var(--bronze)',
+                  fontWeight: 'bold',
+                  letterSpacing: '0.05em',
+                  textTransform: 'uppercase'
+                }}>
+                  Read Our Story →
+                </div>
+              </div>
+            </div>
+          </Link>
+        </section>
         </div>
       </main>
     </>
