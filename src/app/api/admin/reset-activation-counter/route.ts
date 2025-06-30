@@ -25,6 +25,8 @@ export async function POST(request: Request) {
       .from(activations)
       .where(isNull(activations.endedAt));
     
+    let deletedCount = 0;
+    
     if (runningActivations.length > 0) {
       if (!force) {
         return NextResponse.json({
@@ -34,9 +36,13 @@ export async function POST(request: Request) {
         }, { status: 400 });
       }
       
-      // Force mode: Delete all activations first
+      // Force mode: Get total count of all activations before deleting
+      const allActivations = await db().select().from(activations);
+      deletedCount = allActivations.length;
+      
+      // Delete all activations
       await db().delete(activations);
-      console.log(`Deleted all activations (including ${runningActivations.length} running ones)`);
+      console.log(`Deleted all ${deletedCount} activations (including ${runningActivations.length} running ones)`);
     }
 
     // Reset the activation_id sequence to 1
@@ -47,9 +53,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ 
       success: true, 
       message: force 
-        ? `Reset successful: deleted all activations and reset counter`
+        ? `Reset successful: deleted ${deletedCount} activations and reset counter`
         : 'Activation counter reset successfully (no running activations)',
-      deletedCount: force ? runningActivations.length : 0
+      deletedCount: deletedCount
     });
     
   } catch (error) {
