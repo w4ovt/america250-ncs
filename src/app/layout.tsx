@@ -1,5 +1,6 @@
 import './globals.css';
 import type { ReactNode } from 'react';
+import Footer from '../components/Footer';
 
 // Environment validation for production safety (server-side only)
 if (typeof window === 'undefined' && process.env.NODE_ENV === 'production') {
@@ -186,6 +187,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body>
         {children}
+        <Footer />
       </body>
     </html>
   );
