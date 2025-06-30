@@ -1,50 +1,37 @@
 export default {
   async fetch(request, env, ctx) {
-    // Generate a unique cache-busting parameter
-    const timestamp = Date.now();
-    const randomId = Math.random().toString(36).substring(2, 15);
-    const cacheBuster = `${timestamp}-${randomId}`;
-    
-    // Set aggressive no-cache headers and allow iframe embedding
-    const corsHeaders = {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET',
-      'Content-Type': 'text/html; charset=utf-8',
-      'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0, private, no-transform',
-      'Pragma': 'no-cache',
-      'Expires': '0',
-      'Surrogate-Control': 'no-store',
-      'Vary': '*',
-      'ETag': `"${cacheBuster}"`,
-      'Last-Modified': new Date().toUTCString(),
-      'X-Frame-Options': 'ALLOWALL',
-      'Content-Security-Policy': "frame-ancestors 'self' *",
-    };
-
     try {
-      // Add multiple cache-busting parameters to API call
-      const apiUrl = `https://america250.radio/api/activations/list?_t=${timestamp}&_r=${randomId}&_cb=${cacheBuster}`;
+      // Add cache busting and unique identifiers
+      const timestamp = Date.now();
+      const randomId = Math.random().toString(36).substring(7);
+      const cacheBuster = `${timestamp}_${randomId}`;
       
+      // Fetch data from your API
+      const apiUrl = 'https://america250.radio/api/activations/list';
       const response = await fetch(apiUrl, {
         headers: {
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
-          'Pragma': 'no-cache',
-          'If-None-Match': `"${cacheBuster}"`,
-          'If-Modified-Since': 'Thu, 01 Jan 1970 00:00:00 GMT',
-          'X-Requested-With': 'XMLHttpRequest'
+          'User-Agent': 'America250-NCS-Worker/1.0',
+          'Accept': 'application/json',
+          'Cache-Control': 'no-cache'
         }
       });
-      
-      if (!response.ok) {
-        throw new Error(`API responded with status: ${response.status}`);
-      }
-      
-      const activations = await response.json();
 
-      // Format the data with simple, robust HTML
+      let activations = [];
       let tableRows = '';
+
+      if (response.ok) {
+        activations = await response.json();
+      }
+
+      // Build table rows
       if (activations.length === 0) {
-        tableRows = '<tr><td colspan="6" style="text-align: center; color: #683f1b; font-style: italic; padding: 2rem;">No active activations</td></tr>';
+        tableRows = `
+          <tr>
+            <td colspan="6" style="text-align: center; color: #683f1b; font-style: italic; padding: 20px;">
+              No active NCS stations at this time
+            </td>
+          </tr>
+        `;
       } else {
         tableRows = activations.map(activation => {
           const startDate = new Date(activation.startedAt);
@@ -69,12 +56,12 @@ export default {
 
       const currentTime = new Date().toLocaleTimeString();
 
-      // Return HTML with 1-minute refresh
+      // Return HTML with 30-second refresh
       const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="refresh" content="60;url=https://america250-ncs-activations.marc-4b1.workers.dev?_t=${timestamp}&_r=${randomId}&_cb=${cacheBuster}&_v=${Date.now()}">
+  <meta http-equiv="refresh" content="30;url=https://america250-ncs-activations.marc-4b1.workers.dev?_t=${timestamp}&_r=${randomId}&_cb=${cacheBuster}&_v=${Date.now()}">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0, private, no-transform">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -149,53 +136,51 @@ export default {
 </html>`;
 
       return new Response(html, {
-        status: 200,
-        headers: corsHeaders,
+        headers: {
+          'Content-Type': 'text/html; charset=utf-8',
+          'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0, private',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+          'ETag': cacheBuster,
+          'X-Content-Type-Options': 'nosniff',
+          'X-Frame-Options': 'SAMEORIGIN',
+          'Access-Control-Allow-Origin': '*',
+        },
       });
 
     } catch (error) {
-      console.error('Worker error:', error);
-      
-      // Return error page if API is down
-      const errorHtml = `<!DOCTYPE html>
-<html lang="en">
+      // Return error page
+      return new Response(`
+<!DOCTYPE html>
+<html>
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="refresh" content="60;url=https://america250-ncs-activations.marc-4b1.workers.dev?_t=${timestamp}&_r=${randomId}&_cb=${cacheBuster}&_v=${Date.now()}">
-  <title>America250-NCS Activations - Error</title>
+  <meta http-equiv="refresh" content="30">
+  <title>America250-NCS - Error</title>
   <style>
     body { 
       font-family: Arial, sans-serif; 
       font-size: 14px; 
       margin: 0; 
-      padding: 20px; 
+      padding: 10px; 
       background: #f7f1e2;
       color: #683f1b;
       text-align: center;
     }
-    .error {
-      color: #721c24;
-      background: #f8d7da;
-      border: 1px solid #f5c6cb;
-      padding: 1rem;
-      border-radius: 4px;
-      margin: 1rem 0;
-    }
   </style>
 </head>
 <body>
-  <div class="error">
-    <h3>Unable to load activations</h3>
-    <p>Error: ${error.message}</p>
-    <p>Please try again in a moment.</p>
-    <p>Last updated: ${new Date().toLocaleTimeString()}</p>
-  </div>
+  <h3>America250-NCS Activations</h3>
+  <p>Unable to load activation data at this time.</p>
+  <p>Please check back in a moment.</p>
+  <p><small>Error: ${error.message}</small></p>
 </body>
-</html>`;
-
-      return new Response(errorHtml, {
-        status: 200,
-        headers: corsHeaders,
+</html>`, {
+        status: 500,
+        headers: {
+          'Content-Type': 'text/html; charset=utf-8',
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+        },
       });
     }
   },

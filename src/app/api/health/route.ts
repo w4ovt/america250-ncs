@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '../../../db';
-import { pins } from '../../../db/schema';
+import { volunteers } from '../../../db/schema';
 
 export async function GET() {
   const startTime = Date.now();
@@ -8,7 +8,7 @@ export async function GET() {
   
   try {
     // Test database connectivity
-    await db().select().from(pins).limit(1);
+    await db().select().from(volunteers).limit(1);
     const dbConnected = true;
     
     const responseTime = Date.now() - startTime;

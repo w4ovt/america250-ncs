@@ -23,7 +23,7 @@ The America250-NCS (National Communications System) is a special event station i
 - **Real-time Status** - Live activation monitoring
 
 ### 🛠️ **Admin Dashboard**
-- **Volunteer Management** - PIN creation and assignment
+- **Unified Volunteer Management** - Add, edit, delete, and sort volunteers with integrated PIN and role fields
 - **System Monitoring** - Activation oversight and statistics
 - **Log Archive** - Complete submission history
 - **Data Management** - Export and backup capabilities
@@ -106,8 +106,10 @@ The America250-NCS (National Communications System) is a special event station i
 
 ### Admin Endpoints
 - `GET /api/admin/status` - System statistics
-- `POST /api/admin/pins` - Create volunteer PINs
-- `GET /api/admin/volunteers` - Volunteer management
+- `GET /api/admin/volunteers` - Volunteer management (list)
+- `POST /api/admin/volunteers` - Add new volunteer (name, callsign, state, pin, role)
+- `PUT /api/admin/volunteers/:id` - Edit volunteer (all fields editable)
+- `DELETE /api/admin/volunteers/:id` - Delete volunteer (cascades to activations and ADI submissions)
 
 ## 🔧 Configuration
 

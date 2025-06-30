@@ -35,7 +35,8 @@
     "db:studio": "drizzle-kit studio",
     "build:analyze": "ANALYZE=true npm run build",
     "clean": "rm -rf .next out",
-    "health-check": "curl -f http://localhost:3000/api/health || exit 1"
+    "health-check": "curl -f http://localhost:3000/api/health || exit 1",
+    "db:seed": "node scripts/seed.js"
   },
   "engines": {
     "node": ">=18.0.0",

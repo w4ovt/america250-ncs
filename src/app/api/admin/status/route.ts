@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { db } from '../../../../db';
 import { count, sql } from 'drizzle-orm';
-import { activations, adiSubmissions, logSubmissions, pins, volunteers } from '../../../../db/schema';
+import { activations, adiSubmissions, logSubmissions, volunteers } from '../../../../db/schema';
 
 export async function GET() {
   const requestId = `status_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
@@ -9,14 +9,12 @@ export async function GET() {
   
   try {
     // Get basic counts from each table for health overview
-    const pinCountResult = await db().select({ count: count() }).from(pins);
     const volunteerCountResult = await db().select({ count: count() }).from(volunteers);
     const activeActivationCountResult = await db().select({ count: count() }).from(activations).where(sql`ended_at IS NULL`);
     const totalActivationCountResult = await db().select({ count: count() }).from(activations);
     const logSubmissionCountResult = await db().select({ count: count() }).from(logSubmissions);
     const adiSubmissionCountResult = await db().select({ count: count() }).from(adiSubmissions);
     
-    const pinCount = pinCountResult[0] || { count: 0 };
     const volunteerCount = volunteerCountResult[0] || { count: 0 };
     const activeActivationCount = activeActivationCountResult[0] || { count: 0 };
     const totalActivationCount = totalActivationCountResult[0] || { count: 0 };
@@ -39,7 +37,6 @@ export async function GET() {
         connected: true,
         responseTime: `${responseTime}ms`,
         tables: {
-          pins: pinCount.count || 0,
           volunteers: volunteerCount.count || 0,
           activeActivations: activeActivationCount.count || 0,
           totalActivations: totalActivationCount.count || 0,

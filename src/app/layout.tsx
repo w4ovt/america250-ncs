@@ -16,26 +16,35 @@ if (typeof window === 'undefined' && process.env.NODE_ENV === 'production') {
 
 // Enhanced metadata for SEO and social sharing
 export const metadata = {
-  title: 'America250-NCS | Amateur Radio Event Management',
-  description: 'National Communications System Event Portal for America\'s 250th anniversary celebration. Volunteer registration, activation tracking, and ADI log processing for amateur radio operators.',
-  keywords: 'amateur radio, ham radio, America250, NCS, K4A, volunteer, activation, logbook, ADI, QRZ',
+  title: 'AMERICA250.radio | Semiquincentennial Amateur Radio Special Event',
+  description: 'Join the AMERICA250.radio project—celebrating the 250th anniversary of American Independence with amateur radio events, the Chasing Cornwallis Challenge, and K4A Kilo4America. Volunteer as a Net Control Operator and be part of history!',
+  keywords: 'AMERICA250, America 250, Semiquincentennial, Semiquin, Amateur Radio, Ham Radio, Chasing Cornwallis Challenge, K4A Kilo4America, American Revolution, Southern Campaign, Revolutionary War, Independence Day, Declaration of Independence, Net Control Operator, Radio Special Event, W4OVT, QSL cards, activation tracking',
   authors: [{ name: 'Marc Bowen W4OVT', url: 'https://america250.radio' }],
   creator: 'Marc Bowen W4OVT',
-  publisher: 'America250-NCS',
-  applicationName: 'America250-NCS Event Portal',
+  publisher: 'America250 Amateur Radio Event',
+  applicationName: 'America250 Official Portal',
   openGraph: {
-    title: 'America250-NCS | Amateur Radio Event Management',
-    description: 'Join the America250 National Communications System celebration. Volunteer registration and activation tracking for amateur radio operators.',
+    title: 'AMERICA250.radio | Semiquincentennial Amateur Radio Special Event',
+    description: 'Celebrate America\'s 250th anniversary with amateur radio events, the Chasing Cornwallis Challenge, and K4A Kilo4America. Volunteer and be part of history!',
     url: 'https://america250.radio',
-    siteName: 'America250-NCS',
+    siteName: 'AMERICA250.radio',
     type: 'website',
     locale: 'en_US',
+    images: [
+      {
+        url: 'https://america250.radio/america250-ncs-header-image.webp',
+        width: 800,
+        height: 509,
+        alt: 'America250 Amateur Radio Event Portal'
+      }
+    ]
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'America250-NCS Event Portal',
-    description: 'Join the America250 National Communications System celebration',
+    title: 'AMERICA250.radio | Semiquincentennial Amateur Radio Special Event',
+    description: 'Join the AMERICA250.radio project—celebrating the 250th anniversary of American Independence with amateur radio events, the Chasing Cornwallis Challenge, and K4A Kilo4America.',
     creator: '@W4OVT',
+    images: ['https://america250.radio/america250-ncs-header-image.webp']
   },
   robots: {
     index: true,
@@ -45,8 +54,11 @@ export const metadata = {
       follow: true,
     },
   },
-  category: 'Amateur Radio',
+  category: 'Amateur Radio Events',
   manifest: '/manifest.json',
+  alternates: {
+    canonical: 'https://america250.radio'
+  }
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -70,6 +82,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           type="font/woff2"
           crossOrigin="anonymous"
         />
+        <link
+          rel="preload"
+          href="/fonts/oldclaude.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+
         
         {/* Performance Optimization Hints */}
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
@@ -100,6 +120,69 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         
         {/* Performance Monitoring */}
         <meta name="generator" content="Next.js 15.3.4" />
+        
+        {/* Structured Data for Search Engines */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "WebSite",
+                  "@id": "https://america250.radio/#website",
+                  "url": "https://america250.radio/",
+                  "name": "AMERICA250.radio - Semiquincentennial Amateur Radio Special Event",
+                  "description": "Official AMERICA250.radio portal for America's Semiquincentennial amateur radio celebration featuring the Chasing Cornwallis Challenge and K4A Kilo4America",
+                  "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": "https://america250.radio/?s={search_term_string}",
+                    "query-input": "required name=search_term_string"
+                  }
+                },
+                {
+                  "@type": "Organization",
+                  "@id": "https://america250.radio/#organization",
+                  "name": "AMERICA250.radio Semiquincentennial Amateur Radio Event",
+                  "url": "https://america250.radio/",
+                  "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://america250.radio/america250-ncs-header-image.webp"
+                  },
+                  "foundingDate": "2024",
+                  "description": "AMERICA250.radio amateur radio commemoration of America's Semiquincentennial featuring the Chasing Cornwallis Challenge and K4A Kilo4America special event stations",
+                  "contactPoint": {
+                    "@type": "ContactPoint",
+                    "contactType": "Event Coordinator",
+                    "email": "marc@history.radio"
+                  }
+                },
+                {
+                  "@type": "Event",
+                  "@id": "https://america250.radio/#event",
+                  "name": "AMERICA250.radio Semiquincentennial Amateur Radio Special Event",
+                  "description": "Nationwide amateur radio special event commemorating America's Semiquincentennial with the Chasing Cornwallis Challenge and K4A Kilo4America stations",
+                  "startDate": "2025-07-04",
+                  "endDate": "2026-07-04",
+                  "eventStatus": "EventScheduled",
+                  "eventAttendanceMode": "MixedEventAttendanceMode",
+                  "location": {
+                    "@type": "Place",
+                    "name": "United States",
+                    "geo": {
+                      "@type": "GeoCoordinates",
+                      "latitude": 39.8283,
+                      "longitude": -98.5795
+                    }
+                  },
+                  "organizer": {
+                    "@id": "https://america250.radio/#organization"
+                  }
+                }
+              ]
+            })
+          }}
+        />
       </head>
       <body>
         {children}

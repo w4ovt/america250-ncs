@@ -16,6 +16,50 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Old Claude';
+  src: url('/fonts/oldclaude.woff2') format('woff2'),
+       url('/fonts/oldclaude.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Responsive adjustments for Old Claude homepage typography */
+@media (max-width: 768px) {
+  .homepage-title div:first-child {
+    font-size: 4rem !important; /* Reduce from 5.33rem */
+    letter-spacing: 0.6rem !important; /* Reduce spread proportionally */
+  }
+  .homepage-title div:nth-child(2) {
+    font-size: 1.5rem !important; /* Reduce from 2rem */
+  }
+  .homepage-title div:nth-child(3) {
+    font-size: 1.5rem !important; /* Reduce from 2rem */
+    letter-spacing: 0.5rem !important; /* Reduce spread proportionally */
+  }
+  .homepage-title div:nth-child(4) {
+    font-size: 1.5rem !important; /* Reduce from 2rem */
+  }
+}
+
+@media (max-width: 480px) {
+  .homepage-title div:first-child {
+    font-size: 2.8rem !important; /* Further reduce */
+    letter-spacing: 0.4rem !important; /* Further reduce spread */
+  }
+  .homepage-title div:nth-child(2) {
+    font-size: 1.1rem !important;
+  }
+  .homepage-title div:nth-child(3) {
+    font-size: 1.1rem !important;
+    letter-spacing: 0.3rem !important;
+  }
+  .homepage-title div:nth-child(4) {
+    font-size: 1.1rem !important;
+  }
+}
+
 /* CSS Reset for button elements to override user agent styles */
 button {
   margin: 0 !important;

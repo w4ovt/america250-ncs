@@ -34,8 +34,8 @@ export default function ActivationTable() {
   useEffect(() => {
     fetchActivations();
     
-    // Set up real-time updates every 5 seconds
-    const interval = setInterval(fetchActivations, 5000);
+    // Set up real-time updates every 2 seconds for faster response
+    const interval = setInterval(fetchActivations, 2000);
     
     return () => clearInterval(interval);
   }, []);

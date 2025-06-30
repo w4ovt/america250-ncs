@@ -2,18 +2,15 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import styles from './AdminDashboard.module.css';
-
-interface Pin {
-  pinId: number;
-  pin: string;
-  role: string;
-}
+import VolunteerManagement from './VolunteerManagement';
 
 interface Volunteer {
   volunteerId: number;
   name: string;
   callsign: string;
   state: string;
+  pin: string;
+  role: string;
 }
 
 interface Activation {
@@ -45,21 +42,16 @@ interface AdminDashboardProps {
 }
 
 export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
-  const [pins, setPins] = useState<Pin[]>([]);
   const [volunteers, setVolunteers] = useState<Volunteer[]>([]);
   const [activations, setActivations] = useState<Activation[]>([]);
   const [adiSubmissions, setAdiSubmissions] = useState<AdiSubmission[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedRole, setSelectedRole] = useState('volunteer');
-  const [isCreating, setIsCreating] = useState(false);
   const [isCreatingActivation, setIsCreatingActivation] = useState(false);
-  const [isDeleting, setIsDeleting] = useState<number | null>(null);
   const [isEndingActivation, setIsEndingActivation] = useState<number | null>(null);
   const [isResettingCounter, setIsResettingCounter] = useState(false);
   const [isDeletingSubmission, setIsDeletingSubmission] = useState<number | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [requestedPin, setRequestedPin] = useState('');
   const [submissionSearch, setSubmissionSearch] = useState('');
   const [submissionSortBy, setSubmissionSortBy] = useState('submittedAt');
   const [submissionSortOrder, setSubmissionSortOrder] = useState<'asc' | 'desc'>('desc');
@@ -69,22 +61,6 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [selectedVolunteerId, setSelectedVolunteerId] = useState<number | ''>('');
   const [activationFrequency, setActivationFrequency] = useState('');
   const [activationMode, setActivationMode] = useState('');
-
-  const RESERVED_PINS = ['7317', '7373'];
-
-  const fetchPins = async () => {
-    try {
-      const response = await fetch('/api/admin/pins');
-      if (response.ok) {
-        const data = await response.json();
-        setPins(data);
-      } else {
-        setErrorMessage('Failed to load PINs');
-      }
-    } catch {
-      setErrorMessage('Network error loading PINs');
-    }
-  };
 
   const fetchVolunteers = async () => {
     try {
@@ -137,14 +113,12 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
   }, [submissionSearch, submissionSortBy, submissionSortOrder]);
 
   useEffect(() => {
-    fetchPins();
     fetchVolunteers();
     fetchActivations();
     fetchAdiSubmissions();
     
     // Set up real-time updates every 10 seconds
     const interval = setInterval(() => {
-      fetchPins();
       fetchVolunteers();
       fetchActivations();
       fetchAdiSubmissions();
@@ -152,36 +126,6 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
     
     return () => clearInterval(interval);
   }, [submissionSearch, submissionSortBy, submissionSortOrder, fetchAdiSubmissions]);
-
-  const handleCreatePin = async () => {
-    setIsCreating(true);
-    setErrorMessage('');
-    setSuccessMessage('');
-
-    try {
-      const response = await fetch('/api/admin/pins', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ role: selectedRole, pin: requestedPin || undefined }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setSuccessMessage(`PIN ${data.pin} created successfully for ${selectedRole} role`);
-        setRequestedPin('');
-        fetchPins(); // Refresh the list
-      } else {
-        const errorData = await response.json();
-        setErrorMessage(errorData.error || 'Failed to create PIN');
-      }
-    } catch {
-      setErrorMessage('Network error creating PIN');
-    } finally {
-      setIsCreating(false);
-    }
-  };
 
   const handleCreateActivation = async () => {
     if (!selectedVolunteerId || !activationFrequency || !activationMode) {
@@ -222,35 +166,6 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
       setErrorMessage('Network error creating activation');
     } finally {
       setIsCreatingActivation(false);
-    }
-  };
-
-  const handleDeletePin = async (pinId: number, pin: string) => {
-    if (RESERVED_PINS.includes(pin)) {
-      setErrorMessage(`Cannot delete reserved PIN ${pin}`);
-      return;
-    }
-
-    setIsDeleting(pinId);
-    setErrorMessage('');
-    setSuccessMessage('');
-
-    try {
-      const response = await fetch(`/api/admin/pins/${pinId}`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        setSuccessMessage(`PIN ${pin} deleted successfully`);
-        fetchPins(); // Refresh the list
-      } else {
-        const errorData = await response.json();
-        setErrorMessage(errorData.error || 'Failed to delete PIN');
-      }
-    } catch {
-      setErrorMessage('Network error deleting PIN');
-    } finally {
-      setIsDeleting(null);
     }
   };
 
@@ -441,24 +356,10 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
           </div>
         </div>
 
-        {/* Create PIN Form Skeleton */}
+        {/* Volunteer Management Skeleton */}
         <div className={styles.adminSection}>
-          <div className="skeleton skeleton-text" style={{ width: '100%', maxWidth: '100px', height: '1.5rem', marginBottom: '1rem' }}></div>
-          <div className={styles.pinCreateForm}>
-            <div className={styles.formRow}>
-              <div className={styles.formGroup}>
-                <div className="skeleton skeleton-text short" style={{ marginBottom: '0.5rem' }}></div>
-                <div className="skeleton skeleton-text" style={{ height: '2.5rem' }}></div>
-              </div>
-              <div className={styles.formGroup}>
-                <div className="skeleton skeleton-text medium" style={{ marginBottom: '0.5rem' }}></div>
-                <div className="skeleton skeleton-text" style={{ height: '2.5rem' }}></div>
-              </div>
-              <div className={styles.formGroup}>
-                <div className="skeleton skeleton-text" style={{ height: '2.5rem', marginTop: '1.5rem' }}></div>
-              </div>
-            </div>
-          </div>
+          <div className="skeleton skeleton-text" style={{ width: '100%', maxWidth: '200px', height: '1.5rem', marginBottom: '1rem' }}></div>
+          <div className="skeleton skeleton-text" style={{ width: '100%', height: '400px', borderRadius: '6px' }}></div>
         </div>
       </div>
     );
@@ -498,12 +399,12 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
             disabled={isResettingCounter}
             className="btn btn-danger"
           >
-                            {isResettingCounter ? (
-                  <>
-                    <span className="loading-spinner" style={{ marginRight: '0.5rem' }}></span>
-                    Resetting...
-                  </>
-                ) : 'Reset Activation Counter to 0'}
+            {isResettingCounter ? (
+              <>
+                <span className="loading-spinner" style={{ marginRight: '0.5rem' }}></span>
+                Resetting...
+              </>
+            ) : 'Reset Activation Counter to 0'}
           </button>
           <span className={styles.resetWarning + ' ' + styles.centeredText}>
             IMPORTANT: End All Activations Before Resetting Activation Numbering. Use this when the event goes live to reset activation numbering
@@ -626,128 +527,10 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
         </div>
       </div>
 
-      {/* Create PIN Section */}
+      {/* Volunteer Management Section */}
       <div className={styles.adminSection}>
-        <h3 className={styles.sectionTitle}>Create PIN</h3>
-        <div className={styles.pinCreateForm}>
-          <div className={styles.formRow}>
-            <div className={styles.formGroup}>
-              <label htmlFor="role-select">Role:</label>
-              <select
-                id="role-select"
-                value={selectedRole}
-                onChange={(e) => setSelectedRole(e.target.value)}
-                className={styles.formSelect}
-              >
-                <option value="volunteer">Volunteer</option>
-                <option value="admin">Admin</option>
-              </select>
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="requested-pin">Requested PIN (optional):</label>
-              <input
-                id="requested-pin"
-                name="requested-pin"
-                type="text"
-                maxLength={4}
-                pattern="[0-9]{4}"
-                value={requestedPin}
-                onChange={e => setRequestedPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
-                className={styles.formInput}
-                placeholder="4 digits"
-                autoComplete="off"
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label>&nbsp;</label>
-              <button
-                onClick={handleCreatePin}
-                disabled={isCreating}
-                className="btn btn-primary"
-              >
-                {isCreating ? (
-                  <>
-                    <span className="loading-spinner" style={{ marginRight: '0.5rem' }}></span>
-                    Creating...
-                  </>
-                ) : 'Create PIN'}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* PINs Table Section */}
-      <div className={styles.adminSection}>
-        <h3 className={styles.sectionTitle}>Manage PINs</h3>
-        <div className={styles.pinsTableWrapper}>
-          <table className={styles.pinsTable}>
-            <thead>
-              <tr>
-                <th>PIN</th>
-                <th>Role</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {pins.map((pin) => (
-                <tr key={pin.pinId}>
-                  <td>
-                    {pin.pin}
-                    {RESERVED_PINS.includes(pin.pin) && (
-                      <span className={styles.reservedBadge}>Reserved</span>
-                    )}
-                  </td>
-                  <td>{pin.role}</td>
-                  <td>
-                    <button
-                      onClick={() => handleDeletePin(pin.pinId, pin.pin)}
-                      disabled={isDeleting === pin.pinId || RESERVED_PINS.includes(pin.pin)}
-                      className={styles.deleteBtn}
-                    >
-                      {isDeleting === pin.pinId ? 'Deleting...' : 'Delete'}
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Mobile Card Layout for PINs */}
-        <div className={styles.pinsCard}>
-          {pins.map((pin) => (
-            <div key={pin.pinId} className={styles.pinCard}>
-              <div className={styles.pinCardHeader}>
-                <h4 className={styles.pinCardTitle}>
-                  PIN: {pin.pin}
-                </h4>
-                <div className={styles.pinCardStatus}>
-                  {RESERVED_PINS.includes(pin.pin) && (
-                    <span className={styles.reservedBadge}>Reserved</span>
-                  )}
-                </div>
-              </div>
-              
-              <div className={styles.pinCardDetails}>
-                <div className={styles.pinCardDetail}>
-                  <span className={styles.pinCardLabel}>Role</span>
-                  <span className={styles.pinCardValue}>{pin.role}</span>
-                </div>
-              </div>
-              
-              <div className={styles.pinCardActions}>
-                <button
-                  onClick={() => handleDeletePin(pin.pinId, pin.pin)}
-                  disabled={isDeleting === pin.pinId || RESERVED_PINS.includes(pin.pin)}
-                  className={styles.deleteBtn}
-                >
-                  {isDeleting === pin.pinId ? 'Deleting...' : 'Delete'}
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
+        <h3 className={styles.sectionTitle}>Volunteer Management</h3>
+        <VolunteerManagement onVolunteersChange={fetchVolunteers} />
       </div>
 
       {/* ADI Submissions Table Section */}
