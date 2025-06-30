@@ -127,7 +127,7 @@ export default function QSLCardsPage() {
               borderRadius: '8px',
               border: '2px solid var(--bronze)',
               textAlign: 'center',
-              maxWidth: 'calc(100% - 40px)',
+              maxWidth: '1600px',
               width: '100%'
             }}>
               <h4 style={{ 
@@ -149,12 +149,13 @@ export default function QSLCardsPage() {
                 <Image
                   src="/k4a-donor-card.webp"
                   alt="K4A Limited Edition Donor QSL Card"
-                  width={860}
+                  width={1600}
                   height={553}
                   style={{ 
                     width: '100%', 
                     height: 'auto',
-                    display: 'block'
+                    display: 'block',
+                    maxWidth: '1600px'
                   }}
                 />
               </div>
@@ -171,7 +172,7 @@ export default function QSLCardsPage() {
               borderRadius: '8px',
               border: '2px solid var(--bronze)',
               textAlign: 'center',
-              maxWidth: 'calc(100% - 40px)',
+              maxWidth: '1600px',
               width: '100%'
             }}>
               <h4 style={{ 
@@ -193,12 +194,13 @@ export default function QSLCardsPage() {
                 <Image
                   src="/k4a-free-card.webp"
                   alt="K4A Donor-Free QSL Card"
-                  width={860}
+                  width={1600}
                   height={553}
                   style={{ 
                     width: '100%', 
                     height: 'auto',
-                    display: 'block'
+                    display: 'block',
+                    maxWidth: '1600px'
                   }}
                 />
               </div>
