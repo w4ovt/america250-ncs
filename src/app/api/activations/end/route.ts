@@ -4,9 +4,6 @@ import { activations } from '../../../../db/schema';
 import { eq } from 'drizzle-orm';
 
 export async function POST(request: NextRequest) {
-  const requestId = `end_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
-  const startTime = Date.now();
-  
   try {
     const { activationId } = await request.json();
     
@@ -24,47 +21,23 @@ export async function POST(request: NextRequest) {
       .returning();
     
     if (updatedActivation.length === 0) {
-      const responseTime = Date.now() - startTime;
-      const notFoundResponse = NextResponse.json(
-        { error: 'Activation not found', requestId },
+      return NextResponse.json(
+        { error: 'Activation not found' },
         { status: 404 }
       );
-      
-      notFoundResponse.headers.set('X-Request-ID', requestId);
-      notFoundResponse.headers.set('X-Response-Time', `${responseTime}ms`);
-      notFoundResponse.headers.set('X-Operation', 'activation-end');
-      notFoundResponse.headers.set('X-Error-Type', 'not-found');
-      
-      return notFoundResponse;
     }
     
-    const responseTime = Date.now() - startTime;
-    const response = NextResponse.json(updatedActivation[0]);
-    
-    response.headers.set('X-Request-ID', requestId);
-    response.headers.set('X-Response-Time', `${responseTime}ms`);
-    response.headers.set('X-Operation', 'activation-end');
-    response.headers.set('X-Activation-ID', activationId.toString());
-    
-    return response;
+    return NextResponse.json(updatedActivation[0]);
     
   } catch (error) {
-    const responseTime = Date.now() - startTime;
     // Log error for monitoring (would use structured logging in production)
     if (process.env.NODE_ENV === 'development') {
-      console.error(`[${requestId}] End activation error (${responseTime}ms):`, error);
+      console.error('End activation error:', error);
     }
     
-    const errorResponse = NextResponse.json(
-      { error: 'Internal server error', requestId },
+    return NextResponse.json(
+      { error: 'Internal server error' },
       { status: 500 }
     );
-    
-    errorResponse.headers.set('X-Request-ID', requestId);
-    errorResponse.headers.set('X-Response-Time', `${responseTime}ms`);
-    errorResponse.headers.set('X-Operation', 'activation-end');
-    errorResponse.headers.set('X-Error-Type', 'database');
-    
-    return errorResponse;
   }
 } 

@@ -23,7 +23,13 @@ export async function GET() {
       .where(isNotNull(activations.endedAt))
       .orderBy(desc(activations.endedAt));
 
-    return NextResponse.json(archivedActivations);
+    return NextResponse.json(archivedActivations, {
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      },
+    });
 
   } catch (error) {
     // Log error for monitoring (would use structured logging in production)
@@ -33,7 +39,14 @@ export async function GET() {
     
     return NextResponse.json(
       { error: 'Failed to retrieve archived activations' },
-      { status: 500 }
+      { 
+        status: 500,
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+        },
+      }
     );
   }
 } 

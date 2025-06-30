@@ -1,41 +1,34 @@
 import { db } from '../db';
-import { pins, volunteers } from './schema';
+import { volunteers } from './schema';
 
-async function seed() {
+export async function seed() {
   try {
-    // Insert PINs
-    const marcPinResult = await db().insert(pins).values({ pin: '7317', role: 'admin' }).returning();
-    const stanPinResult = await db().insert(pins).values({ pin: '7373', role: 'volunteer' }).returning();
-
-    const marcPin = marcPinResult[0];
-    const stanPin = stanPinResult[0];
-
-    if (!marcPin || !stanPin) {
-      throw new Error('Failed to create PINs');
-    }
-
-    // Insert volunteers
-    await db().insert(volunteers).values({
-      pinId: marcPin.pinId,
+    console.log('🌱 Seeding database with admin user...');
+    
+    // Insert Marc Bowen as admin
+    const adminUser = await db().insert(volunteers).values({
       name: 'Marc Bowen',
       callsign: 'W4OVT',
       state: 'NC',
-    });
-    await db().insert(volunteers).values({
-      pinId: stanPin.pinId,
-      name: 'Stan Overby',
-      callsign: 'WA4RDZ',
-      state: 'NC',
-    });
-
-    console.log('Seed complete');
+      pin: '7317',
+      role: 'admin',
+    }).returning();
+    
+    console.log('✅ Admin user created:', adminUser[0]);
+    console.log('🎯 Database seeded successfully!');
+    
   } catch (error) {
-    console.error('Seed failed:', error);
+    console.error('❌ Seeding failed:', error);
     throw error;
   }
 }
 
-seed().catch((err) => {
-  console.error(err);
-  process.exit(1);
-}); 
+// Run seed if this file is executed directly
+if (require.main === module) {
+  seed()
+    .then(() => process.exit(0))
+    .catch((error) => {
+      console.error('Seed failed:', error);
+      process.exit(1);
+    });
+} 

@@ -1,7 +1,7 @@
 export default function Head() {
   return (
     <>
-      <title>America250-NCS Activations</title>
+      <title>AMERICA250.radio Live Activations | K4A Kilo4America</title>
       <meta charSet="utf-8" />
       <meta httpEquiv="refresh" content="60" />
       <style>{`

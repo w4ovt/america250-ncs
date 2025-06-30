@@ -1,18 +1,12 @@
 import { pgTable, serial, varchar, integer, timestamp, decimal, text } from 'drizzle-orm/pg-core';
 
-export const pins = pgTable('pins', {
-  pinId: serial('pin_id').primaryKey(),
-  pin: varchar('pin', { length: 4 }).notNull().unique(),
-  role: varchar('role', { length: 16 }).notNull().default('volunteer'),
-  createdAt: timestamp('created_at').defaultNow(),
-});
-
 export const volunteers = pgTable('volunteers', {
   volunteerId: serial('volunteer_id').primaryKey(),
-  pinId: integer('pin_id').references(() => pins.pinId),
   name: varchar('name', { length: 64 }).notNull(),
   callsign: varchar('callsign', { length: 12 }).notNull(),
   state: varchar('state', { length: 2 }).notNull(),
+  pin: varchar('pin', { length: 4 }).notNull().unique(), // Integrated PIN
+  role: varchar('role', { length: 16 }).notNull().default('volunteer'), // Integrated role
   createdAt: timestamp('created_at').defaultNow(),
 });
 

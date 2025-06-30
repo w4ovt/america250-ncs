@@ -143,34 +143,42 @@
 
 .pinCreateForm {
   background: var(--parchment);
-  padding: 0.75rem;
+  padding: 1rem;
   border-radius: 8px;
   border: 2px solid var(--mahogany);
   margin-bottom: 2rem;
   width: 100%;
   max-width: 100%;
   overflow: hidden;
+  min-height: 120px;
 }
 
 .formRow {
   display: flex;
-  gap: 1rem;
+  gap: 0.75rem;
   align-items: flex-end;
   margin-bottom: 1rem;
   flex-wrap: wrap;
+  min-height: 80px;
+  padding: 0.5rem 0;
 }
 
 .formGroup {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  min-width: 120px;
+  min-width: 140px;
+  max-width: 220px;
+  flex: 1 1 auto;
 }
 
 .formGroup label {
   font-family: 'librebaskerville-bold', serif;
   color: var(--mahogany);
   font-size: 0.9rem;
+  display: block;
+  visibility: visible;
+  margin-bottom: 0.25rem;
 }
 
 .formGroup .formSelect,
@@ -183,6 +191,9 @@
   background: var(--parchment);
   color: var(--mahogany);
   font-family: 'librebaskerville-regular', serif;
+  box-sizing: border-box;
+  display: block;
+  visibility: visible;
 }
 
 .createBtn {
@@ -306,6 +317,30 @@
   margin-left: 1rem;
 }
 
+/* Desktop form layout (ensure all fields visible) */
+@media (min-width: 1201px) {
+  .formRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: flex-start;
+    align-items: flex-end;
+  }
+  
+  .formGroup {
+    flex: 1 1 auto;
+    min-width: 140px;
+    max-width: 200px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .pinCreateForm {
+    min-height: 140px;
+    padding: 1.25rem;
+  }
+}
+
 @media (max-width: 1200px) {
   .adminDashboard {
     padding: 1.5rem;
@@ -376,12 +411,13 @@
   /* Create PIN form adjustments for tablet */
   .formGroup {
     min-width: 140px;
-    flex: 0 1 auto;
+    flex: 0 0 auto;
   }
   
   .formRow {
     gap: 0.75rem;
     justify-content: flex-start;
+    flex-wrap: wrap;
   }
 }
 
@@ -528,6 +564,7 @@
   .formGroup {
     width: 100%;
     flex: none;
+    min-width: auto;
   }
   
   .formGroup label {

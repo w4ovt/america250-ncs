@@ -62,11 +62,18 @@ export function validateEnvironment() {
         console.log('📧 Email: missing');
       }
       
-      if (missingOptional.length > 0) {
-        console.log(`⚠️  Missing optional environment variables: [ '${missingOptional.join("', '")}' ]`);
-        console.log('💡 Some features may not work without these variables');
+          if (missingOptional.length > 0) {
+      console.log(`⚠️  Missing optional environment variables: [ '${missingOptional.join("', '")}' ]`);
+      console.log('💡 Some features may not work without these variables');
+      
+      // Special warning for QRZ_API_KEY since it causes complete ADI upload failure
+      if (missingOptional.includes('QRZ_API_KEY')) {
+        console.error('🚨 CRITICAL WARNING: QRZ_API_KEY is missing!');
+        console.error('   → ADI file uploads will fail with authentication errors');
+        console.error('   → Add to .env.local: QRZ_API_KEY=89FE-B76D-CD0C-B716');
       }
     }
+  }
     
     return parsed;
   } catch (error) {

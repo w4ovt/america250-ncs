@@ -40,29 +40,89 @@ export default function HomePage() {
           </div>
         </div>
         
-        {/* Title and Subtitle - positioned below image with minimal spacing */}
+        {/* MAGNIFICENT AMERICA250 - Old Claude Historical Typography */}
         <h1 className="homepage-title" style={{ 
-          fontSize: '3.5rem', 
           textAlign: 'center', 
-          marginBottom: '0.1em',
+          marginBottom: '0.5em',
           marginTop: '0.2em',
-          color: 'var(--mahogany)',
-          textShadow: '2px 2px 4px rgba(104, 63, 27, 0.1)'
+          lineHeight: '1.2',
+          position: 'relative',
+          fontFamily: "'Old Claude', serif"
         }}>
-          AMERICA250
+          {/* AMERICA250 - Dominant Text (80pt + 12pt spread) */}
+          <div style={{
+            fontSize: '5.33rem', // 80pt
+            fontFamily: "'Old Claude', serif",
+            fontWeight: 'normal',
+            color: '#2c1810',
+            textShadow: '1px 1px 1px rgba(0, 0, 0, 0.4)',
+            letterSpacing: '0.8rem', // 12pt spread
+            marginBottom: '0.5rem'
+          }}>
+            AMERICA250
+          </div>
+          
+          {/* Declaration of Independence (30pt) */}
+          <div style={{
+            fontSize: '2rem', // 30pt
+            fontFamily: "'Old Claude', serif",
+            fontWeight: 'normal',
+            color: '#2c1810',
+            textShadow: '1px 1px 1px rgba(0, 0, 0, 0.4)',
+            letterSpacing: 'normal',
+            marginBottom: '0.3rem'
+          }}>
+            DECLARATION OF INDEPENDENCE
+          </div>
+          
+          {/* Semiquincentennial (30pt + 10pt spread) */}
+          <div style={{
+            fontSize: '2rem', // 30pt
+            fontFamily: "'Old Claude', serif",
+            fontWeight: 'normal',
+            color: '#2c1810',
+            textShadow: '1px 1px 1px rgba(0, 0, 0, 0.4)',
+            letterSpacing: '0.67rem', // 10pt spread
+            marginBottom: '0.3rem'
+          }}>
+            SEMIQUINCENTENNIAL
+          </div>
+          
+          {/* Commemoration & Celebration (30pt) */}
+          <div style={{
+            fontSize: '2rem', // 30pt
+            fontFamily: "'Old Claude', serif",
+            fontWeight: 'normal',
+            color: '#2c1810',
+            textShadow: '1px 1px 1px rgba(0, 0, 0, 0.4)',
+            letterSpacing: 'normal'
+          }}>
+            COMMEMORATION & CELEBRATION
+          </div>
         </h1>
-        <h2 className="homepage-subtitle" style={{ 
+        
+
+        
+        {/* SEO-Rich Description */}
+        <div style={{
           textAlign: 'center',
           marginBottom: '1em',
-          marginTop: '0',
-          textTransform: 'uppercase',
-          letterSpacing: '0.15em',
-          fontSize: '1.2rem',
-          fontFamily: 'librebaskerville-bold, serif',
-          fontWeight: 'bold'
+          padding: '0 2rem',
+          maxWidth: '800px',
+          margin: '0 auto 1em auto'
         }}>
-          Signaling the American Spirit
-        </h2>
+          <p style={{
+            fontSize: '1.1rem',
+            lineHeight: '1.6',
+            color: 'var(--mahogany)',
+            fontStyle: 'italic'
+          }}>
+            Join the <strong>AMERICA250.radio</strong> project celebrating America&rsquo;s <strong>Semiquincentennial</strong>! 
+            Participate in the <strong>Chasing Cornwallis Challenge</strong>, connect with <strong>K4A Kilo4America</strong> stations, 
+            and volunteer as a <strong>Net Control Operator</strong> in this historic amateur radio commemoration 
+            of the American Revolution and our nation&rsquo;s founding.
+          </p>
+        </div>
         
                 {/* Brass Separator after Header */}
         <div style={{
@@ -154,6 +214,7 @@ export default function HomePage() {
                 </div>
               </div>
             </Link>
+
 
             {/* Meet the Founders Teaser */}
             <Link href="/meet-the-founders" style={{ textDecoration: 'none' }}>
