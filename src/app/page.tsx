@@ -8,7 +8,7 @@ export default function HomePage() {
     <>
       <Navigation />
       <main className="parchment-bg">
-        <div className="container" style={{ marginTop: '2rem' }}>
+        <div className="container" style={{ marginTop: '2rem', maxWidth: '1400px', width: '100%' }}>
         {/* Header Image - positioned at the top with same width as Activation Table */}
         <div style={{ 
           textAlign: 'center',
@@ -108,7 +108,7 @@ export default function HomePage() {
           textAlign: 'center',
           marginBottom: '1em',
           padding: '0 2rem',
-          maxWidth: '800px',
+          maxWidth: '1200px',
           margin: '0 auto 1em auto'
         }}>
           <p style={{
