@@ -117,7 +117,7 @@ export default function HomePage() {
             color: 'var(--mahogany)',
             fontStyle: 'italic'
           }}>
-            Join the <strong>AMERICA250.radio</strong> project celebrating America&rsquo;s <strong>Semiquincentennial</strong>! 
+            CQ, CQ, CQ, calling all Amateur Radio Operators, join the <strong>AMERICA250.radio</strong> project celebrating America&rsquo;s <strong>Semiquincentennial</strong>! 
             Participate in the <strong>Chasing Cornwallis Challenge</strong>, connect with <strong>K4A Kilo4America</strong> stations, 
             and volunteer as a <strong>Net Control Operator</strong> in this historic amateur radio commemoration 
             of the American Revolution and our nation&rsquo;s founding.
