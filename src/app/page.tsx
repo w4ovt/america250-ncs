@@ -13,7 +13,7 @@ export default function HomePage() {
         <div style={{ 
           textAlign: 'center',
           marginBottom: '0.5em',
-          padding: '50px 20px 0 20px',
+          padding: '40px 40px 0 40px', // Equal top, left, right
           maxWidth: '100%'
         }}>
           <div 
@@ -21,14 +21,14 @@ export default function HomePage() {
             style={{
               display: 'inline-block',
               width: '100%',
-              maxWidth: '800px'
+              maxWidth: '1440px'
             }}
           >
             <Image
               src="/america250-ncs-header-image.webp"
               alt="America250 NCS Header"
-              width={800}
-              height={509}
+              width={1440}
+              height={917}
               priority
               style={{
                 width: "100%",
