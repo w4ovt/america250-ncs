@@ -18,12 +18,12 @@ export default function MeetTheFoundersPage() {
           {/* Desktop opacity background that extends above header */}
           <div style={{
             position: 'absolute',
-            top: '-4rem',
+            top: '-2rem',
             left: '50%',
             transform: 'translateX(-50%)',
             width: '100%',
-            maxWidth: '900px',
-            height: 'calc(100% + 6rem)',
+            maxWidth: '1600px',
+            height: 'calc(100% + 4rem)',
             background: 'rgba(247, 241, 226, 0.6)',
             borderRadius: '8px',
             zIndex: -1,
