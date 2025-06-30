@@ -223,10 +223,10 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
       } else {
         const errorData = await response.json();
         
-        // If there are existing activations, ask user if they want to force delete them
-        if (errorData.error === 'Cannot reset counter: activations exist') {
+        // If there are running activations, ask user if they want to force delete them
+        if (errorData.error === 'Cannot reset counter: running activations exist') {
           const forceConfirm = confirm(
-            `There are ${errorData.existingCount} existing activations. Do you want to DELETE ALL ACTIVATIONS and reset the counter? This action cannot be undone.`
+            `There are ${errorData.runningCount} currently running activations. Do you want to DELETE ALL ACTIVATIONS and reset the counter? This action cannot be undone.`
           );
           
           if (forceConfirm) {
