@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { db } from '../../../../db';
 import { activations } from '../../../../db/schema';
+import { isNull } from 'drizzle-orm';
 
 export async function POST(request: Request) {
   try {
@@ -18,21 +19,24 @@ export async function POST(request: Request) {
 
     const { force = false } = body;
 
-    // Check if there are existing activations
-    const existingActivations = await db().select().from(activations);
+    // Check if there are currently running activations (ended_at is NULL)
+    const runningActivations = await db()
+      .select()
+      .from(activations)
+      .where(isNull(activations.endedAt));
     
-    if (existingActivations.length > 0) {
+    if (runningActivations.length > 0) {
       if (!force) {
         return NextResponse.json({
-          error: 'Cannot reset counter: activations exist',
-          message: 'There are existing activations in the database. Use force: true to delete all activations and reset the counter.',
-          existingCount: existingActivations.length
+          error: 'Cannot reset counter: running activations exist',
+          message: 'There are currently running activations. End all activations first, or use force: true to delete all activations and reset the counter.',
+          runningCount: runningActivations.length
         }, { status: 400 });
       }
       
       // Force mode: Delete all activations first
       await db().delete(activations);
-      console.log(`Deleted ${existingActivations.length} existing activations`);
+      console.log(`Deleted all activations (including ${runningActivations.length} running ones)`);
     }
 
     // Reset the activation_id sequence to 1
@@ -43,9 +47,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ 
       success: true, 
       message: force 
-        ? `Reset successful: deleted ${existingActivations.length} activations and reset counter`
-        : 'Activation counter reset successfully (no existing activations)',
-      deletedCount: force ? existingActivations.length : 0
+        ? `Reset successful: deleted all activations and reset counter`
+        : 'Activation counter reset successfully (no running activations)',
+      deletedCount: force ? runningActivations.length : 0
     });
     
   } catch (error) {
