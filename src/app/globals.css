@@ -275,7 +275,7 @@ p {
 /* Home Page Container */
 .container {
   width: 100%;
-  max-width: 900px;
+  max-width: 1600px;
   margin: 0 auto;
   background: rgba(247, 241, 226, 0.6) !important;
   box-shadow: 0 2px 8px rgba(104, 63, 27, 0.05);
