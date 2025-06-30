@@ -15,20 +15,6 @@ export default function MeetTheFoundersPage() {
           padding: '0 1rem',
           position: 'relative'
         }}>
-          {/* Desktop opacity background that extends above header */}
-          <div style={{
-            position: 'absolute',
-            top: '-2rem',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '100%',
-            maxWidth: '1600px',
-            height: 'calc(100% + 4rem)',
-            background: 'rgba(247, 241, 226, 0.6)',
-            borderRadius: '8px',
-            zIndex: -1,
-            pointerEvents: 'none'
-          }}></div>
           {/* Page Header with Quill */}
           <div style={{
             background: 'rgba(247, 241, 226, 0.9)',
