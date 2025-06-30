@@ -4,7 +4,18 @@ import { activations } from '../../../../db/schema';
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    // Add better error handling for request body parsing
+    let body;
+    try {
+      body = await request.json();
+    } catch (parseError) {
+      console.error('Failed to parse request body:', parseError);
+      return NextResponse.json({
+        error: 'Invalid JSON in request body',
+        message: 'The request body must be valid JSON'
+      }, { status: 400 });
+    }
+
     const { force = false } = body;
 
     // Check if there are existing activations
@@ -21,7 +32,7 @@ export async function POST(request: Request) {
       
       // Force mode: Delete all activations first
       await db().delete(activations);
-      // Existing activations deleted
+      console.log(`Deleted ${existingActivations.length} existing activations`);
     }
 
     // Reset the activation_id sequence to 1
