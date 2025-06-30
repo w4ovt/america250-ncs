@@ -122,6 +122,23 @@ export default function HomePage() {
             and volunteer as a <strong>Net Control Operator</strong> in this historic amateur radio commemoration 
             of the American Revolution and our nation&rsquo;s founding.
           </p>
+          <p style={{
+            fontSize: '1.1rem',
+            lineHeight: '1.6',
+            color: 'var(--mahogany)',
+            fontStyle: 'italic',
+            marginTop: '1em'
+          }}>
+            <strong>Not an Amateur Radio Operator yet?</strong> You're invited to be part of history—and to discover the greatest hobby on earth! <strong>AMERICA250.radio</strong> exists to unite, inspire, and educate as we commemorate 250 years of American independence. Our mission is to connect people across the nation and the world through the power and magic of Amateur Radio—a hobby unlike any other.
+            <br /><br />
+            No other fraternity bridges culture, nationality, distance, or diverse interests the way Amateur Radio does. It's a global community where personal growth, technological discovery, and lifelong friendships are just the beginning. Whether you're drawn by the thrill of making your first contact, the excitement of building your own equipment, or the camaraderie of joining a worldwide network, there's a place for you here.
+            <br /><br />
+            Next year's event is open to everyone: whether you're a lifelong ham or just radio-curious, you can join the celebration by becoming a licensed Amateur Radio Operator. It's easier than you think! Start your journey at <a href="https://www.hamradioschool.com/" target="_blank" rel="noopener noreferrer"><strong>Ham Radio School</strong></a> for friendly, step-by-step guidance, and explore the world of amateur radio at <a href="https://www.qrz.com/" target="_blank" rel="noopener noreferrer"><strong>QRZ.com</strong></a>—the #1 resource for hams everywhere and the exclusive home for AMERICA250.radio Special Event promotions.
+            <br /><br />
+            Want to get started locally? Connect with a welcoming community by contacting a local Amateur Radio Club—QRZ.com makes it easy to find one near you. <a href="https://www.qrz.com/clubs" target="_blank" rel="noopener noreferrer"><strong>Find a club here</strong></a>.
+            <br /><br />
+            <strong>Be a part of something historic. Get on the air, make new friends, and help us tell America's story—one contact at a time!</strong>
+          </p>
         </div>
         
                 {/* Brass Separator after Header */}
