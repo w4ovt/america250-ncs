@@ -48,13 +48,17 @@ export default function ActivationTableIframe() {
     const activation = activations[index];
     return activation ? (
       <tr key={activation.activationId}>
-        <td>{Number(activation.frequencyMhz).toFixed(3)}</td>
-        <td>{activation.mode}</td>
-        <td>{activation.callsign}</td>
+        <td>{new Date(activation.startedAt).toLocaleDateString([], { month: 'short', day: 'numeric' })}</td>
+        <td>{new Date(activation.startedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+        <td>{activation.name} <span style={{ color: '#888', fontSize: '0.95em' }}>{activation.callsign}</span></td>
         <td>{activation.state}</td>
+        <td>{activation.mode}</td>
+        <td style={{ textAlign: 'center', color: '#28a745', fontWeight: 'bold', fontSize: '0.95em' }}>ON</td>
       </tr>
     ) : (
       <tr key={`empty-${index}`}>
+        <td>—</td>
+        <td>—</td>
         <td>—</td>
         <td>—</td>
         <td>—</td>
@@ -69,20 +73,20 @@ export default function ActivationTableIframe() {
     return activation ? (
       <div key={activation.activationId} className={styles.activationCard}>
         <div className={styles.activationCardHeader}>
-          <span className={styles.activationCardFrequency}>
-            {Number(activation.frequencyMhz).toFixed(3)} MHz
+          <span className={styles.activationCardDate}>
+            {new Date(activation.startedAt).toLocaleDateString([], { month: 'short', day: 'numeric' })}
           </span>
-          <span className={styles.activationCardMode}>
-            {activation.mode}
+          <span className={styles.activationCardTime}>
+            {new Date(activation.startedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </span>
         </div>
         <div className={styles.activationCardDetails}>
-          <span className={styles.activationCardCallsign}>
-            {activation.callsign}
+          <span className={styles.activationCardNameCallsign}>
+            {activation.name} <span style={{ color: '#888', fontSize: '0.95em' }}>{activation.callsign}</span>
           </span>
-          <span className={styles.activationCardState}>
-            {activation.state}
-          </span>
+          <span className={styles.activationCardState}>{activation.state}</span>
+          <span className={styles.activationCardMode}>{activation.mode}</span>
+          <span className={styles.activationCardOnAir} style={{ color: '#28a745', fontWeight: 'bold', fontSize: '0.95em' }}>ON</span>
         </div>
       </div>
     ) : (
@@ -110,10 +114,12 @@ export default function ActivationTableIframe() {
       <table className={styles.activationsTable}>
         <thead>
           <tr>
-            <th>Freq (MHz)</th>
-            <th>Mode</th>
-            <th>Callsign</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Name/Callsign</th>
             <th>State</th>
+            <th>Mode</th>
+            <th style={{ minWidth: '48px' }}>ON AIR</th>
           </tr>
         </thead>
         <tbody>
