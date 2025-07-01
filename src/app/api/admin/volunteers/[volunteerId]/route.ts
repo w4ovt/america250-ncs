@@ -129,6 +129,30 @@ export async function PUT(
     const body = await request.json();
     const { name, callsign, state, pin, role } = body;
 
+    // Basic input validation
+    if (!name || !callsign || !state || !pin) {
+      return NextResponse.json(
+        { error: 'Missing required fields: name, callsign, state, pin' },
+        { status: 400 }
+      );
+    }
+
+    // Validate PIN format (4 digits)
+    if (!/^\d{4}$/.test(pin)) {
+      return NextResponse.json(
+        { error: 'PIN must be exactly 4 digits' },
+        { status: 400 }
+      );
+    }
+
+    // Validate role
+    if (role && !['admin', 'volunteer'].includes(role)) {
+      return NextResponse.json(
+        { error: 'Role must be either admin or volunteer' },
+        { status: 400 }
+      );
+    }
+
     // Check if volunteer exists
     const existingVolunteer = await db()
       .select()
@@ -194,7 +218,18 @@ export async function GET(
       );
     }
 
-    return NextResponse.json(volunteer[0]);
+    // Sanitize response - remove PIN for security
+    const volunteerData = volunteer[0]!; // Non-null assertion since we check length > 0
+    const sanitizedVolunteer = {
+      volunteerId: volunteerData.volunteerId,
+      name: volunteerData.name,
+      callsign: volunteerData.callsign,
+      state: volunteerData.state,
+      role: volunteerData.role
+      // PIN removed for security
+    };
+
+    return NextResponse.json(sanitizedVolunteer);
     
   } catch (error) {
     console.error('Get volunteer error:', error);

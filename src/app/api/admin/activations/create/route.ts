@@ -15,6 +15,31 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Validate volunteerId is a number
+    if (typeof volunteerId !== 'number' || volunteerId <= 0) {
+      return NextResponse.json(
+        { error: 'volunteerId must be a positive number' },
+        { status: 400 }
+      );
+    }
+
+    // Validate frequency range (1.8 - 148 MHz)
+    if (typeof frequencyMhz !== 'number' || frequencyMhz < 1.8 || frequencyMhz > 148) {
+      return NextResponse.json(
+        { error: 'Frequency must be a number between 1.8 and 148 MHz' },
+        { status: 400 }
+      );
+    }
+
+    // Validate mode
+    const validModes = ['SSB', 'CW', 'FT8', 'FT4', 'FM', 'AM', 'EchoLink', 'Other'];
+    if (!validModes.includes(mode)) {
+      return NextResponse.json(
+        { error: `Invalid mode. Must be one of: ${validModes.join(', ')}` },
+        { status: 400 }
+      );
+    }
+
     // Check if volunteer exists
     const volunteer = await db().select().from(volunteers).where(eq(volunteers.volunteerId, volunteerId)).limit(1);
     

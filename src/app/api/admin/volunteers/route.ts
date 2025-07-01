@@ -7,6 +7,30 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { name, callsign, state, pin, role } = body;
     
+    // Basic input validation
+    if (!name || !callsign || !state || !pin) {
+      return NextResponse.json(
+        { error: 'Missing required fields: name, callsign, state, pin' },
+        { status: 400 }
+      );
+    }
+
+    // Validate PIN format (4 digits)
+    if (!/^\d{4}$/.test(pin)) {
+      return NextResponse.json(
+        { error: 'PIN must be exactly 4 digits' },
+        { status: 400 }
+      );
+    }
+
+    // Validate role
+    if (role && !['admin', 'volunteer'].includes(role)) {
+      return NextResponse.json(
+        { error: 'Role must be either admin or volunteer' },
+        { status: 400 }
+      );
+    }
+    
     const newVolunteer = await db().insert(volunteers).values({
       name,
       callsign,
@@ -39,7 +63,17 @@ export async function GET() {
       role: volunteers.role
     }).from(volunteers).orderBy(volunteers.callsign);
 
-    return NextResponse.json(volunteerList);
+    // Sanitize response - remove PINs for security
+    const sanitizedVolunteers = volunteerList.map(volunteer => ({
+      volunteerId: volunteer.volunteerId,
+      name: volunteer.name,
+      callsign: volunteer.callsign,
+      state: volunteer.state,
+      role: volunteer.role
+      // PIN removed for security
+    }));
+
+    return NextResponse.json(sanitizedVolunteers);
 
   } catch (error) {
     // Log error for monitoring (would use structured logging in production)
