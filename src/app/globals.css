@@ -1198,3 +1198,13 @@ img {
     margin: 0.4rem 0 0 0 !important;
   }
 }
+
+@keyframes pulse-olive {
+  0% { box-shadow: 0 0 0 4px olive; }
+  50% { box-shadow: 0 0 0 12px #80800044; }
+  100% { box-shadow: 0 0 0 4px olive; }
+}
+
+.end-activation-pulse {
+  animation: pulse-olive 2s infinite;
+}

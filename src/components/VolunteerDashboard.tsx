@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from './VolunteerDashboard.module.css';
 
 interface VolunteerData {
@@ -38,6 +38,7 @@ export default function VolunteerDashboard({ disabled = false, volunteerData, on
   });
 
   const isAuthenticated = !!volunteerData;
+  const logoutRef = useRef<HTMLAnchorElement>(null);
 
   // Load persistent activation state on mount
   useEffect(() => {
@@ -166,6 +167,18 @@ export default function VolunteerDashboard({ disabled = false, volunteerData, on
     }
   };
 
+  // Handler for logout attempt when activation is live
+  const handleLogout = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (currentActivationId) {
+      e.preventDefault();
+      alert('Please end your activation before logging out.');
+    } else {
+      if (onLogout) {
+        onLogout();
+      }
+    }
+  };
+
   return (
     <div className={styles.volunteerDashboardSection}>
       <div className={styles.dashboardHeader}>
@@ -186,15 +199,23 @@ export default function VolunteerDashboard({ disabled = false, volunteerData, on
               </div>
             )}
             
-            {onLogout && (
-              <button 
-                onClick={onLogout} 
-                className="btn btn-secondary"
-                style={{ marginTop: '1rem' }}
-              >
-                Logout
-              </button>
-            )}
+            <a
+              href="#"
+              ref={logoutRef}
+              onClick={handleLogout}
+              style={{
+                color: currentActivationId ? '#aaa' : '#6b3e1d',
+                pointerEvents: currentActivationId ? 'none' : 'auto',
+                cursor: currentActivationId ? 'not-allowed' : 'pointer',
+                textDecoration: 'underline',
+                fontWeight: 'bold',
+                marginTop: '1em',
+                fontSize: '1.1em',
+                opacity: currentActivationId ? 0.5 : 1
+              }}
+            >
+              Logout
+            </a>
           </div>
 
           {currentActivationId ? (
@@ -206,17 +227,26 @@ export default function VolunteerDashboard({ disabled = false, volunteerData, on
                   {errorMessage}
                 </div>
               )}
-              <button 
-                onClick={handleEndActivation} 
-                className="btn btn-danger"
+              <button
+                onClick={handleEndActivation}
+                className="btn btn-danger end-activation-pulse"
                 disabled={isEnding || disabled}
+                style={{
+                  boxShadow: '0 0 0 4px olive',
+                  border: '2px solid olive',
+                  animation: 'pulse-olive 2s infinite',
+                  fontWeight: 'bold',
+                  fontSize: '1.1em',
+                  marginTop: '1.5em',
+                  transition: 'box-shadow 0.3s, border 0.3s'
+                }}
               >
-                                  {isEnding ? (
-                    <>
-                      <span className="loading-spinner" style={{ marginRight: '0.5rem' }}></span>
-                      Ending...
-                    </>
-                  ) : 'End Activation'}
+                {isEnding ? (
+                  <>
+                    <span className="loading-spinner" style={{ marginRight: '0.5rem' }}></span>
+                    Ending...
+                  </>
+                ) : 'End Activation'}
               </button>
             </div>
           ) : (
@@ -315,4 +345,13 @@ export default function VolunteerDashboard({ disabled = false, volunteerData, on
       )}
     </div>
   );
-} 
+}
+
+/* Add this to the bottom of the file or in your global CSS */
+/*
+@keyframes pulse-olive {
+  0% { box-shadow: 0 0 0 4px olive; }
+  50% { box-shadow: 0 0 0 12px #80800044; }
+  100% { box-shadow: 0 0 0 4px olive; }
+}
+*/ 
