@@ -36,6 +36,7 @@ export default function VolunteerDashboard({ disabled = false, volunteerData, on
     frequency: '',
     mode: ''
   });
+  const [multiTabWarning, setMultiTabWarning] = useState(false);
 
   const isAuthenticated = !!volunteerData;
   const logoutRef = useRef<HTMLAnchorElement>(null);
@@ -179,12 +180,58 @@ export default function VolunteerDashboard({ disabled = false, volunteerData, on
     }
   };
 
+  useEffect(() => {
+    // Set a flag in localStorage when this dashboard is loaded
+    localStorage.setItem('volunteer_dashboard_active', 'true');
+    // Listen for changes in localStorage from other tabs
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === 'volunteer_dashboard_active' && e.newValue === 'true') {
+        setMultiTabWarning(true);
+      }
+    };
+    window.addEventListener('storage', handleStorage);
+    // On unmount, clear the flag
+    return () => {
+      localStorage.removeItem('volunteer_dashboard_active');
+      window.removeEventListener('storage', handleStorage);
+    };
+  }, []);
+
   return (
     <div className={styles.volunteerDashboardSection}>
       <div className={styles.dashboardHeader}>
         <h1 className={styles.dashboardTitle}>Volunteer Dashboard</h1>
       </div>
       
+      {/* Multi-tab warning pop-up */}
+      {multiTabWarning && (
+        <div style={{
+          position: 'fixed',
+          top: '120px',
+          right: '40px',
+          zIndex: 1000,
+          background: '#fffbe6',
+          border: '2px solid #b8860b',
+          borderRadius: '10px',
+          boxShadow: '0 4px 16px rgba(104,63,27,0.18)',
+          padding: '2rem 2.5rem',
+          color: '#6b3e1d',
+          fontWeight: 'bold',
+          fontSize: '1.15rem',
+          maxWidth: '340px',
+          minWidth: '220px',
+          textAlign: 'center',
+          animation: 'pulse-olive 2s infinite',
+        }}>
+          <span role="img" aria-label="warning" style={{ fontSize: '2rem', marginBottom: '0.5rem', display: 'block' }}>⚠️</span>
+          <div style={{ marginBottom: '0.5rem' }}>
+            <strong>Heads up!</strong> You have the Volunteer Dashboard open in another tab or window.<br /><br />
+            Please use only <u>one session at a time</u> to avoid issues with activations.<br /><br />
+            (If you&rsquo;re testing, you&rsquo;re forgiven. If you&rsquo;re a volunteer, behave! ��)
+          </div>
+        </div>
+      )}
+
       {isAuthenticated ? (
         <>
           <div className={styles.volunteerInfo}>
