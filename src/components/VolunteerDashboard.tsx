@@ -274,27 +274,56 @@ export default function VolunteerDashboard({ disabled = false, volunteerData, on
                   {errorMessage}
                 </div>
               )}
-              <button
-                onClick={handleEndActivation}
-                className="btn btn-danger end-activation-pulse"
-                disabled={isEnding || disabled}
-                style={{
-                  boxShadow: '0 0 0 4px olive',
-                  border: '2px solid olive',
-                  animation: 'pulse-olive 2s infinite',
-                  fontWeight: 'bold',
-                  fontSize: '1.1em',
-                  marginTop: '1.5em',
-                  transition: 'box-shadow 0.3s, border 0.3s'
-                }}
-              >
-                {isEnding ? (
-                  <>
-                    <span className="loading-spinner" style={{ marginRight: '0.5rem' }}></span>
-                    Ending...
-                  </>
-                ) : 'End Activation'}
-              </button>
+              <div style={{ position: 'relative', display: 'inline-block' }}>
+                {/* SVG Halo Glow */}
+                <svg
+                  width="160" height="60"
+                  style={{
+                    position: 'absolute',
+                    top: '-20px', left: '-20px',
+                    pointerEvents: 'none',
+                    zIndex: 0,
+                    filter: 'blur(2px)'
+                  }}
+                >
+                  <ellipse
+                    cx="80" cy="30" rx="60" ry="20"
+                    fill="url(#mahogany-glow)"
+                    opacity="0.7"
+                  />
+                  <defs>
+                    <radialGradient id="mahogany-glow" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stopColor="#6b3e1d" stopOpacity="0.7" />
+                      <stop offset="100%" stopColor="#6b3e1d" stopOpacity="0" />
+                    </radialGradient>
+                  </defs>
+                </svg>
+                <button
+                  onClick={handleEndActivation}
+                  className="btn btn-danger end-activation-pulse"
+                  disabled={isEnding || disabled}
+                  style={{
+                    boxShadow: '0 0 0 4px #6b3e1d',
+                    border: '2.5px solid #D4AF37', // burnished brass
+                    animation: 'pulse-mahogany 2s infinite',
+                    fontWeight: 'bold',
+                    fontSize: '1.1em',
+                    marginTop: '1.5em',
+                    transition: 'box-shadow 0.3s, border 0.3s',
+                    position: 'relative',
+                    zIndex: 1,
+                    background: '#fffbe6',
+                    color: '#6b3e1d',
+                  }}
+                >
+                  {isEnding ? (
+                    <>
+                      <span className="loading-spinner" style={{ marginRight: '0.5rem' }}></span>
+                      Ending...
+                    </>
+                  ) : 'End Activation'}
+                </button>
+              </div>
             </div>
           ) : (
             <div className={styles.activationForm}>

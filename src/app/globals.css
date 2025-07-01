@@ -1199,12 +1199,12 @@ img {
   }
 }
 
-@keyframes pulse-olive {
-  0% { box-shadow: 0 0 0 4px olive; }
-  50% { box-shadow: 0 0 0 12px #80800044; }
-  100% { box-shadow: 0 0 0 4px olive; }
+@keyframes pulse-mahogany {
+  0% { box-shadow: 0 0 0 4px #6b3e1d; }
+  50% { box-shadow: 0 0 0 16px #6b3e1d44; }
+  100% { box-shadow: 0 0 0 4px #6b3e1d; }
 }
 
 .end-activation-pulse {
-  animation: pulse-olive 2s infinite;
+  animation: pulse-mahogany 2s infinite;
 }
