@@ -27,7 +27,7 @@ export default {
       if (activations.length === 0) {
         tableRows = `
           <tr>
-            <td colspan="6" style="text-align: center; color: #683f1b; font-style: italic; padding: 20px;">
+            <td colspan="7" style="text-align: center; color: #683f1b; font-style: italic; padding: 20px;">
               No active NCS stations at this time
             </td>
           </tr>
@@ -46,6 +46,7 @@ export default {
               <td style="color: #683f1b; font-weight: bold;">${dateStr}</td>
               <td style="color: #683f1b; font-weight: bold;">${timeStr}</td>
               <td style="color: #683f1b; font-weight: bold;">${firstName} ${activation.callsign}</td>
+              <td style="color: #683f1b; font-weight: bold;">${activation.state}</td>
               <td style="color: #683f1b; font-weight: bold;"><strong>${activation.frequencyMhz}</strong></td>
               <td style="color: #683f1b; font-weight: bold;">${activation.mode}</td>
               <td><span style="background: #155724; color: white; padding: 4px 8px; border-radius: 4px; font-weight: bold;">ON AIR</span></td>
@@ -120,6 +121,7 @@ export default {
         <th>Date</th>
         <th>Time</th>
         <th>NCS</th>
+        <th>State</th>
         <th>Freq</th>
         <th>Mode</th>
         <th>Status</th>
