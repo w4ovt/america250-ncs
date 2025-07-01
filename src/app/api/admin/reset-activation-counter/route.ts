@@ -19,6 +19,14 @@ export async function POST(request: Request) {
 
     const { force = false } = body;
 
+    // Validate force parameter
+    if (typeof force !== 'boolean') {
+      return NextResponse.json({
+        error: 'Invalid force parameter',
+        message: 'Force parameter must be a boolean value'
+      }, { status: 400 });
+    }
+
     // Check if there are currently running activations (ended_at is NULL)
     const runningActivations = await db()
       .select()

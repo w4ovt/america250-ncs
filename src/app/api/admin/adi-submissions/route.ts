@@ -78,10 +78,19 @@ export async function DELETE(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    // Validate ID is a valid number
+    const submissionId = parseInt(id);
+    if (isNaN(submissionId) || submissionId <= 0) {
+      return NextResponse.json(
+        { error: 'Submission ID must be a valid positive number' },
+        { status: 400 }
+      );
+    }
     
     await db()
       .delete(adiSubmissions)
-      .where(eq(adiSubmissions.id, parseInt(id)));
+      .where(eq(adiSubmissions.id, submissionId));
     
     return NextResponse.json({ success: true });
     
