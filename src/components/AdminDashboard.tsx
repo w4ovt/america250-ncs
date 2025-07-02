@@ -570,7 +570,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 🔁 Re-spot
               </button>
               {spotStatus[activation.activationId] && (
-                <div style={{ marginTop: '0.5em', color: spotStatus[activation.activationId].startsWith('✅') ? '#155724' : '#b94a48', fontWeight: 'bold' }}>
+                <div style={{ marginTop: '0.5em', color: (spotStatus[activation.activationId] ?? '').startsWith('✅') ? '#155724' : '#b94a48', fontWeight: 'bold' }}>
                   {spotStatus[activation.activationId]}
                 </div>
               )}
