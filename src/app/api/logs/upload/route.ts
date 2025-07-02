@@ -58,11 +58,13 @@ function validateAdiFile(content: string): { isValid: boolean; recordCount: numb
 
 async function submitToQRZ(fileContent: string): Promise<{ success: boolean; count?: number; logId?: string; error?: string }> {
   // QRZ submission started
+  console.log('🔍 Starting QRZ submission...');
   
   try {
     // Remove header content (everything before the first <Call: field)
     const callIndex = fileContent.indexOf('<Call:');
     if (callIndex === -1) {
+      console.log('❌ No QSO records found in ADIF file');
       return {
         success: false,
         error: 'No QSO records found in ADIF file'
@@ -74,6 +76,7 @@ async function submitToQRZ(fileContent: string): Promise<{ success: boolean; cou
     
     // Split the QSO content into individual QSO records
     const records = qsoContent.split(/<eor>/i).map(r => r.trim()).filter(r => r.length > 0);
+    console.log(`📊 Processing ${records.length} QSO records...`);
     let successCount = 0;
     let lastLogId = '';
     
@@ -108,7 +111,7 @@ async function submitToQRZ(fileContent: string): Promise<{ success: boolean; cou
       
       const responseText = await response.text();
       
-          // QRZ API response received
+      // QRZ API response received
       
       // Parse the response
       const responseParams = new URLSearchParams(responseText);
@@ -121,12 +124,12 @@ async function submitToQRZ(fileContent: string): Promise<{ success: boolean; cou
       if (result === 'OK' || result === 'REPLACE') {
         successCount++;
         if (logId) lastLogId = logId;
-        // QRZ API success
+        console.log('✅ QRZ API success for record');
       } else if (result === 'FAIL' && reason && reason.includes('duplicate')) {
         // Duplicate records should be treated as success since they already exist
         successCount++;
         if (logId) lastLogId = logId;
-        // QRZ API duplicate (treated as success)
+        console.log('✅ QRZ API duplicate (treated as success)');
       } else {
         console.error('QRZ API failed for record:', {
           result,
@@ -136,17 +139,19 @@ async function submitToQRZ(fileContent: string): Promise<{ success: boolean; cou
       }
     }
     
+    console.log(`📊 QRZ submission complete. Success count: ${successCount}`);
+    
     if (successCount > 0) {
-        // QRZ submission completed successfully
-      
+      // QRZ submission completed successfully
+      console.log('✅ QRZ submission completed successfully');
       return {
         success: true,
         count: successCount,
         logId: lastLogId
       };
     } else {
-        // QRZ submission failed - no records uploaded
-      
+      // QRZ submission failed - no records uploaded
+      console.log('❌ QRZ submission failed - no records uploaded');
       return {
         success: false,
         error: 'No records were successfully uploaded to QRZ'
@@ -154,8 +159,7 @@ async function submitToQRZ(fileContent: string): Promise<{ success: boolean; cou
     }
     
   } catch (error) {
-      // QRZ submission error occurred
-    
+    // QRZ submission error occurred
     console.error('QRZ API error:', error);
     return {
       success: false,
@@ -273,14 +277,19 @@ Automated Alert
 }
 
 export async function POST(request: NextRequest) {
+  console.log('🚀 ADI upload request received');
   try {
     const body: UploadRequest = await request.json();
     const { filename, fileContent, volunteerData } = body;
+    console.log('📄 Processing file:', filename, 'for volunteer:', volunteerData?.callsign);
     
     // Validate file format and content
+    console.log('🔍 Validating ADIF file...');
     const validation = validateAdiFile(fileContent);
+    console.log('✅ Validation result:', validation.isValid, 'Record count:', validation.recordCount);
     
     if (!validation.isValid) {
+      console.log('❌ File validation failed:', validation.error);
       // Store failure in database
       await db().insert(logSubmissions).values({
         filename,
@@ -301,6 +310,7 @@ export async function POST(request: NextRequest) {
       });
       
       // Send failure email (with robust logging)
+      console.log('📧 Sending validation failure email...');
       await sendFailureEmail(filename, validation.error!, volunteerData, fileContent);
       
       return NextResponse.json({
@@ -311,9 +321,12 @@ export async function POST(request: NextRequest) {
     }
     
     // Submit to QRZ
+    console.log('📡 Submitting to QRZ...');
     const qrzResult = await submitToQRZ(fileContent);
+    console.log('📡 QRZ result:', qrzResult.success, qrzResult.error);
     
     if (!qrzResult.success) {
+      console.log('❌ QRZ submission failed:', qrzResult.error);
       // Store failure in database
       await db().insert(logSubmissions).values({
         filename,
@@ -334,6 +347,7 @@ export async function POST(request: NextRequest) {
       });
       
       // Send failure email (with robust logging)
+      console.log('📧 Sending QRZ failure email...');
       await sendFailureEmail(filename, qrzResult.error!, volunteerData, fileContent);
       
       return NextResponse.json({
@@ -343,6 +357,7 @@ export async function POST(request: NextRequest) {
       }, { status: 500 });
     }
     
+    console.log('✅ QRZ submission successful, storing in database...');
     // Store success in database
     await db().insert(logSubmissions).values({
       filename,
@@ -362,6 +377,7 @@ export async function POST(request: NextRequest) {
       status: 'success'
     });
     
+    console.log('✅ ADI upload completed successfully');
     return NextResponse.json({
       success: true,
       recordCount: qrzResult.count || validation.recordCount,
@@ -369,11 +385,12 @@ export async function POST(request: NextRequest) {
     });
     
   } catch (error) {
-    console.error('ADI upload error:', error);
+    console.error('💥 ADI upload error:', error);
     // Defensive: try to send a failure email if possible
     try {
       const { filename, fileContent, volunteerData } = (typeof request !== 'undefined' && request.json) ? await request.json() : {};
       if (filename && fileContent && volunteerData) {
+        console.log('📧 Sending fallback failure email...');
         await sendFailureEmail(filename, 'Internal server error during file processing', volunteerData, fileContent);
       }
     } catch (emailError) {
