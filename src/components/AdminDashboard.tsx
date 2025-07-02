@@ -542,7 +542,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
         <h3 className={styles.sectionTitle}>Admin DX Cluster Spotting (Telnet)</h3>
         <div>
           {activations.map((activation) => (
-            <div key={activation.activationId} style={{ marginBottom: '1.5em', padding: '1em', border: '1px solid #eee', borderRadius: '8px', background: '#fafbfc' }}>
+            <div key={activation.activationId} style={{ marginBottom: '1.5em', padding: '1em' }}>
               <div>
                 <strong>{activation.callsign}</strong> @ {activation.frequencyMhz} MHz ({activation.mode})
               </div>
