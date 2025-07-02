@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../../db';
 import { logSubmissions, adiSubmissions } from '../../../../db/schema';
-import nodemailer from 'nodemailer';
 
 const QRZ_API_KEY = process.env.QRZ_API_KEY || '';
 
