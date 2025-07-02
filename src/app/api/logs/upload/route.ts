@@ -25,31 +25,41 @@ function validateAdiFile(content: string): { isValid: boolean; recordCount: numb
   const records = content.split(/<eor>/i).map(r => r.trim()).filter(r => r.length > 0);
   let recordCount = 0;
 
+  console.log(`🔍 Validating ${records.length} potential records...`);
+
   for (let i = 0; i < records.length; i++) {
     const record = records[i];
     if (!record) {
+      console.log(`⏭️ Skipping empty record ${i + 1}`);
       continue;
     }
-    // Only require <call:> field (not <station_callsign:3>K4A>)
-    if (!record.match(/<call:/i)) {
+    
+    console.log(`📝 Record ${i + 1} preview: ${record.substring(0, 100)}...`);
+    
+    // Very permissive validation - just check for basic ADI structure
+    // Must contain at least one field with < and > format
+    if (!record.match(/<[^>]+:[^>]*>/)) {
+      console.log(`❌ Record ${i + 1} missing ADI field format`);
       continue;
     }
-    // Basic ADI format validation: must contain < and >
-    if (!record.includes('<') || !record.includes('>')) {
-      return {
-        isValid: false,
-        recordCount,
-        error: `Record ${i + 1} has invalid ADI format.`
-      };
+    
+    // Must contain a callsign field (any of the common variations)
+    if (!record.match(/<(call|station_callsign|operator):/i)) {
+      console.log(`❌ Record ${i + 1} missing callsign field`);
+      continue;
     }
+    
     recordCount++;
+    console.log(`✅ Record ${i + 1} validated`);
   }
+
+  console.log(`📊 Total valid records found: ${recordCount}`);
 
   if (recordCount === 0) {
     return {
       isValid: false,
       recordCount: 0,
-      error: 'No valid ADI QSO records found in file.'
+      error: 'No valid ADI QSO records found in file. Each record must contain at least one callsign field (<call:>, <station_callsign:>, or <operator:>).'
     };
   }
 
