@@ -62,6 +62,11 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [activationFrequency, setActivationFrequency] = useState('');
   const [activationMode, setActivationMode] = useState('');
 
+  const [spotStatus, setSpotStatus] = useState<Record<number, string>>({});
+  const [spotResponse, setSpotResponse] = useState<Record<number, string>>({});
+  const [spotComment, setSpotComment] = useState<Record<number, string>>({});
+  const [spotCooldown, setSpotCooldown] = useState<Record<number, number>>({});
+
   const fetchVolunteers = async () => {
     try {
       const response = await fetch('/api/admin/volunteers');
@@ -126,6 +131,19 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
     
     return () => clearInterval(interval);
   }, [submissionSearch, submissionSortBy, submissionSortOrder, fetchAdiSubmissions]);
+
+  // Cooldown timer for Re-spot per activation
+  useEffect(() => {
+    const timers: NodeJS.Timeout[] = [];
+    Object.entries(spotCooldown).forEach(([id, cooldown]) => {
+      if (cooldown > 0) {
+        timers.push(setTimeout(() => {
+          setSpotCooldown(prev => ({ ...prev, [id]: prev[id] - 1 }));
+        }, 1000));
+      }
+    });
+    return () => timers.forEach(clearTimeout);
+  }, [spotCooldown]);
 
   const handleCreateActivation = async () => {
     if (!selectedVolunteerId || !activationFrequency || !activationMode) {
@@ -283,6 +301,71 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
       setErrorMessage('Network error deleting ADI submission');
     } finally {
       setIsDeletingSubmission(null);
+    }
+  };
+
+  // Admin Spot/Re-spot handlers (Telnet DX Cluster)
+  const handleAdminSpot = async (activation: Activation) => {
+    setSpotStatus(prev => ({ ...prev, [activation.activationId]: 'Sending spot to DX Cluster (via Telnet)...' }));
+    setSpotResponse(prev => ({ ...prev, [activation.activationId]: '' }));
+    try {
+      const res = await fetch('/api/activations/spot-telnet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          frequency: activation.frequencyMhz,
+          comment: spotComment[activation.activationId] || `America250 NCS - ${activation.mode}`
+        })
+      });
+      let data;
+      try {
+        data = await res.json();
+      } catch (jsonErr) {
+        data = { error: 'No JSON response from server', raw: await res.text() };
+      }
+      if (res.ok && data.success) {
+        setSpotStatus(prev => ({ ...prev, [activation.activationId]: '✅ Spot sent to DX Cluster and confirmed!' }));
+        setSpotResponse(prev => ({ ...prev, [activation.activationId]: JSON.stringify(data, null, 2) }));
+        setSpotCooldown(prev => ({ ...prev, [activation.activationId]: 600 })); // 10 min cooldown
+      } else {
+        setSpotStatus(prev => ({ ...prev, [activation.activationId]: '❌ Spot not confirmed: ' + (data.error || 'Unknown error') }));
+        setSpotResponse(prev => ({ ...prev, [activation.activationId]: JSON.stringify(data, null, 2) }));
+      }
+    } catch (err) {
+      setSpotStatus(prev => ({ ...prev, [activation.activationId]: '❌ Error sending spot.' }));
+      setSpotResponse(prev => ({ ...prev, [activation.activationId]: String(err) }));
+    }
+  };
+
+  const handleAdminRespot = async (activation: Activation) => {
+    setSpotStatus(prev => ({ ...prev, [activation.activationId]: 'Re-sending spot to DX Cluster (via Telnet)...' }));
+    setSpotResponse(prev => ({ ...prev, [activation.activationId]: '' }));
+    try {
+      const res = await fetch('/api/activations/spot-telnet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          frequency: activation.frequencyMhz,
+          comment: spotComment[activation.activationId] || `America250 NCS - ${activation.mode}`
+        })
+      });
+      let data;
+      try {
+        data = await res.json();
+      } catch (jsonErr) {
+        data = { error: 'No JSON response from server', raw: await res.text() };
+      }
+      if (res.ok && data.success) {
+        setSpotStatus(prev => ({ ...prev, [activation.activationId]: '✅ Spot re-sent to DX Cluster and confirmed!' }));
+        setSpotResponse(prev => ({ ...prev, [activation.activationId]: JSON.stringify(data, null, 2) }));
+        setSpotCooldown(prev => ({ ...prev, [activation.activationId]: 600 })); // 10 min cooldown
+      } else {
+        setSpotStatus(prev => ({ ...prev, [activation.activationId]: '❌ Spot not confirmed: ' + (data.error || 'Unknown error') }));
+        setSpotResponse(prev => ({ ...prev, [activation.activationId]: JSON.stringify(data, null, 2) }));
+      }
+    } catch (err) {
+      setSpotStatus(prev => ({ ...prev, [activation.activationId]: '❌ Error re-sending spot.' }));
+      setSpotResponse(prev => ({ ...prev, [activation.activationId]: String(err) }));
     }
   };
 
@@ -451,6 +534,51 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
               ))}
             </tbody>
           </table>
+        </div>
+      </div>
+
+      {/* Admin DX Cluster Spotting Section */}
+      <div className={styles.adminSection}>
+        <h3 className={styles.sectionTitle}>Admin DX Cluster Spotting (Telnet)</h3>
+        <div>
+          {activations.map((activation) => (
+            <div key={activation.activationId} style={{ marginBottom: '1.5em', padding: '1em', border: '1px solid #eee', borderRadius: '8px', background: '#fafbfc' }}>
+              <div>
+                <strong>{activation.callsign}</strong> @ {activation.frequencyMhz} MHz ({activation.mode})
+              </div>
+              <textarea
+                value={spotComment[activation.activationId] || `America250 NCS - ${activation.mode}`}
+                onChange={e => setSpotComment(prev => ({ ...prev, [activation.activationId]: e.target.value }))}
+                rows={2}
+                style={{ width: '100%', marginTop: '0.5em', fontFamily: 'inherit', fontSize: '1em', borderRadius: '4px', border: '1px solid #ccc', padding: '0.5em' }}
+                placeholder="Edit spot comment before sending..."
+              />
+              <button
+                onClick={() => handleAdminSpot(activation)}
+                disabled={!!spotCooldown[activation.activationId] && spotCooldown[activation.activationId] > 0}
+                style={{ marginTop: '0.5em', marginRight: '1em', background: '#e3fcec', color: '#155724', border: '1px solid #b7eb8f', borderRadius: '6px', padding: '0.4em 1em', fontWeight: 'bold', cursor: spotCooldown[activation.activationId] > 0 ? 'not-allowed' : 'pointer', opacity: spotCooldown[activation.activationId] > 0 ? 0.6 : 1 }}
+                title={spotCooldown[activation.activationId] > 0 ? `Please wait ${Math.ceil(spotCooldown[activation.activationId]/60)} min before re-spotting` : 'Spot to DX Cluster (Telnet)'}
+              >
+                📡 Spot to DX Cluster (Telnet)
+              </button>
+              <button
+                onClick={() => handleAdminRespot(activation)}
+                disabled={!spotCooldown[activation.activationId] || spotCooldown[activation.activationId] > 0}
+                style={{ marginTop: '0.5em', background: '#fffbe6', color: '#6b3e1d', border: '1px solid #D4AF37', borderRadius: '6px', padding: '0.4em 1em', fontWeight: 'bold', cursor: spotCooldown[activation.activationId] > 0 ? 'not-allowed' : 'pointer', opacity: spotCooldown[activation.activationId] > 0 ? 0.6 : 1 }}
+                title={spotCooldown[activation.activationId] > 0 ? `Please wait ${Math.ceil(spotCooldown[activation.activationId]/60)} min before re-spotting` : 'Re-spot to DX Cluster (Telnet)'}
+              >
+                🔁 Re-spot
+              </button>
+              {spotStatus[activation.activationId] && (
+                <div style={{ marginTop: '0.5em', color: spotStatus[activation.activationId].startsWith('✅') ? '#155724' : '#b94a48', fontWeight: 'bold' }}>
+                  {spotStatus[activation.activationId]}
+                </div>
+              )}
+              {spotResponse[activation.activationId] && (
+                <pre style={{ marginTop: '0.5em', background: '#f6f8fa', color: '#333', borderRadius: '4px', padding: '0.5em', fontSize: '0.95em', overflowX: 'auto' }}>{spotResponse[activation.activationId]}</pre>
+              )}
+            </div>
+          ))}
         </div>
       </div>
 
@@ -736,15 +864,56 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
             <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
               <div className={styles.modalHeader}>
                 <h3>ADI File Content - {selectedSubmission.filename}</h3>
-                <button
-                  onClick={() => setSelectedSubmission(null)}
-                  className={styles.closeButton}
-                >
-                  ×
-                </button>
+                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(selectedSubmission.fileContent);
+                      setSuccessMessage('ADI content copied to clipboard!');
+                      setTimeout(() => setSuccessMessage(''), 3000);
+                    }}
+                    style={{
+                      background: '#28a745',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '4px',
+                      padding: '0.5rem 1rem',
+                      cursor: 'pointer',
+                      fontSize: '0.9rem',
+                      fontWeight: 'bold'
+                    }}
+                    title="Copy ADI content to clipboard"
+                  >
+                    📋 Copy
+                  </button>
+                  <button
+                    onClick={() => setSelectedSubmission(null)}
+                    className={styles.closeButton}
+                  >
+                    ×
+                  </button>
+                </div>
               </div>
               <div className={styles.modalBody}>
-                <pre className={styles.adiContent}>{selectedSubmission.fileContent}</pre>
+                <textarea
+                  value={selectedSubmission.fileContent}
+                  readOnly
+                  className={styles.adiContent}
+                  style={{
+                    width: '100%',
+                    minHeight: '400px',
+                    resize: 'vertical',
+                    border: '1px solid #dee2e6',
+                    borderRadius: '4px',
+                    padding: '1rem',
+                    fontFamily: 'Courier New, monospace',
+                    fontSize: '0.8rem',
+                    lineHeight: '1.4',
+                    backgroundColor: '#f8f9fa',
+                    color: '#333',
+                    userSelect: 'text',
+                    cursor: 'text'
+                  }}
+                />
               </div>
             </div>
           </div>
