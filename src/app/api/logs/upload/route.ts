@@ -20,66 +20,6 @@ interface UploadRequest {
   };
 }
 
-function validateAdiFile(content: string): { isValid: boolean; recordCount: number; error?: string } {
-  // Remove header content (everything before the first <Call: field)
-  const callIndex = content.indexOf('<Call:');
-  if (callIndex === -1) {
-    console.log('❌ No QSO records found in ADIF file');
-    return {
-      isValid: false,
-      recordCount: 0,
-      error: 'No QSO records found in ADIF file. File must contain at least one <Call: field.'
-    };
-  }
-  
-  // Extract only the QSO records (everything from first <Call: onwards)
-  const qsoContent = content.substring(callIndex);
-  
-  // Split into records by <eor> (case-insensitive) and filter out empty records
-  const records = qsoContent.split(/<eor>/i).map(r => r.trim()).filter(r => r.length > 0);
-  let recordCount = 0;
-
-  console.log(`🔍 Validating ${records.length} potential QSO records...`);
-
-  for (let i = 0; i < records.length; i++) {
-    const record = records[i];
-    if (!record) {
-      console.log(`⏭️ Skipping empty record ${i + 1}`);
-      continue;
-    }
-    
-    console.log(`📝 Record ${i + 1} preview: ${record.substring(0, 100)}...`);
-    
-    // Very permissive validation - just check for basic ADI structure
-    // Must contain at least one field with < and > format
-    if (!record.match(/<[^>]+:[^>]*>/)) {
-      console.log(`❌ Record ${i + 1} missing ADI field format`);
-      continue;
-    }
-    
-    // Must contain a callsign field (any of the common variations)
-    if (!record.match(/<(call|station_callsign|operator):/i)) {
-      console.log(`❌ Record ${i + 1} missing callsign field`);
-      continue;
-    }
-    
-    recordCount++;
-    console.log(`✅ Record ${i + 1} validated`);
-  }
-
-  console.log(`📊 Total valid records found: ${recordCount}`);
-
-  if (recordCount === 0) {
-    return {
-      isValid: false,
-      recordCount: 0,
-      error: 'No valid ADI QSO records found in file. Each record must contain at least one callsign field (<call:>, <station_callsign:>, or <operator:>).'
-    };
-  }
-
-  return { isValid: true, recordCount };
-}
-
 async function submitToQRZ(fileContent: string): Promise<{ success: boolean; count?: number; logId?: string; error?: string }> {
   // QRZ submission started
   console.log('🔍 Starting QRZ submission...');
