@@ -550,7 +550,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 value={spotComment[activation.activationId] || `America250 NCS - ${activation.mode}`}
                 onChange={e => setSpotComment(prev => ({ ...prev, [activation.activationId]: e.target.value }))}
                 rows={2}
-                style={{ width: '100%', marginTop: '0.5em', fontFamily: 'inherit', fontSize: '1em', borderRadius: '4px', border: '1px solid #ccc', padding: '0.5em' }}
+                style={{ width: '100%', marginTop: '0.5em', fontFamily: 'inherit', fontSize: '1em', borderRadius: '4px', border: '1px solid #ccc', padding: '0.5em', background: 'var(--parchment)' }}
                 placeholder="Edit spot comment before sending..."
               />
               <button
