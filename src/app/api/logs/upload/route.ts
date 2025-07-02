@@ -25,8 +25,9 @@ async function submitToQRZ(fileContent: string): Promise<{ success: boolean; cou
   console.log('🔍 Starting QRZ submission...');
   
   try {
-    // Remove header content (everything before the first <Call: field)
-    const callIndex = fileContent.indexOf('<Call:');
+    // Remove header content (everything before the first <call: field, case-insensitive)
+    const callMatch = fileContent.match(/<call:/i);
+    const callIndex = callMatch ? callMatch.index : -1;
     if (callIndex === -1) {
       console.log('❌ No QSO records found in ADIF file');
       return {
@@ -35,7 +36,7 @@ async function submitToQRZ(fileContent: string): Promise<{ success: boolean; cou
       };
     }
     
-    // Extract only the QSO records (everything from first <Call: onwards)
+    // Extract only the QSO records (everything from first <call: onwards)
     const qsoContent = fileContent.substring(callIndex);
     
     // Split the QSO content into individual QSO records
@@ -132,114 +133,6 @@ async function submitToQRZ(fileContent: string): Promise<{ success: boolean; cou
   }
 }
 
-async function sendFailureEmail(filename: string, error: string, volunteerData: {
-  volunteerId: number;
-  name: string;
-  callsign: string;
-  state: string;
-}, fileContent: string): Promise<void> {
-  try {
-    // Validate SMTP configuration
-    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-      console.error('❌ SMTP credentials not configured - cannot send failure email');
-      return;
-    }
-
-    // Create transporter - using environment variables for email config
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || 'smtp.gmail.com',
-      port: parseInt(process.env.SMTP_PORT || '587'),
-      secure: process.env.SMTP_SECURE === 'true',
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
-
-    // Validate inputs before using them
-    const safeFilename = filename || 'unknown-file.adi';
-    const safeError = error || 'Unknown error';
-    const safeVolunteerData = {
-      name: volunteerData?.name || 'Unknown',
-      callsign: volunteerData?.callsign || 'Unknown',
-      state: volunteerData?.state || 'Unknown',
-      volunteerId: volunteerData?.volunteerId || 0
-    };
-
-    const emailBody = `
-ADI File Upload Failure Alert
-
-Volunteer Details:
-- Name: ${safeVolunteerData.name}
-- Callsign: ${safeVolunteerData.callsign}
-- State: ${safeVolunteerData.state}
-- Volunteer ID: ${safeVolunteerData.volunteerId}
-
-File Details:
-- Filename: ${safeFilename}
-- Upload Time: ${new Date().toISOString()}
-- Error: ${safeError}
-
-The rejected ADI file is attached as a .txt file for your review.
-(Original filename: ${safeFilename})
-
-Please contact the volunteer if manual processing is required.
-
----
-America250-NCS System
-Automated Alert
-    `.trim();
-
-    // Create safe filename for attachment (change .adi to .txt to avoid Apple security warnings)
-    const attachmentFilename = safeFilename.replace(/\.adi$/i, '.txt') || 'rejected-file.txt';
-    
-    // Safely create buffer and base64 content
-    let contentBase64 = '';
-    try {
-      const contentBuffer = Buffer.from(fileContent || '', 'utf8');
-      contentBase64 = contentBuffer.toString('base64');
-    } catch (bufferError) {
-      console.error('❌ Failed to create attachment buffer:', bufferError);
-      contentBase64 = Buffer.from('Error: Could not process file content', 'utf8').toString('base64');
-    }
-
-    const mailOptions = {
-      from: `"America250-NCS System" <${process.env.SMTP_USER}>`,
-      to: 'marc@history.radio',
-      subject: `🚨 ADI Upload Failure: ${safeFilename} from ${safeVolunteerData.callsign}`,
-      text: emailBody,
-      attachments: [
-        {
-          filename: attachmentFilename,
-          content: contentBase64,
-          contentType: 'text/plain',
-          encoding: 'base64'
-        }
-      ]
-    };
-
-    const info = await transporter.sendMail(mailOptions);
-    console.log('[ADI FAILURE EMAIL SENT]', {
-      filename: safeFilename,
-      error: safeError,
-      volunteer: safeVolunteerData,
-      timestamp: new Date().toISOString(),
-      fileContentPreview: (fileContent || '').substring(0, 200) + '...',
-      messageId: info.messageId
-    });
-  } catch (emailError) {
-    console.error('❌ Failed to send failure email:', emailError);
-    // Fallback: At least log the critical details so they're not lost
-    console.error('🚨 CRITICAL: ADI Upload Failure (Email Failed):', {
-      filename: filename || 'unknown',
-      error: error || 'unknown',
-      volunteer: volunteerData || 'unknown',
-      timestamp: new Date().toISOString(),
-      fileContentPreview: (fileContent || '').substring(0, 200) + '...'
-    });
-  }
-}
-
 export async function POST(request: NextRequest) {
   console.log('🚀 ADI upload request received');
   try {
@@ -271,9 +164,7 @@ export async function POST(request: NextRequest) {
         processedCount: 0,
         status: 'rejected'
       });
-      // Send failure email (with robust logging)
-      console.log('📧 Sending QRZ failure email...');
-      await sendFailureEmail(filename, qrzResult.error!, volunteerData, fileContent);
+      // No more failure email
       return NextResponse.json({
         success: false,
         error: 'ERROR: Your .adi file contains errors. Contact Marc W4OVT for assistance.',
@@ -307,16 +198,7 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('💥 ADI upload error:', error);
-    // Defensive: try to send a failure email if possible
-    try {
-      const { filename, fileContent, volunteerData } = (typeof request !== 'undefined' && request.json) ? await request.json() : {};
-      if (filename && fileContent && volunteerData) {
-        console.log('📧 Sending fallback failure email...');
-        await sendFailureEmail(filename, 'Internal server error during file processing', volunteerData, fileContent);
-      }
-    } catch (emailError) {
-      console.error('❌ Failed to send fallback failure email:', emailError);
-    }
+    // No more fallback failure email
     return NextResponse.json({
       success: false,
       error: 'Internal server error during file processing'
