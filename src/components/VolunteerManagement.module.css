@@ -202,10 +202,13 @@
 }
 
 .volunteerTable th {
-  background: var(--parchment);
-  font-weight: 600;
-  color: #495057;
-  font-size: 0.875rem;
+  background: var(--mahogany);
+  color: var(--parchment);
+  font-family: 'librebaskerville-bold', serif;
+  letter-spacing: 0.08em;
+  font-weight: bold;
+  font-size: 0.95rem;
+  text-align: center;
 }
 
 .sortableHeader {
