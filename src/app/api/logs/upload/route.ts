@@ -171,6 +171,12 @@ async function sendFailureEmail(filename: string, error: string, volunteerData: 
   state: string;
 }, fileContent: string): Promise<void> {
   try {
+    // Validate SMTP configuration
+    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      console.error('❌ SMTP credentials not configured - cannot send failure email');
+      return;
+    }
+
     // Create transporter - using environment variables for email config
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || 'smtp.gmail.com',
@@ -182,22 +188,32 @@ async function sendFailureEmail(filename: string, error: string, volunteerData: 
       },
     });
 
+    // Validate inputs before using them
+    const safeFilename = filename || 'unknown-file.adi';
+    const safeError = error || 'Unknown error';
+    const safeVolunteerData = {
+      name: volunteerData?.name || 'Unknown',
+      callsign: volunteerData?.callsign || 'Unknown',
+      state: volunteerData?.state || 'Unknown',
+      volunteerId: volunteerData?.volunteerId || 0
+    };
+
     const emailBody = `
 ADI File Upload Failure Alert
 
 Volunteer Details:
-- Name: ${volunteerData.name}
-- Callsign: ${volunteerData.callsign}
-- State: ${volunteerData.state}
-- Volunteer ID: ${volunteerData.volunteerId}
+- Name: ${safeVolunteerData.name}
+- Callsign: ${safeVolunteerData.callsign}
+- State: ${safeVolunteerData.state}
+- Volunteer ID: ${safeVolunteerData.volunteerId}
 
 File Details:
-- Filename: ${filename}
+- Filename: ${safeFilename}
 - Upload Time: ${new Date().toISOString()}
-- Error: ${error}
+- Error: ${safeError}
 
 The rejected ADI file is attached as a .txt file for your review.
-(Original filename: ${filename})
+(Original filename: ${safeFilename})
 
 Please contact the volunteer if manual processing is required.
 
@@ -207,18 +223,26 @@ Automated Alert
     `.trim();
 
     // Create safe filename for attachment (change .adi to .txt to avoid Apple security warnings)
-    const safeFilename = filename.replace(/\.adi$/i, '.txt') || 'rejected-file.txt';
-    const contentBuffer = Buffer.from(fileContent, 'utf8');
-    const contentBase64 = contentBuffer.toString('base64');
+    const attachmentFilename = safeFilename.replace(/\.adi$/i, '.txt') || 'rejected-file.txt';
+    
+    // Safely create buffer and base64 content
+    let contentBase64 = '';
+    try {
+      const contentBuffer = Buffer.from(fileContent || '', 'utf8');
+      contentBase64 = contentBuffer.toString('base64');
+    } catch (bufferError) {
+      console.error('❌ Failed to create attachment buffer:', bufferError);
+      contentBase64 = Buffer.from('Error: Could not process file content', 'utf8').toString('base64');
+    }
 
     const mailOptions = {
       from: `"America250-NCS System" <${process.env.SMTP_USER}>`,
       to: 'marc@history.radio',
-      subject: `🚨 ADI Upload Failure: ${filename} from ${volunteerData.callsign}`,
+      subject: `🚨 ADI Upload Failure: ${safeFilename} from ${safeVolunteerData.callsign}`,
       text: emailBody,
       attachments: [
         {
-          filename: safeFilename,
+          filename: attachmentFilename,
           content: contentBase64,
           contentType: 'text/plain',
           encoding: 'base64'
@@ -228,22 +252,22 @@ Automated Alert
 
     const info = await transporter.sendMail(mailOptions);
     console.log('[ADI FAILURE EMAIL SENT]', {
-      filename,
-      error,
-      volunteer: volunteerData,
+      filename: safeFilename,
+      error: safeError,
+      volunteer: safeVolunteerData,
       timestamp: new Date().toISOString(),
-      fileContentPreview: fileContent.substring(0, 200) + '...',
+      fileContentPreview: (fileContent || '').substring(0, 200) + '...',
       messageId: info.messageId
     });
   } catch (emailError) {
     console.error('❌ Failed to send failure email:', emailError);
     // Fallback: At least log the critical details so they're not lost
     console.error('🚨 CRITICAL: ADI Upload Failure (Email Failed):', {
-      filename,
-      error,
-      volunteer: volunteerData,
+      filename: filename || 'unknown',
+      error: error || 'unknown',
+      volunteer: volunteerData || 'unknown',
       timestamp: new Date().toISOString(),
-      fileContentPreview: fileContent.substring(0, 200) + '...'
+      fileContentPreview: (fileContent || '').substring(0, 200) + '...'
     });
   }
 }
