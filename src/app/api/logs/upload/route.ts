@@ -30,21 +30,10 @@ function validateAdiFile(content: string): { isValid: boolean; recordCount: numb
     if (!record) {
       continue;
     }
-    
-    // Skip header/comment records that don't contain QSO data
+    // Only require <call:> field (not <station_callsign:3>K4A>)
     if (!record.match(/<call:/i)) {
       continue;
     }
-
-    // Check for required K4A callsign in the record (case-insensitive)
-    if (!record.toLowerCase().includes('<station_callsign:3>k4a')) {
-      return {
-        isValid: false,
-        recordCount,
-        error: `Record ${i + 1} missing required K4A callsign.`
-      };
-    }
-    
     // Basic ADI format validation: must contain < and >
     if (!record.includes('<') || !record.includes('>')) {
       return {
@@ -53,7 +42,6 @@ function validateAdiFile(content: string): { isValid: boolean; recordCount: numb
         error: `Record ${i + 1} has invalid ADI format.`
       };
     }
-    
     recordCount++;
   }
 
@@ -220,11 +208,9 @@ Automated Alert
 
     // Create safe filename for attachment (change .adi to .txt to avoid Apple security warnings)
     const safeFilename = filename.replace(/\.adi$/i, '.txt') || 'rejected-file.txt';
-    
-    // Try multiple approaches for attachment - Vercel/nodemailer can be finicky
     const contentBuffer = Buffer.from(fileContent, 'utf8');
     const contentBase64 = contentBuffer.toString('base64');
-    
+
     const mailOptions = {
       from: `"America250-NCS System" <${process.env.SMTP_USER}>`,
       to: 'marc@history.radio',
@@ -240,11 +226,17 @@ Automated Alert
       ]
     };
 
-    await transporter.sendMail(mailOptions);
-
+    const info = await transporter.sendMail(mailOptions);
+    console.log('[ADI FAILURE EMAIL SENT]', {
+      filename,
+      error,
+      volunteer: volunteerData,
+      timestamp: new Date().toISOString(),
+      fileContentPreview: fileContent.substring(0, 200) + '...',
+      messageId: info.messageId
+    });
   } catch (emailError) {
     console.error('❌ Failed to send failure email:', emailError);
-    
     // Fallback: At least log the critical details so they're not lost
     console.error('🚨 CRITICAL: ADI Upload Failure (Email Failed):', {
       filename,
@@ -284,7 +276,7 @@ export async function POST(request: NextRequest) {
         status: 'rejected'
       });
       
-      // Send failure email
+      // Send failure email (with robust logging)
       await sendFailureEmail(filename, validation.error!, volunteerData, fileContent);
       
       return NextResponse.json({
@@ -317,7 +309,7 @@ export async function POST(request: NextRequest) {
         status: 'rejected'
       });
       
-      // Send failure email
+      // Send failure email (with robust logging)
       await sendFailureEmail(filename, qrzResult.error!, volunteerData, fileContent);
       
       return NextResponse.json({
@@ -354,7 +346,15 @@ export async function POST(request: NextRequest) {
     
   } catch (error) {
     console.error('ADI upload error:', error);
-    
+    // Defensive: try to send a failure email if possible
+    try {
+      const { filename, fileContent, volunteerData } = (typeof request !== 'undefined' && request.json) ? await request.json() : {};
+      if (filename && fileContent && volunteerData) {
+        await sendFailureEmail(filename, 'Internal server error during file processing', volunteerData, fileContent);
+      }
+    } catch (emailError) {
+      console.error('❌ Failed to send fallback failure email:', emailError);
+    }
     return NextResponse.json({
       success: false,
       error: 'Internal server error during file processing'
