@@ -1217,9 +1217,14 @@
   font-size: 0.8rem;
   line-height: 1.4;
   white-space: pre-wrap;
-  word-break: break-all;
+  word-break: break-word;
   max-height: 60vh;
   overflow-y: auto;
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  cursor: text;
 }
 
 /* Card Layout for Mobile ADI Submissions */
