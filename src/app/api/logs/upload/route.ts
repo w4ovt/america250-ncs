@@ -26,8 +26,7 @@ async function submitToQRZ(fileContent: string): Promise<{ success: boolean; cou
   try {
     // Remove header content (everything before the first <call: field, case-insensitive)
     const callMatch = fileContent.match(/<call:/i);
-    const callIndex = callMatch ? callMatch.index : -1;
-    if (callIndex === -1) {
+    if (!callMatch || callMatch.index === undefined) {
       console.log('❌ No QSO records found in ADIF file');
       return {
         success: false,
@@ -36,7 +35,7 @@ async function submitToQRZ(fileContent: string): Promise<{ success: boolean; cou
     }
     
     // Extract only the QSO records (everything from first <call: onwards)
-    const qsoContent = fileContent.substring(callIndex);
+    const qsoContent = fileContent.substring(callMatch.index);
     
     // Split the QSO content into individual QSO records
     const records = qsoContent.split(/<eor>/i).map(r => r.trim()).filter(r => r.length > 0);
