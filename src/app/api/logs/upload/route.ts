@@ -21,11 +21,25 @@ interface UploadRequest {
 }
 
 function validateAdiFile(content: string): { isValid: boolean; recordCount: number; error?: string } {
+  // Remove header content (everything before the first <Call: field)
+  const callIndex = content.indexOf('<Call:');
+  if (callIndex === -1) {
+    console.log('❌ No QSO records found in ADIF file');
+    return {
+      isValid: false,
+      recordCount: 0,
+      error: 'No QSO records found in ADIF file. File must contain at least one <Call: field.'
+    };
+  }
+  
+  // Extract only the QSO records (everything from first <Call: onwards)
+  const qsoContent = content.substring(callIndex);
+  
   // Split into records by <eor> (case-insensitive) and filter out empty records
-  const records = content.split(/<eor>/i).map(r => r.trim()).filter(r => r.length > 0);
+  const records = qsoContent.split(/<eor>/i).map(r => r.trim()).filter(r => r.length > 0);
   let recordCount = 0;
 
-  console.log(`🔍 Validating ${records.length} potential records...`);
+  console.log(`🔍 Validating ${records.length} potential QSO records...`);
 
   for (let i = 0; i < records.length; i++) {
     const record = records[i];
