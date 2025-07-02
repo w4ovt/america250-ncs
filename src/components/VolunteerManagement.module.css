@@ -4,8 +4,8 @@
 
 /* Form Section */
 .formSection {
-  background: #f8f9fa;
-  border: 1px solid #e9ecef;
+  background: transparent;
+  border: none;
   border-radius: 8px;
   padding: 1.5rem;
   margin-bottom: 2rem;
@@ -187,7 +187,7 @@
 .volunteerTable {
   width: 100%;
   border-collapse: collapse;
-  background: white;
+  background: transparent;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -198,10 +198,11 @@
   padding: 0.75rem;
   text-align: left;
   border-bottom: 1px solid #e9ecef;
+  background: transparent;
 }
 
 .volunteerTable th {
-  background: #f8f9fa;
+  background: var(--parchment);
   font-weight: 600;
   color: #495057;
   font-size: 0.875rem;
@@ -294,11 +295,11 @@
 }
 
 .volunteerCard {
-  background: white;
-  border: 1px solid #e9ecef;
+  background: var(--parchment);
+  border: 2px solid var(--mahogany);
   border-radius: 8px;
   padding: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(104, 63, 27, 0.1);
 }
 
 .cardHeader {
@@ -366,7 +367,7 @@
 }
 
 .modalContent {
-  background: white;
+  background: var(--parchment);
   border-radius: 8px;
   padding: 1.5rem;
   max-width: 400px;
