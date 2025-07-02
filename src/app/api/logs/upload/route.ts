@@ -306,49 +306,12 @@ export async function POST(request: NextRequest) {
     const body: UploadRequest = await request.json();
     const { filename, fileContent, volunteerData } = body;
     console.log('📄 Processing file:', filename, 'for volunteer:', volunteerData?.callsign);
-    
-    // Validate file format and content
-    console.log('🔍 Validating ADIF file...');
-    const validation = validateAdiFile(fileContent);
-    console.log('✅ Validation result:', validation.isValid, 'Record count:', validation.recordCount);
-    
-    if (!validation.isValid) {
-      console.log('❌ File validation failed:', validation.error);
-      // Store failure in database
-      await db().insert(logSubmissions).values({
-        filename,
-        callsign: volunteerData.callsign,
-        name: volunteerData.name,
-        result: 'failure',
-        recordCount: validation.recordCount,
-      });
-      
-      // Store in new ADI submissions table
-      await db().insert(adiSubmissions).values({
-        volunteerId: volunteerData.volunteerId,
-        filename,
-        fileContent,
-        recordCount: validation.recordCount,
-        processedCount: 0,
-        status: 'rejected'
-      });
-      
-      // Send failure email (with robust logging)
-      console.log('📧 Sending validation failure email...');
-      await sendFailureEmail(filename, validation.error!, volunteerData, fileContent);
-      
-      return NextResponse.json({
-        success: false,
-        error: 'ERROR: Your .adi file contains errors. Contact Marc W4OVT for assistance.',
-        recordCount: validation.recordCount
-      }, { status: 400 });
-    }
-    
+
     // Submit to QRZ
     console.log('📡 Submitting to QRZ...');
     const qrzResult = await submitToQRZ(fileContent);
     console.log('📡 QRZ result:', qrzResult.success, qrzResult.error);
-    
+
     if (!qrzResult.success) {
       console.log('❌ QRZ submission failed:', qrzResult.error);
       // Store failure in database
@@ -357,30 +320,27 @@ export async function POST(request: NextRequest) {
         callsign: volunteerData.callsign,
         name: volunteerData.name,
         result: 'failure',
-        recordCount: validation.recordCount,
+        recordCount: 0,
       });
-      
       // Store in new ADI submissions table
       await db().insert(adiSubmissions).values({
         volunteerId: volunteerData.volunteerId,
         filename,
         fileContent,
-        recordCount: validation.recordCount,
+        recordCount: 0,
         processedCount: 0,
         status: 'rejected'
       });
-      
       // Send failure email (with robust logging)
       console.log('📧 Sending QRZ failure email...');
       await sendFailureEmail(filename, qrzResult.error!, volunteerData, fileContent);
-      
       return NextResponse.json({
         success: false,
         error: 'ERROR: Your .adi file contains errors. Contact Marc W4OVT for assistance.',
-        recordCount: validation.recordCount
+        recordCount: 0
       }, { status: 500 });
     }
-    
+
     console.log('✅ QRZ submission successful, storing in database...');
     // Store success in database
     await db().insert(logSubmissions).values({
@@ -388,26 +348,23 @@ export async function POST(request: NextRequest) {
       callsign: volunteerData.callsign,
       name: volunteerData.name,
       result: 'success',
-      recordCount: qrzResult.count || validation.recordCount,
+      recordCount: qrzResult.count || 0,
     });
-    
     // Store in new ADI submissions table
     await db().insert(adiSubmissions).values({
       volunteerId: volunteerData.volunteerId,
       filename,
       fileContent,
-      recordCount: validation.recordCount,
+      recordCount: qrzResult.count || 0,
       processedCount: qrzResult.count || 0,
       status: 'success'
     });
-    
     console.log('✅ ADI upload completed successfully');
     return NextResponse.json({
       success: true,
-      recordCount: qrzResult.count || validation.recordCount,
-      message: `SUCCESS: ${qrzResult.count || validation.recordCount} Contacts Have Been Uploaded to the K4A QRZ Logbook. Thank you for Volunteering!`
+      recordCount: qrzResult.count || 0,
+      message: `SUCCESS: ${qrzResult.count || 0} Contacts Have Been Uploaded to the K4A QRZ Logbook. Thank you for Volunteering!`
     });
-    
   } catch (error) {
     console.error('💥 ADI upload error:', error);
     // Defensive: try to send a failure email if possible
