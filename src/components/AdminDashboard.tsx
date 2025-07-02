@@ -555,17 +555,17 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
               />
               <button
                 onClick={() => handleAdminSpot(activation)}
-                disabled={!!spotCooldown[activation.activationId] && spotCooldown[activation.activationId] > 0}
-                style={{ marginTop: '0.5em', marginRight: '1em', background: '#e3fcec', color: '#155724', border: '1px solid #b7eb8f', borderRadius: '6px', padding: '0.4em 1em', fontWeight: 'bold', cursor: spotCooldown[activation.activationId] > 0 ? 'not-allowed' : 'pointer', opacity: spotCooldown[activation.activationId] > 0 ? 0.6 : 1 }}
-                title={spotCooldown[activation.activationId] > 0 ? `Please wait ${Math.ceil(spotCooldown[activation.activationId]/60)} min before re-spotting` : 'Spot to DX Cluster (Telnet)'}
+                disabled={(spotCooldown[activation.activationId] ?? 0) > 0}
+                style={{ marginTop: '0.5em', marginRight: '1em', background: '#e3fcec', color: '#155724', border: '1px solid #b7eb8f', borderRadius: '6px', padding: '0.4em 1em', fontWeight: 'bold', cursor: (spotCooldown[activation.activationId] ?? 0) > 0 ? 'not-allowed' : 'pointer', opacity: (spotCooldown[activation.activationId] ?? 0) > 0 ? 0.6 : 1 }}
+                title={(spotCooldown[activation.activationId] ?? 0) > 0 ? `Please wait ${Math.ceil((spotCooldown[activation.activationId] ?? 0)/60)} min before re-spotting` : 'Spot to DX Cluster (Telnet)'}
               >
                 📡 Spot to DX Cluster (Telnet)
               </button>
               <button
                 onClick={() => handleAdminRespot(activation)}
-                disabled={!spotCooldown[activation.activationId] || spotCooldown[activation.activationId] > 0}
-                style={{ marginTop: '0.5em', background: '#fffbe6', color: '#6b3e1d', border: '1px solid #D4AF37', borderRadius: '6px', padding: '0.4em 1em', fontWeight: 'bold', cursor: spotCooldown[activation.activationId] > 0 ? 'not-allowed' : 'pointer', opacity: spotCooldown[activation.activationId] > 0 ? 0.6 : 1 }}
-                title={spotCooldown[activation.activationId] > 0 ? `Please wait ${Math.ceil(spotCooldown[activation.activationId]/60)} min before re-spotting` : 'Re-spot to DX Cluster (Telnet)'}
+                disabled={!(spotCooldown[activation.activationId] ?? 0) || (spotCooldown[activation.activationId] ?? 0) > 0}
+                style={{ marginTop: '0.5em', background: '#fffbe6', color: '#6b3e1d', border: '1px solid #D4AF37', borderRadius: '6px', padding: '0.4em 1em', fontWeight: 'bold', cursor: (spotCooldown[activation.activationId] ?? 0) > 0 ? 'not-allowed' : 'pointer', opacity: (spotCooldown[activation.activationId] ?? 0) > 0 ? 0.6 : 1 }}
+                title={(spotCooldown[activation.activationId] ?? 0) > 0 ? `Please wait ${Math.ceil((spotCooldown[activation.activationId] ?? 0)/60)} min before re-spotting` : 'Re-spot to DX Cluster (Telnet)'}
               >
                 🔁 Re-spot
               </button>
