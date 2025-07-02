@@ -138,7 +138,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
     Object.entries(spotCooldown).forEach(([id, cooldown]) => {
       if (cooldown > 0) {
         timers.push(setTimeout(() => {
-          setSpotCooldown(prev => ({ ...prev, [id]: prev[id] - 1 }));
+          setSpotCooldown(prev => ({ ...prev, [id]: (prev[id] ?? 0) - 1 }));
         }, 1000));
       }
     });
