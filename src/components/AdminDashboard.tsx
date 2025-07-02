@@ -65,7 +65,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [spotStatus, setSpotStatus] = useState<Record<number, string>>({});
   const [spotResponse, setSpotResponse] = useState<Record<number, string>>({});
   const [spotComment, setSpotComment] = useState<Record<number, string>>({});
-  const [spotCooldown, setSpotCooldown] = useState<Record<number, number>>({});
+  const [spotCooldown, setSpotCooldown] = useState<Record<string, number>>({});
 
   const fetchVolunteers = async () => {
     try {
