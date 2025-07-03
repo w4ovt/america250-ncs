@@ -69,7 +69,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
 
   const fetchVolunteers = async () => {
     try {
-      const response = await fetch('/api/admin/volunteers');
+      const response = await fetch('/api/admin/volunteers', { credentials: 'include' });
       if (response.ok) {
         const data = await response.json();
         setVolunteers(data);
