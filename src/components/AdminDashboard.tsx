@@ -163,7 +163,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
         },
         body: JSON.stringify({
           volunteerId: selectedVolunteerId,
-          frequencyMhz: activationFrequency,
+          frequencyMhz: Number(activationFrequency),
           mode: activationMode
         }),
       });
