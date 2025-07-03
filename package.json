@@ -45,6 +45,7 @@
   "dependencies": {
     "@neondatabase/serverless": "^1.0.1",
     "@types/nodemailer": "^6.4.17",
+    "axios": "^1.7.9",
     "dotenv": "^16.5.0",
     "drizzle-kit": "^0.31.2",
     "drizzle-orm": "^0.44.2",
