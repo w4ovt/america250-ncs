@@ -596,11 +596,13 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 className={styles.formSelect}
               >
                 <option value="">Select a volunteer...</option>
-                {volunteers.map((volunteer) => (
-                  <option key={volunteer.volunteerId} value={volunteer.volunteerId}>
-                    {volunteer.callsign} - {volunteer.name} ({volunteer.state})
-                  </option>
-                ))}
+                {volunteers
+                  .filter(v => v && v.volunteerId && v.name && v.callsign)
+                  .map((volunteer) => (
+                    <option key={volunteer.volunteerId} value={volunteer.volunteerId}>
+                      {volunteer.callsign || 'No Callsign'} - {volunteer.name || 'No Name'} ({volunteer.state || 'No State'})
+                    </option>
+                  ))}
               </select>
             </div>
             <div className={styles.formGroup}>
