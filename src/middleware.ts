@@ -10,19 +10,26 @@ function getClientIP(request: NextRequest): string {
 export function middleware(request: NextRequest) {
   // Protect admin routes
   if (request.nextUrl.pathname.startsWith('/admin')) {
-    // For now, we'll rely on client-side authentication
-    // In a production environment, you'd want to check for a secure session token
-    // This is a basic protection - the main protection is in the client-side code
-    
-    // You could add additional server-side checks here:
-    // - Check for admin session cookies
-    // - Validate JWT tokens
-    // - Check IP whitelist
-    // - Rate limiting
-    
-    // For now, we'll let the client-side handle the authentication
-    // but we can add logging for security monitoring
-    console.log(`[SECURITY] Admin route accessed: ${request.nextUrl.pathname} from ${getClientIP(request)}`);
+    // Check for volunteerAuth cookie
+    const cookie = request.cookies.get('volunteerAuth');
+    let isAdmin = false;
+    if (cookie) {
+      try {
+        const authData = JSON.parse(decodeURIComponent(cookie.value));
+        if (authData.role === 'admin') {
+          isAdmin = true;
+        }
+      } catch {
+        // Invalid cookie, treat as not admin
+      }
+    }
+    if (!isAdmin) {
+      console.log(`[SECURITY] BLOCKED admin route: ${request.nextUrl.pathname} from ${getClientIP(request)}`);
+      // Redirect unauthorized users to /volunteer
+      return NextResponse.redirect(new URL('/volunteer', request.url));
+    }
+    // Log successful admin access
+    console.log(`[SECURITY] ALLOWED admin route: ${request.nextUrl.pathname} from ${getClientIP(request)}`);
   }
 
   return NextResponse.next();
