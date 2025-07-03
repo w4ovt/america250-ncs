@@ -65,6 +65,8 @@ export default function VolunteerPage() {
         const data: AuthResponse = await response.json();
         setVolunteerData(data);
         localStorage.setItem('volunteerAuth', JSON.stringify(data));
+        // Set volunteerAuth as a cookie for backend admin checks
+        document.cookie = `volunteerAuth=${encodeURIComponent(JSON.stringify(data))}; path=/; max-age=86400`;
         setPin('');
         setAttempts(0);
       } else {
