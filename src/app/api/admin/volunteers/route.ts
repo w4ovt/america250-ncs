@@ -59,7 +59,6 @@ export async function GET() {
       name: volunteers.name,
       callsign: volunteers.callsign,
       state: volunteers.state,
-      pin: volunteers.pin,
       role: volunteers.role
     }).from(volunteers).orderBy(volunteers.callsign);
 
