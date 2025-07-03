@@ -14,9 +14,10 @@ interface Volunteer {
 
 interface VolunteerManagementProps {
   onVolunteersChange?: () => void;
+  isAdmin?: boolean;
 }
 
-export default function VolunteerManagement({ onVolunteersChange }: VolunteerManagementProps) {
+export default function VolunteerManagement({ onVolunteersChange, isAdmin }: VolunteerManagementProps) {
   const [volunteers, setVolunteers] = useState<Volunteer[]>([]);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -177,6 +178,10 @@ export default function VolunteerManagement({ onVolunteersChange }: VolunteerMan
       
       return 0;
     });
+
+  if (!isAdmin) {
+    return null;
+  }
 
   return (
     <div className={styles.volunteerManagement}>
