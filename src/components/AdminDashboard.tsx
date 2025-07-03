@@ -658,7 +658,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
       {/* Volunteer Management Section */}
       <div className={styles.adminSection}>
         <h3 className={styles.sectionTitle}>Volunteer Management</h3>
-        <VolunteerManagement onVolunteersChange={fetchVolunteers} />
+        <VolunteerManagement onVolunteersChange={fetchVolunteers} isAdmin={true} />
       </div>
 
       {/* ADI Submissions Table Section */}
