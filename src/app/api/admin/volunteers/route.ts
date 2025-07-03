@@ -52,25 +52,41 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    // Check for admin authentication via cookie
+    const cookie = request.cookies.get('volunteerAuth');
+    let isAdmin = false;
+    if (cookie) {
+      try {
+        const authData = JSON.parse(decodeURIComponent(cookie.value));
+        if (authData.role === 'admin') {
+          isAdmin = true;
+        }
+      } catch {
+        // Invalid cookie, treat as not admin
+      }
+    }
+
+    // Fetch all volunteers
     const volunteerList = await db().select({
       volunteerId: volunteers.volunteerId,
       name: volunteers.name,
       callsign: volunteers.callsign,
       state: volunteers.state,
+      pin: volunteers.pin,
       role: volunteers.role
     }).from(volunteers).orderBy(volunteers.callsign);
 
-    // Sanitize response - remove PINs for security
-    const sanitizedVolunteers = volunteerList.map(volunteer => ({
-      volunteerId: volunteer.volunteerId,
-      name: volunteer.name,
-      callsign: volunteer.callsign,
-      state: volunteer.state,
-      role: volunteer.role
-      // PIN removed for security
-    }));
+    // Only include PINs for admins
+    const sanitizedVolunteers = volunteerList.map(volunteer => {
+      if (isAdmin) {
+        return volunteer;
+      } else {
+        const { pin, ...rest } = volunteer;
+        return rest;
+      }
+    });
 
     return NextResponse.json(sanitizedVolunteers);
 
