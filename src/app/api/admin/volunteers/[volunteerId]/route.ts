@@ -4,10 +4,47 @@ import { volunteers, activations, adiSubmissions } from '../../../../../db/schem
 import { eq } from 'drizzle-orm';
 
 export async function DELETE(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: { volunteerId: string } }
 ) {
   try {
+    // Check for admin authentication
+    const cookie = request.cookies.get('volunteerAuth');
+    let isAdmin = false;
+    
+    if (cookie) {
+      try {
+        const authData = JSON.parse(decodeURIComponent(cookie.value));
+        if (authData.role === 'admin') {
+          isAdmin = true;
+        }
+      } catch {
+        // Invalid cookie, treat as not admin
+      }
+    }
+
+    // Fallback: Check for auth data in headers
+    if (!isAdmin) {
+      const authHeader = request.headers.get('x-volunteer-auth');
+      if (authHeader) {
+        try {
+          const authData = JSON.parse(decodeURIComponent(authHeader));
+          if (authData.role === 'admin') {
+            isAdmin = true;
+          }
+        } catch {
+          // Invalid header, treat as not admin
+        }
+      }
+    }
+
+    if (!isAdmin) {
+      return NextResponse.json(
+        { error: 'Admin access required' },
+        { status: 403 }
+      );
+    }
+
     const volunteerId = Number(params.volunteerId);
     
     if (isNaN(volunteerId)) {
@@ -117,6 +154,43 @@ export async function PUT(
   { params }: { params: { volunteerId: string } }
 ) {
   try {
+    // Check for admin authentication
+    const cookie = request.cookies.get('volunteerAuth');
+    let isAdmin = false;
+    
+    if (cookie) {
+      try {
+        const authData = JSON.parse(decodeURIComponent(cookie.value));
+        if (authData.role === 'admin') {
+          isAdmin = true;
+        }
+      } catch {
+        // Invalid cookie, treat as not admin
+      }
+    }
+
+    // Fallback: Check for auth data in headers
+    if (!isAdmin) {
+      const authHeader = request.headers.get('x-volunteer-auth');
+      if (authHeader) {
+        try {
+          const authData = JSON.parse(decodeURIComponent(authHeader));
+          if (authData.role === 'admin') {
+            isAdmin = true;
+          }
+        } catch {
+          // Invalid header, treat as not admin
+        }
+      }
+    }
+
+    if (!isAdmin) {
+      return NextResponse.json(
+        { error: 'Admin access required' },
+        { status: 403 }
+      );
+    }
+
     const volunteerId = Number(params.volunteerId);
     
     if (isNaN(volunteerId)) {
