@@ -24,8 +24,25 @@ async function submitToQRZ(fileContent: string): Promise<{ success: boolean; cou
   console.log('🔍 Starting QRZ submission...');
   
   try {
+    // Handle RTF files (common with N3FJP exports)
+    let processedContent = fileContent;
+    if (fileContent.includes('{\\rtf1')) {
+      console.log('📄 RTF file detected, processing...');
+      // Strip RTF markup and extract ADIF content
+      processedContent = fileContent
+        .replace(/{\\rtf1[^}]*}/g, '') // Remove RTF header
+        .replace(/\\[a-z0-9-]+/g, '') // Remove RTF commands
+        .replace(/[{}]/g, '') // Remove RTF braces
+        .replace(/\\'/g, "'") // Fix escaped apostrophes
+        .replace(/\\"/g, '"') // Fix escaped quotes
+        .replace(/\\\\/g, '\\') // Fix escaped backslashes
+        .replace(/\r\n/g, '\n') // Normalize line endings
+        .replace(/\r/g, '\n'); // Normalize line endings
+      console.log('✅ RTF processing complete');
+    }
+    
     // Remove header content (everything before the first <call: field, case-insensitive)
-    const callMatch = fileContent.match(/<call:/i);
+    const callMatch = processedContent.match(/<call:/i);
     if (!callMatch || callMatch.index === undefined) {
       console.log('❌ No QSO records found in ADIF file');
       return {
@@ -35,7 +52,7 @@ async function submitToQRZ(fileContent: string): Promise<{ success: boolean; cou
     }
     
     // Extract only the QSO records (everything from first <call: onwards)
-    const qsoContent = fileContent.substring(callMatch.index);
+    const qsoContent = processedContent.substring(callMatch.index);
     
     // Split the QSO content into individual QSO records
     const records = qsoContent.split(/<eor>/i).map(r => r.trim()).filter(r => r.length > 0);
