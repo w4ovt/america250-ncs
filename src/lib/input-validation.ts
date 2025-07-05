@@ -43,10 +43,6 @@ export const adiContentSchema = z.string()
   .refine(
     (content) => content.includes('<call:') || content.includes('<CALL:'),
     'Invalid ADI format: missing call field'
-  )
-  .refine(
-    (content) => content.toLowerCase().includes('k4a'),
-    'ADI file must contain K4A station callsign'
   );
 
 // Volunteer data validation schema
@@ -183,11 +179,6 @@ export function validateAdiFileContent(content: string): {
     errors.push('ADI file is too large (maximum 10MB)');
   }
   
-  // Check for required K4A callsign
-  if (!content.toLowerCase().includes('k4a')) {
-    errors.push('ADI file must contain K4A station callsign');
-  }
-  
   // Parse QSO records
   const records = content.split(/<eor>/i).filter(record => record.trim().length > 0);
   let recordCount = 0;
@@ -222,11 +213,6 @@ export function validateAdiFileContent(content: string): {
     
     if (!record.match(/<freq:\d+>/i)) {
       warnings.push(`Record ${recordCount}: Missing FREQ field (recommended)`);
-    }
-    
-    // Check for K4A station callsign in record
-    if (!record.toLowerCase().includes('<station_callsign:3>k4a')) {
-      errors.push(`Record ${recordCount}: Missing required K4A station callsign`);
     }
   }
   
