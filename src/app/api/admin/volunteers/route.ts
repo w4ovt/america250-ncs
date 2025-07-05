@@ -4,6 +4,43 @@ import { volunteers } from '../../../../db/schema';
 
 export async function POST(request: NextRequest) {
   try {
+    // Check for admin authentication
+    const cookie = request.cookies.get('volunteerAuth');
+    let isAdmin = false;
+    
+    if (cookie) {
+      try {
+        const authData = JSON.parse(decodeURIComponent(cookie.value));
+        if (authData.role === 'admin') {
+          isAdmin = true;
+        }
+      } catch {
+        // Invalid cookie, treat as not admin
+      }
+    }
+
+    // Fallback: Check for auth data in headers
+    if (!isAdmin) {
+      const authHeader = request.headers.get('x-volunteer-auth');
+      if (authHeader) {
+        try {
+          const authData = JSON.parse(decodeURIComponent(authHeader));
+          if (authData.role === 'admin') {
+            isAdmin = true;
+          }
+        } catch {
+          // Invalid header, treat as not admin
+        }
+      }
+    }
+
+    if (!isAdmin) {
+      return NextResponse.json(
+        { error: 'Admin access required' },
+        { status: 403 }
+      );
+    }
+
     const body = await request.json();
     const { name, callsign, state, pin, role } = body;
     
@@ -57,6 +94,7 @@ export async function GET(request: NextRequest) {
     // Check for admin authentication via cookie
     const cookie = request.cookies.get('volunteerAuth');
     let isAdmin = false;
+    
     if (cookie) {
       try {
         const authData = JSON.parse(decodeURIComponent(cookie.value));
@@ -65,6 +103,21 @@ export async function GET(request: NextRequest) {
         }
       } catch {
         // Invalid cookie, treat as not admin
+      }
+    }
+
+    // Fallback: Check for auth data in headers (for cases where cookies don't work)
+    if (!isAdmin) {
+      const authHeader = request.headers.get('x-volunteer-auth');
+      if (authHeader) {
+        try {
+          const authData = JSON.parse(decodeURIComponent(authHeader));
+          if (authData.role === 'admin') {
+            isAdmin = true;
+          }
+        } catch {
+          // Invalid header, treat as not admin
+        }
       }
     }
 

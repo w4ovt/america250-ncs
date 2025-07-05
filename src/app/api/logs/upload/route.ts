@@ -22,6 +22,8 @@ interface UploadRequest {
 async function submitToQRZ(fileContent: string): Promise<{ success: boolean; count?: number; logId?: string; error?: string }> {
   // QRZ submission started
   console.log('🔍 Starting QRZ submission...');
+  console.log('🔍 Original content length:', fileContent.length);
+  console.log('🔍 Original content preview:', fileContent.substring(0, 100) + '...');
   
   try {
     // Handle RTF files (common with N3FJP exports)
@@ -39,10 +41,16 @@ async function submitToQRZ(fileContent: string): Promise<{ success: boolean; cou
         .replace(/\r\n/g, '\n') // Normalize line endings
         .replace(/\r/g, '\n'); // Normalize line endings
       console.log('✅ RTF processing complete');
+    } else {
+      console.log('📄 No RTF detected, using original content');
     }
+    
+    console.log('🔍 Processed content length:', processedContent.length);
+    console.log('🔍 Processed content preview:', processedContent.substring(0, 100) + '...');
     
     // Remove header content (everything before the first <call: field, case-insensitive)
     const callMatch = processedContent.match(/<call:/i);
+    console.log('🔍 Call match result:', callMatch);
     if (!callMatch || callMatch.index === undefined) {
       console.log('❌ No QSO records found in ADIF file');
       return {
@@ -51,11 +59,28 @@ async function submitToQRZ(fileContent: string): Promise<{ success: boolean; cou
       };
     }
     
+    console.log('🔍 Call match index:', callMatch.index);
+    
     // Extract only the QSO records (everything from first <call: onwards)
     const qsoContent = processedContent.substring(callMatch.index);
+    console.log('🔍 QSO content length:', qsoContent.length);
+    console.log('🔍 QSO content preview:', qsoContent.substring(0, 100) + '...');
+    
+    // Strip out N3FJP-specific fields that might cause QRZ API issues
+    const cleanedQsoContent = qsoContent
+      .replace(/<N3FJP_[^>]*>/g, '') // Remove all N3FJP-specific fields
+      .replace(/<Other2:[^>]*>/g, '') // Remove Other2 field
+      .replace(/<MY_SIG_INFO:[^>]*>/g, '') // Remove MY_SIG_INFO field
+      .replace(/<Station_Callsign:[^>]*>/g, '') // Remove Station_Callsign field
+      .replace(/<OPERATOR:[^>]*>/g, '') // Remove OPERATOR field (causes QRZ conflicts)
+      .replace(/\n\s*\n/g, '\n') // Remove empty lines
+      .trim();
+    
+    console.log('🔍 Cleaned QSO content length:', cleanedQsoContent.length);
+    console.log('🔍 Cleaned QSO content preview:', cleanedQsoContent.substring(0, 100) + '...');
     
     // Split the QSO content into individual QSO records
-    const records = qsoContent.split(/<eor>/i).map(r => r.trim()).filter(r => r.length > 0);
+    const records = cleanedQsoContent.split(/<eor>/i).map(r => r.trim()).filter(r => r.length > 0);
     console.log(`📊 Processing ${records.length} QSO records...`);
     let successCount = 0;
     let lastLogId = '';
@@ -80,6 +105,13 @@ async function submitToQRZ(fileContent: string): Promise<{ success: boolean; cou
       // Make the API call to QRZ
       const requestBody = new URLSearchParams(qrzData).toString();
       
+      console.log('📡 QRZ API request data:', {
+        KEY: QRZ_API_KEY,
+        ACTION: 'INSERT',
+        ADIF: singleRecord.substring(0, 200) + '...'
+      });
+      console.log('📡 QRZ API request body:', requestBody.substring(0, 200) + '...');
+      
       const response = await fetch('https://logbook.qrz.com/api', {
         method: 'POST',
         headers: {
@@ -90,6 +122,8 @@ async function submitToQRZ(fileContent: string): Promise<{ success: boolean; cou
       });
       
       const responseText = await response.text();
+      console.log('📡 QRZ API response status:', response.status);
+      console.log('📡 QRZ API response text:', responseText);
       
       // QRZ API response received
       
@@ -154,11 +188,13 @@ export async function POST(request: NextRequest) {
     const body: UploadRequest = await request.json();
     const { filename, fileContent, volunteerData } = body;
     console.log('📄 Processing file:', filename, 'for volunteer:', volunteerData?.callsign);
+    console.log('📄 File content preview:', fileContent.substring(0, 200) + '...');
 
     // Submit to QRZ
     console.log('📡 Submitting to QRZ...');
     const qrzResult = await submitToQRZ(fileContent);
     console.log('📡 QRZ result:', qrzResult.success, qrzResult.error);
+    console.log('📡 QRZ details:', JSON.stringify(qrzResult, null, 2));
 
     if (!qrzResult.success) {
       console.log('❌ QRZ submission failed:', qrzResult.error);
