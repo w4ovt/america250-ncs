@@ -41,7 +41,23 @@ export default function VolunteerManagement({ onVolunteersChange, isAdmin }: Vol
     setError('');
     
     try {
-      const response = await fetch('/api/admin/volunteers', { credentials: 'include' });
+      // Get auth data from localStorage as fallback
+      const stored = localStorage.getItem('volunteerAuth');
+      const authData = stored ? JSON.parse(stored) : null;
+      
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      };
+      
+      // Add auth data to headers as fallback
+      if (authData) {
+        headers['x-volunteer-auth'] = encodeURIComponent(JSON.stringify(authData));
+      }
+      
+      const response = await fetch('/api/admin/volunteers', { 
+        credentials: 'include',
+        headers
+      });
       if (response.ok) {
         const data = await response.json();
         setVolunteers(data);
@@ -82,11 +98,22 @@ export default function VolunteerManagement({ onVolunteersChange, isAdmin }: Vol
       
       const method = isEditing ? 'PUT' : 'POST';
       
+      // Get auth data from localStorage as fallback
+      const stored = localStorage.getItem('volunteerAuth');
+      const authData = stored ? JSON.parse(stored) : null;
+      
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      };
+      
+      // Add auth data to headers as fallback
+      if (authData) {
+        headers['x-volunteer-auth'] = encodeURIComponent(JSON.stringify(authData));
+      }
+      
       const response = await fetch(url, {
         method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
         body: JSON.stringify(formData),
       });
 
@@ -131,8 +158,20 @@ export default function VolunteerManagement({ onVolunteersChange, isAdmin }: Vol
     setSuccess('');
 
     try {
+      // Get auth data from localStorage as fallback
+      const stored = localStorage.getItem('volunteerAuth');
+      const authData = stored ? JSON.parse(stored) : null;
+      
+      const headers: Record<string, string> = {};
+      
+      // Add auth data to headers as fallback
+      if (authData) {
+        headers['x-volunteer-auth'] = encodeURIComponent(JSON.stringify(authData));
+      }
+      
       const response = await fetch(`/api/admin/volunteers/${volunteerId}`, {
         method: 'DELETE',
+        headers,
       });
 
       if (response.ok) {

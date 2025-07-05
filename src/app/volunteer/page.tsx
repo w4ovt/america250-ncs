@@ -66,7 +66,7 @@ export default function VolunteerPage() {
         setVolunteerData(data);
         localStorage.setItem('volunteerAuth', JSON.stringify(data));
         // Set volunteerAuth as a cookie for backend admin checks
-        document.cookie = `volunteerAuth=${encodeURIComponent(JSON.stringify(data))}; path=/; max-age=86400`;
+        document.cookie = `volunteerAuth=${encodeURIComponent(JSON.stringify(data))}; path=/; max-age=86400; SameSite=Lax`;
         setPin('');
         setAttempts(0);
       } else {
@@ -86,6 +86,9 @@ export default function VolunteerPage() {
   const handleLogout = () => {
     // Clear authentication data
     localStorage.removeItem('volunteerAuth');
+    
+    // Clear the cookie as well
+    document.cookie = 'volunteerAuth=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
     
     // Clear activation state for this volunteer
     if (volunteerData?.volunteer) {
