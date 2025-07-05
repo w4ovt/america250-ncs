@@ -69,7 +69,21 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
 
   const fetchVolunteers = async () => {
     try {
-      const response = await fetch('/api/admin/volunteers', { credentials: 'include' });
+      // Get auth data from localStorage as fallback
+      const stored = localStorage.getItem('volunteerAuth');
+      const authData = stored ? JSON.parse(stored) : null;
+      
+      const headers: Record<string, string> = {};
+      
+      // Add auth data to headers as fallback
+      if (authData) {
+        headers['x-volunteer-auth'] = encodeURIComponent(JSON.stringify(authData));
+      }
+      
+      const response = await fetch('/api/admin/volunteers', { 
+        credentials: 'include',
+        headers
+      });
       if (response.ok) {
         const data = await response.json();
         setVolunteers(data);
@@ -304,18 +318,20 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
     }
   };
 
-  // Admin Spot/Re-spot handlers (Telnet DX Cluster)
-  const handleAdminSpot = async (activation: Activation) => {
-    setSpotStatus(prev => ({ ...prev, [activation.activationId]: 'Sending spot to DX Cluster (via Telnet)...' }));
+  // Remove legacy DXSummit spot handler and UI
+  // Add new cluster spot handler
+  const handleClusterSpot = async (activation: Activation) => {
+    setSpotStatus(prev => ({ ...prev, [activation.activationId]: 'Sending spot to cluster...' }));
     setSpotResponse(prev => ({ ...prev, [activation.activationId]: '' }));
     try {
-      const res = await fetch('/api/activations/spot-telnet', {
+      const myCall = activation.callsign;
+      const dxCall = activation.callsign;
+      const freq = (activation.frequencyMhz * 1000).toFixed(0); // kHz
+      const info = spotComment[activation.activationId] || 'AMERICA250 SES';
+      const res = await fetch('/api/cluster-spot', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          frequency: activation.frequencyMhz,
-          comment: spotComment[activation.activationId] || `America250 NCS - ${activation.mode}`
-        })
+        body: JSON.stringify({ myCall, dxCall, freq, info })
       });
       let data;
       try {
@@ -324,7 +340,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
         data = { error: 'No JSON response from server', raw: await res.text() };
       }
       if (res.ok && data.success) {
-        setSpotStatus(prev => ({ ...prev, [activation.activationId]: '✅ Spot sent to DX Cluster and confirmed!' }));
+        setSpotStatus(prev => ({ ...prev, [activation.activationId]: '✅ Spot sent to cluster and accepted!' }));
         setSpotResponse(prev => ({ ...prev, [activation.activationId]: JSON.stringify(data, null, 2) }));
         setSpotCooldown(prev => ({ ...prev, [activation.activationId]: 600 })); // 10 min cooldown
       } else {
@@ -332,39 +348,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
         setSpotResponse(prev => ({ ...prev, [activation.activationId]: JSON.stringify(data, null, 2) }));
       }
     } catch (err) {
-      setSpotStatus(prev => ({ ...prev, [activation.activationId]: '❌ Error sending spot.' }));
-      setSpotResponse(prev => ({ ...prev, [activation.activationId]: String(err) }));
-    }
-  };
-
-  const handleAdminRespot = async (activation: Activation) => {
-    setSpotStatus(prev => ({ ...prev, [activation.activationId]: 'Re-sending spot to DX Cluster (via Telnet)...' }));
-    setSpotResponse(prev => ({ ...prev, [activation.activationId]: '' }));
-    try {
-      const res = await fetch('/api/activations/spot-telnet', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          frequency: activation.frequencyMhz,
-          comment: spotComment[activation.activationId] || `America250 NCS - ${activation.mode}`
-        })
-      });
-      let data;
-      try {
-        data = await res.json();
-      } catch (jsonErr) {
-        data = { error: 'No JSON response from server', raw: await res.text() };
-      }
-      if (res.ok && data.success) {
-        setSpotStatus(prev => ({ ...prev, [activation.activationId]: '✅ Spot re-sent to DX Cluster and confirmed!' }));
-        setSpotResponse(prev => ({ ...prev, [activation.activationId]: JSON.stringify(data, null, 2) }));
-        setSpotCooldown(prev => ({ ...prev, [activation.activationId]: 600 })); // 10 min cooldown
-      } else {
-        setSpotStatus(prev => ({ ...prev, [activation.activationId]: '❌ Spot not confirmed: ' + (data.error || 'Unknown error') }));
-        setSpotResponse(prev => ({ ...prev, [activation.activationId]: JSON.stringify(data, null, 2) }));
-      }
-    } catch (err) {
-      setSpotStatus(prev => ({ ...prev, [activation.activationId]: '❌ Error re-sending spot.' }));
+      setSpotStatus(prev => ({ ...prev, [activation.activationId]: '❌ Error sending spot to cluster.' }));
       setSpotResponse(prev => ({ ...prev, [activation.activationId]: String(err) }));
     }
   };
@@ -537,38 +521,32 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
         </div>
       </div>
 
-      {/* Admin DX Cluster Spotting Section */}
+      {/* Re-spot to Cluster Section */}
       <div className={styles.adminSection}>
-        <h3 className={styles.sectionTitle}>Admin DX Cluster Spotting (Telnet)</h3>
+        <h3 className={styles.sectionTitle}>Admin Re-spot to Cluster</h3>
         <div>
           {activations.map((activation) => (
             <div key={activation.activationId} style={{ marginBottom: '1.5em', padding: '1em' }}>
-              <div>
-                <strong>{activation.callsign}</strong> @ {activation.frequencyMhz} MHz ({activation.mode})
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div>
+                  <strong>{activation.callsign}</strong> @ {activation.frequencyMhz} MHz ({activation.mode})
+                </div>
+                <button
+                  onClick={() => handleClusterSpot(activation)}
+                  disabled={(spotCooldown[activation.activationId] ?? 0) > 0}
+                  style={{ marginLeft: '1em', background: '#e3fcec', color: '#155724', border: '1px solid #b7eb8f', borderRadius: '6px', padding: '0.4em 1em', fontWeight: 'bold', cursor: (spotCooldown[activation.activationId] ?? 0) > 0 ? 'not-allowed' : 'pointer', opacity: (spotCooldown[activation.activationId] ?? 0) > 0 ? 0.6 : 1 }}
+                  title={(spotCooldown[activation.activationId] ?? 0) > 0 ? `Please wait ${Math.ceil((spotCooldown[activation.activationId] ?? 0)/60)} min before re-spotting` : 'Re-Spot to Cluster'}
+                >
+                  📡 Re-Spot to Cluster
+                </button>
               </div>
               <textarea
-                value={spotComment[activation.activationId] || `America250 NCS - ${activation.mode}`}
+                value={spotComment[activation.activationId] || 'AMERICA250 SES'}
                 onChange={e => setSpotComment(prev => ({ ...prev, [activation.activationId]: e.target.value }))}
                 rows={2}
                 style={{ width: '100%', marginTop: '0.5em', fontFamily: 'inherit', fontSize: '1em', borderRadius: '4px', border: '1px solid #ccc', padding: '0.5em', background: 'var(--parchment)' }}
                 placeholder="Edit spot comment before sending..."
               />
-              <button
-                onClick={() => handleAdminSpot(activation)}
-                disabled={(spotCooldown[activation.activationId] ?? 0) > 0}
-                style={{ marginTop: '0.5em', marginRight: '1em', background: '#e3fcec', color: '#155724', border: '1px solid #b7eb8f', borderRadius: '6px', padding: '0.4em 1em', fontWeight: 'bold', cursor: (spotCooldown[activation.activationId] ?? 0) > 0 ? 'not-allowed' : 'pointer', opacity: (spotCooldown[activation.activationId] ?? 0) > 0 ? 0.6 : 1 }}
-                title={(spotCooldown[activation.activationId] ?? 0) > 0 ? `Please wait ${Math.ceil((spotCooldown[activation.activationId] ?? 0)/60)} min before re-spotting` : 'Spot to DX Cluster (Telnet)'}
-              >
-                📡 Spot to DX Cluster (Telnet)
-              </button>
-              <button
-                onClick={() => handleAdminRespot(activation)}
-                disabled={!(spotCooldown[activation.activationId] ?? 0) || (spotCooldown[activation.activationId] ?? 0) > 0}
-                style={{ marginTop: '0.5em', background: '#fffbe6', color: '#6b3e1d', border: '1px solid #D4AF37', borderRadius: '6px', padding: '0.4em 1em', fontWeight: 'bold', cursor: (spotCooldown[activation.activationId] ?? 0) > 0 ? 'not-allowed' : 'pointer', opacity: (spotCooldown[activation.activationId] ?? 0) > 0 ? 0.6 : 1 }}
-                title={(spotCooldown[activation.activationId] ?? 0) > 0 ? `Please wait ${Math.ceil((spotCooldown[activation.activationId] ?? 0)/60)} min before re-spotting` : 'Re-spot to DX Cluster (Telnet)'}
-              >
-                🔁 Re-spot
-              </button>
               {spotStatus[activation.activationId] && (
                 <div style={{ marginTop: '0.5em', color: (spotStatus[activation.activationId] ?? '').startsWith('✅') ? '#155724' : '#b94a48', fontWeight: 'bold' }}>
                   {spotStatus[activation.activationId]}
