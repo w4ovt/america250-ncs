@@ -174,13 +174,30 @@ export function validateAdiFileContent(content: string): {
     return { isValid: false, recordCount: 0, errors, warnings };
   }
   
+  // Handle RTF files (common with N3FJP exports)
+  let processedContent = content;
+  if (content.includes('{\\rtf1')) {
+    // Strip RTF markup and extract ADIF content
+    processedContent = content
+      .replace(/{\\rtf1[^}]*}/g, '') // Remove RTF header
+      .replace(/\\[a-z0-9-]+/g, '') // Remove RTF commands
+      .replace(/[{}]/g, '') // Remove RTF braces
+      .replace(/\\'/g, "'") // Fix escaped apostrophes
+      .replace(/\\"/g, '"') // Fix escaped quotes
+      .replace(/\\\\/g, '\\') // Fix escaped backslashes
+      .replace(/\r\n/g, '\n') // Normalize line endings
+      .replace(/\r/g, '\n'); // Normalize line endings
+    
+    warnings.push('RTF formatting detected and removed');
+  }
+  
   // Check file size
-  if (content.length > 10 * 1024 * 1024) {
+  if (processedContent.length > 10 * 1024 * 1024) {
     errors.push('ADI file is too large (maximum 10MB)');
   }
   
   // Parse QSO records - be very permissive about format
-  const records = content.split(/<eor>/i).filter(record => record.trim().length > 0);
+  const records = processedContent.split(/<eor>/i).filter(record => record.trim().length > 0);
   let recordCount = 0;
   
   for (let i = 0; i < records.length; i++) {
