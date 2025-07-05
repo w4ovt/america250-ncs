@@ -179,7 +179,7 @@ export function validateAdiFileContent(content: string): {
     errors.push('ADI file is too large (maximum 10MB)');
   }
   
-  // Parse QSO records
+  // Parse QSO records - be very permissive about format
   const records = content.split(/<eor>/i).filter(record => record.trim().length > 0);
   let recordCount = 0;
   
@@ -187,32 +187,38 @@ export function validateAdiFileContent(content: string): {
     const record = records[i];
     if (!record) continue;
     
-    // Skip header/comment records
-    if (!record.match(/<call:/i)) {
+    // Skip header/comment records - but be permissive about what constitutes a QSO record
+    if (!record.match(/<call:/i) && !record.match(/<CALL:/i)) {
       continue;
     }
     
     recordCount++;
     
-    // Validate required fields
-    if (!record.match(/<call:\d+>/i)) {
-      errors.push(`Record ${recordCount}: Missing or invalid CALL field`);
+    // Only check for the absolute minimum required fields that QRZ needs
+    // Be very permissive about field format and capitalization
+    
+    // Check for some form of call field (case insensitive, flexible format)
+    if (!record.match(/<call:/i) && !record.match(/<CALL:/i)) {
+      errors.push(`Record ${recordCount}: Missing CALL field`);
     }
     
-    if (!record.match(/<qso_date:\d+>/i)) {
-      errors.push(`Record ${recordCount}: Missing or invalid QSO_DATE field`);
+    // Check for some form of date field (case insensitive, flexible format)
+    if (!record.match(/<qso_date:/i) && !record.match(/<QSO_DATE:/i) && !record.match(/<date:/i) && !record.match(/<DATE:/i)) {
+      warnings.push(`Record ${recordCount}: Missing date field (recommended)`);
     }
     
-    if (!record.match(/<time_on:\d+>/i)) {
-      errors.push(`Record ${recordCount}: Missing or invalid TIME_ON field`);
+    // Check for some form of time field (case insensitive, flexible format)
+    if (!record.match(/<time_on:/i) && !record.match(/<TIME_ON:/i) && !record.match(/<time:/i) && !record.match(/<TIME:/i)) {
+      warnings.push(`Record ${recordCount}: Missing time field (recommended)`);
     }
     
-    if (!record.match(/<mode:\d+>/i)) {
+    // Optional fields - just warnings
+    if (!record.match(/<mode:/i) && !record.match(/<MODE:/i)) {
       warnings.push(`Record ${recordCount}: Missing MODE field (recommended)`);
     }
     
-    if (!record.match(/<freq:\d+>/i)) {
-      warnings.push(`Record ${recordCount}: Missing FREQ field (recommended)`);
+    if (!record.match(/<freq:/i) && !record.match(/<FREQ:/i) && !record.match(/<frequency:/i) && !record.match(/<FREQUENCY:/i)) {
+      warnings.push(`Record ${recordCount}: Missing frequency field (recommended)`);
     }
   }
   
