@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate mode
-    const validModes = ['SSB', 'CW', 'FT8', 'FT4', 'FM', 'AM', 'EchoLink', 'Other'];
+    const validModes = ['SSB', 'CW', 'FT8', 'FT4', 'PSK31', 'Olivia', 'FM', 'AM', 'EchoLink', 'Other'];
     if (!validModes.includes(mode)) {
       return NextResponse.json(
         { error: `Invalid mode. Must be one of: ${validModes.join(', ')}` },
