@@ -6,7 +6,7 @@ import { eq, desc, asc, like } from 'drizzle-orm';
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const sortBy = searchParams.get('sortBy') || 'submittedAt';
+    // const sortBy = searchParams.get('sortBy') || 'submittedAt'; // No longer used
     const sortOrder = searchParams.get('sortOrder') || 'desc';
     const search = searchParams.get('search') || '';
     const includeContent = searchParams.get('includeContent') === 'true';
@@ -14,38 +14,50 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '50');
     const offset = (page - 1) * limit;
 
-    // Build base query without fileContent for performance
-    const baseSelect = {
-      id: adiSubmissions.id,
-      submittedAt: adiSubmissions.submittedAt,
-      filename: adiSubmissions.filename,
-      volunteerId: adiSubmissions.volunteerId,
-      recordCount: adiSubmissions.recordCount,
-      processedCount: adiSubmissions.processedCount,
-      status: adiSubmissions.status,
-    };
-
-    // Add fileContent only if explicitly requested
+    // Build query with conditional fileContent inclusion
+    let submissions;
     if (includeContent) {
-      (baseSelect as typeof baseSelect & { fileContent: typeof adiSubmissions.fileContent }).fileContent = adiSubmissions.fileContent;
+      submissions = await db()
+        .select({
+          id: adiSubmissions.id,
+          submittedAt: adiSubmissions.submittedAt,
+          filename: adiSubmissions.filename,
+          volunteerId: adiSubmissions.volunteerId,
+          recordCount: adiSubmissions.recordCount,
+          processedCount: adiSubmissions.processedCount,
+          status: adiSubmissions.status,
+          fileContent: adiSubmissions.fileContent,
+        })
+        .from(adiSubmissions)
+        .where(search.trim() ? like(adiSubmissions.filename, `%${search}%`) : undefined)
+        .orderBy(
+          sortOrder === 'desc'
+            ? desc(adiSubmissions.submittedAt)
+            : asc(adiSubmissions.submittedAt)
+        )
+        .limit(limit)
+        .offset(offset);
+    } else {
+      submissions = await db()
+        .select({
+          id: adiSubmissions.id,
+          submittedAt: adiSubmissions.submittedAt,
+          filename: adiSubmissions.filename,
+          volunteerId: adiSubmissions.volunteerId,
+          recordCount: adiSubmissions.recordCount,
+          processedCount: adiSubmissions.processedCount,
+          status: adiSubmissions.status,
+        })
+        .from(adiSubmissions)
+        .where(search.trim() ? like(adiSubmissions.filename, `%${search}%`) : undefined)
+        .orderBy(
+          sortOrder === 'desc'
+            ? desc(adiSubmissions.submittedAt)
+            : asc(adiSubmissions.submittedAt)
+        )
+        .limit(limit)
+        .offset(offset);
     }
-
-    let query = db().select(baseSelect).from(adiSubmissions);
-
-    // Add search filter if provided
-    if (search.trim()) {
-      query = query.where(like(adiSubmissions.filename, `%${search}%`));
-    }
-
-    // Add pagination and sorting
-    const submissions = await query
-      .orderBy(
-        sortOrder === 'desc'
-          ? desc(adiSubmissions[sortBy as keyof typeof adiSubmissions])
-          : asc(adiSubmissions[sortBy as keyof typeof adiSubmissions])
-      )
-      .limit(limit)
-      .offset(offset);
 
     // Get total count for pagination (only if needed)
     let totalCount = 0;
