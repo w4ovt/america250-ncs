@@ -3,8 +3,7 @@ import { z } from 'zod';
 // PIN validation schema
 export const pinSchema = z.string()
   .length(4, 'PIN must be exactly 4 digits')
-  .regex(/^\d{4}$/, 'PIN must contain only digits')
-  .refine((pin) => pin !== '0000' && pin !== '1234', 'PIN cannot be a common sequence');
+  .regex(/^\d{4}$/, 'PIN must contain only digits');
 
 // Callsign validation schema
 export const callsignSchema = z.string()
@@ -39,7 +38,7 @@ export const filenameSchema = z.string()
 // ADI content validation schema
 export const adiContentSchema = z.string()
   .min(10, 'ADI content too short')
-  .max(10 * 1024 * 1024, 'ADI file too large (10MB max)')
+  .max(1024 * 1024, 'ADI file too large (1MB max)')
   .refine(
     (content) => content.includes('<call:') || content.includes('<CALL:'),
     'Invalid ADI format: missing call field'
@@ -192,8 +191,8 @@ export function validateAdiFileContent(content: string): {
   }
   
   // Check file size
-  if (processedContent.length > 10 * 1024 * 1024) {
-    errors.push('ADI file is too large (maximum 10MB)');
+  if (processedContent.length > 1024 * 1024) {
+    errors.push('ADI file is too large (maximum 1MB)');
   }
   
   // Parse QSO records - be very permissive about format

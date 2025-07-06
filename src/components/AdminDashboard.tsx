@@ -62,6 +62,33 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [activationFrequency, setActivationFrequency] = useState('');
   const [activationMode, setActivationMode] = useState('');
 
+  const handleFrequencyChange = (value: string) => {
+    // Remove any non-digit characters except decimal point
+    const cleanValue = value.replace(/[^\d.]/g, '');
+    
+    // If the value is empty, just set it
+    if (!cleanValue) {
+      setActivationFrequency('');
+      return;
+    }
+    
+    // If it's already a decimal number (like 7.074), keep it as is
+    if (cleanValue.includes('.')) {
+      setActivationFrequency(cleanValue);
+      return;
+    }
+    
+    // If it's a whole number, assume it's kHz and convert to MHz
+    const numValue = parseInt(cleanValue, 10);
+    if (numValue >= 1800 && numValue <= 148000) { // Valid kHz range (1.8-148 MHz)
+      const mhzValue = (numValue / 1000).toFixed(3);
+      setActivationFrequency(mhzValue);
+    } else {
+      // If it's not in valid range, just set the raw value
+      setActivationFrequency(cleanValue);
+    }
+  };
+
   const [spotStatus, setSpotStatus] = useState<Record<number, string>>({});
   const [spotResponse, setSpotResponse] = useState<Record<number, string>>({});
   const [spotComment, setSpotComment] = useState<Record<number, string>>({});
@@ -590,9 +617,9 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 name="frequency-input"
                 type="text"
                 value={activationFrequency}
-                onChange={(e) => setActivationFrequency(e.target.value)}
+                onChange={(e) => handleFrequencyChange(e.target.value)}
                 className={styles.formInput}
-                placeholder="e.g., 14.074"
+                placeholder="e.g., 7074 or 7.074"
               />
             </div>
             <div className={styles.formGroup}>
