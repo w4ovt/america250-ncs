@@ -66,13 +66,11 @@ async function submitToQRZ(fileContent: string): Promise<{ success: boolean; cou
     console.log('🔍 QSO content length:', qsoContent.length);
     console.log('🔍 QSO content preview:', qsoContent.substring(0, 100) + '...');
     
-    // Strip out N3FJP-specific fields that might cause QRZ API issues
+    // Strip out ONLY N3FJP-specific fields that cause QRZ API conflicts
     const cleanedQsoContent = qsoContent
       .replace(/<N3FJP_[^>]*>/g, '') // Remove all N3FJP-specific fields
-      .replace(/<Other2:[^>]*>/g, '') // Remove Other2 field
-      .replace(/<MY_SIG_INFO:[^>]*>/g, '') // Remove MY_SIG_INFO field
-      .replace(/<Station_Callsign:[^>]*>/g, '') // Remove Station_Callsign field
-      .replace(/<OPERATOR:[^>]*>/g, '') // Remove OPERATOR field (causes QRZ conflicts)
+      .replace(/<Other2:[^>]*>/g, '') // Remove Other2 field (N3FJP-specific)
+      .replace(/<MY_SIG_INFO:[^>]*>/g, '') // Remove MY_SIG_INFO field (N3FJP-specific)
       .replace(/\n\s*\n/g, '\n') // Remove empty lines
       .trim();
     
