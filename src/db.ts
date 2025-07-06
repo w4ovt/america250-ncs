@@ -1,9 +1,12 @@
 import { config } from 'dotenv';
 import { drizzle } from 'drizzle-orm/neon-http';
-import { neon } from '@neondatabase/serverless';
+import { neon, neonConfig } from '@neondatabase/serverless';
 
 // Load environment variables from .env.local
 config({ path: '.env.local' });
+
+// Configure Neon for better performance
+neonConfig.fetchConnectionCache = true;
 
 let _db: ReturnType<typeof drizzle> | null = null;
 
@@ -20,8 +23,13 @@ function getDb() {
         'Expected format: postgresql://[user]:[password]@[host]/[database]'
       );
     }
+    
+    // Create connection with pooling enabled
     const sql = neon(connectionString);
-    _db = drizzle(sql);
+    _db = drizzle(sql, {
+      // Add query logging in development
+      logger: process.env.NODE_ENV === 'development',
+    });
   }
   return _db;
 }

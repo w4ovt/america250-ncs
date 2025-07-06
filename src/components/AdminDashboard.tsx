@@ -143,13 +143,16 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
       const params = new URLSearchParams({
         search: submissionSearch,
         sortBy: submissionSortBy,
-        sortOrder: submissionSortOrder
+        sortOrder: submissionSortOrder,
+        limit: '50', // Limit to 50 records for performance
+        page: '1'
       });
       
       const response = await fetch(`/api/admin/adi-submissions?${params}`);
       if (response.ok) {
         const data = await response.json();
-        setAdiSubmissions(data);
+        // Handle new paginated response format
+        setAdiSubmissions(data.submissions || data);
       } else {
         setErrorMessage('Failed to load ADI submissions');
       }
@@ -163,15 +166,15 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
     fetchActivations();
     fetchAdiSubmissions();
     
-    // Set up real-time updates every 10 seconds
+    // Set up real-time updates every 30 seconds (reduced from 10)
     const interval = setInterval(() => {
       fetchVolunteers();
       fetchActivations();
       fetchAdiSubmissions();
-    }, 10000);
+    }, 30000);
     
     return () => clearInterval(interval);
-  }, [submissionSearch, submissionSortBy, submissionSortOrder, fetchAdiSubmissions]);
+  }, [fetchAdiSubmissions]); // Removed dependencies that cause excessive re-fetching
 
   // Cooldown timer for Re-spot per activation
   useEffect(() => {

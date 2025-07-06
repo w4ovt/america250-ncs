@@ -23,9 +23,13 @@ export async function GET() {
 
     return NextResponse.json(activeActivations, {
       headers: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        // Cache for 30 seconds to reduce database load
+        'Cache-Control': 'public, max-age=30, s-maxage=30',
         'Pragma': 'no-cache',
-        'Expires': '0',
+        'Expires': new Date(Date.now() + 30000).toUTCString(),
+        // Add performance headers
+        'X-Response-Time': `${Date.now() - Date.now()}ms`,
+        'X-Cache-Status': 'MISS',
       },
     });
   } catch (error) {
