@@ -45,14 +45,20 @@
   "dependencies": {
     "@neondatabase/serverless": "^1.0.1",
     "@types/nodemailer": "^6.4.17",
-    "axios": "^1.7.9",
+    "@vercel/analytics": "^1.5.0",
+    "axios": "^1.10.0",
+    "axios-cookiejar-support": "^6.0.3",
+    "cloudflared": "^0.7.0",
     "dotenv": "^16.5.0",
     "drizzle-kit": "^0.31.2",
     "drizzle-orm": "^0.44.2",
     "next": "15.3.4",
     "nodemailer": "^7.0.3",
+    "puppeteer": "^24.11.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "telnet-client": "^2.2.5",
+    "tough-cookie": "^5.1.2",
     "zod": "^3.25.67"
   },
   "devDependencies": {
