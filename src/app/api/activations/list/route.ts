@@ -23,10 +23,10 @@ export async function GET() {
 
     return NextResponse.json(activeActivations, {
       headers: {
-        // Cache for 30 seconds to reduce database load
-        'Cache-Control': 'public, max-age=30, s-maxage=30',
+        // Always serve fresh data
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
         'Pragma': 'no-cache',
-        'Expires': new Date(Date.now() + 30000).toUTCString(),
+        'Expires': '0',
         // Add performance headers
         'X-Response-Time': `${Date.now() - Date.now()}ms`,
         'X-Cache-Status': 'MISS',
