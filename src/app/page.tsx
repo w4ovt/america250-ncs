@@ -60,7 +60,7 @@ export default function HomePage() {
           </div>
           <div style={{ fontSize: '1.25rem', lineHeight: 1.6, fontFamily: "'librebaskerville-regular', serif" }}>
             K4A was officially set to end last evening 07-07 at 0Z.<br />
-            However, a number of groups gratefully published K4A Announcments as July 1-7th, but omitted the 0Z part.<br /><br />
+            However, a number of groups gratefully published K4A Announcements as July 1-7th, but omitted the 0Z part.<br /><br />
             Also, amateurs returning from holiday travel can now get into the K4A Log.<br /><br />
             The tireless Team K4A NCS&rsquo;s have agreed to offer <b>&quot;K4A Overtime&quot;</b> Activations today through <b>07-07-25 8PM EDT = 07-08-25 0Z</b>.<br />
             <b>Keep Checking the table below for details!</b>
