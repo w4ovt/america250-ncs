@@ -40,6 +40,33 @@ export default function HomePage() {
           </div>
         </div>
         
+        {/* K4A Overtime Announcement */}
+        <div
+          style={{
+            background: 'var(--mahogany)',
+            color: 'var(--parchment)',
+            borderRadius: '10px',
+            boxShadow: '0 2px 8px rgba(104, 63, 27, 0.15)',
+            padding: '2rem 2.5rem',
+            margin: '2rem auto 2.5rem auto',
+            maxWidth: '900px',
+            textAlign: 'center',
+            fontFamily: "'librebaskerville-bold', 'Old Claude', serif",
+            border: '2px solid var(--bronze)',
+          }}
+        >
+          <div style={{ fontSize: '2.2rem', fontWeight: 'bold', marginBottom: '1rem', letterSpacing: '0.08em', fontFamily: "'librebaskerville-bold', 'Old Claude', serif" }}>
+            <span style={{ fontStyle: 'italic', fontWeight: 'bold', letterSpacing: '0.08em' }}>***K4A Overtime***</span>
+          </div>
+          <div style={{ fontSize: '1.25rem', lineHeight: 1.6, fontFamily: "'librebaskerville-regular', serif" }}>
+            K4A was officially set to end last evening 07-07 at 0Z.<br />
+            However, a number of groups gratefully published K4A Announcments as July 1-7th, but omitted the 0Z part.<br /><br />
+            Also, amateurs returning from holiday travel can now get into the K4A Log.<br /><br />
+            The tireless Team K4A NCS's have agreed to offer <b>"K4A Overtime"</b> Activations today through <b>07-07-25 8PM EDT = 07-08-25 0Z</b>.<br />
+            <b>Keep Checking the table below for details!</b>
+          </div>
+        </div>
+        
         {/* MAGNIFICENT AMERICA250 - Old Claude Historical Typography */}
         <h1 className="homepage-title" style={{ 
           textAlign: 'center', 
