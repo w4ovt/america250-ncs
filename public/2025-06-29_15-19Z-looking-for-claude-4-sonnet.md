@@ -8742,9 +8742,7 @@ cat .env.local
 ```
 
 ```
-NEON_DATABASE_URL=postgresql://neondb_owner:npg_pKaEVMcB98Gf@ep-autumn-paper-a5s0mxii-pooler.us-east-2.aws.n
 eon.tech/neondb?sslmode=require&channel_binding=require
-DATABASE_URL=postgresql://neondb_owner:npg_pKaEVMcB98Gf@ep-autumn-paper-a5s0mxii-pooler.us-east-2.aws.neon.t
 ech/neondb?sslmode=require&channel_binding=require
 
 ```
@@ -8779,9 +8777,7 @@ cat .env.local
 ```
 
 ```
-NEON_DATABASE_URL=postgresql://neondb_owner:npg_pKaEVMcB98Gf@ep-autumn-paper-a5s0mxii-pooler.us-east-2.aws.n
 eon.tech/neondb?sslmode=require&channel_binding=require
-DATABASE_URL=postgresql://neondb_owner:npg_pKaEVMcB98Gf@ep-autumn-paper-a5s0mxii-pooler.us-east-2.aws.neon.t
 ech/neondb?sslmode=require&channel_binding=require
 QRZ_API_KEY=89FE-B76D-CD0C-B716
 
@@ -9029,7 +9025,6 @@ ls -la .env.local
 | `file:///Users/marcbowen_1/Desktop/america250-ncs/.specstory/history/2025-06-29_15-19-looking-for-claude-4-sonnet.md` | L7574 | `When we moved from hardcoded API keys to environment variables for security, the local development `.env.local` file wasn't updated with the QRZ_API_KEY. The production environment (Vercel) has this configured, but local development was missing it.` |
 | `file:///Users/marcbowen_1/Desktop/america250-ncs/.specstory/history/2025-06-25_08-35-checking-in-on-project-status.md` | L136 | `Add this to a `.env.local` file in your project root.` |
 | `file:///Users/marcbowen_1/Desktop/america250-ncs/.specstory/history/2025-06-25_08-35-checking-in-on-project-status.md` | L305 | `1. Add your Neon connection string to a `.env.local` file as `NEON_DATABASE_URL=...`.` |
-| `file:///Users/marcbowen_1/Desktop/america250-ncs/.specstory/history/2025-06-25_08-35-checking-in-on-project-status.md` | L315 | `configure my Neon connection string into .env.local using: postgresql://neondb_owner:npg_8RTCZP9GWMFX@ep-autumn-paper-a5s0mxii-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require` |
 | `file:///Users/marcbowen_1/Desktop/america250-ncs/.specstory/history/2025-06-25_08-35-checking-in-on-project-status.md` | L325 | `It looks like I’m unable to create or edit the `.env.local` file directly due to workspace restrictions.` |
 | `file:///Users/marcbowen_1/Desktop/america250-ncs/.specstory/history/2025-06-25_08-35-checking-in-on-project-status.md` | L329 | `1. In your project root, create a file named `.env.local` (if it doesn’t already exist).` |
 | `file:///Users/marcbowen_1/Desktop/america250-ncs/.specstory/history/2025-06-25_08-35-checking-in-on-project-status.md` | L344 | `audit the created .env.local file` |
@@ -9365,9 +9360,7 @@ cat .env.local
 ```
 
 ```
-NEON_DATABASE_URL=postgresql://neondb_owner:npg_pKaEVMcB98Gf@ep-autumn-paper-a5s0mxii-pooler.us-east-2.aws.n
 eon.tech/neondb?sslmode=require&channel_binding=require
-DATABASE_URL=postgresql://neondb_owner:npg_pKaEVMcB98Gf@ep-autumn-paper-a5s0mxii-pooler.us-east-2.aws.neon.t
 ech/neondb?sslmode=require&channel_binding=require
 QRZ_API_KEY=89FE-B76D-CD0C-B716
 
@@ -9567,9 +9560,7 @@ cat .env.local
 ```
 
 ```
-NEON_DATABASE_URL=postgresql://neondb_owner:npg_pKaEVMcB98Gf@ep-autumn-paper-a5s0mxii-pooler.us-east-2.aws.n
 eon.tech/neondb?sslmode=require&channel_binding=require
-DATABASE_URL=postgresql://neondb_owner:npg_pKaEVMcB98Gf@ep-autumn-paper-a5s0mxii-pooler.us-east-2.aws.neon.t
 ech/neondb?sslmode=require&channel_binding=require
 QRZ_API_KEY=89FE-B76D-CD0C-B716
 SMTP_HOST=smtp.gmail.com
@@ -9874,9 +9865,7 @@ cat .env.local
 ```
 
 ```
-NEON_DATABASE_URL=postgresql://neondb_owner:npg_pKaEVMcB98Gf@ep-autumn-paper-a5s0mxii-pooler.us-east-2.aws.n
 eon.tech/neondb?sslmode=require&channel_binding=require
-DATABASE_URL=postgresql://neondb_owner:npg_pKaEVMcB98Gf@ep-autumn-paper-a5s0mxii-pooler.us-east-2.aws.neon.t
 ech/neondb?sslmode=require&channel_binding=require
 QRZ_API_KEY=89FE-B76D-CD0C-B716
 SMTP_HOST=smtp.gmail.com

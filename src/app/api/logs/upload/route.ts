@@ -213,7 +213,6 @@ export async function POST(request: NextRequest) {
         processedCount: 0,
         status: 'rejected'
       });
-      // No more failure email
       return NextResponse.json({
         success: false,
         error: 'ERROR: Your .adi file contains errors. Contact Marc W4OVT for assistance.',
