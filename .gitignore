@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Secret scanning reports (contain sensitive data)
+*-report.json
+gitleaks-report.json
+trufflehog-report.json
