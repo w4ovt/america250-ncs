@@ -60,7 +60,7 @@ export default function HomePage() {
           </div>
           <div style={{ fontSize: '1.25rem', lineHeight: 1.6, fontFamily: "'librebaskerville-regular', serif" }}>
             The K4A America250 event has officially concluded. We are deeply grateful to every operator, volunteer, and supporter who made this historic celebration possible with nearly 500,000 website + K4A QRZ page visits that led to a record number of confirmed QRZ K4A Logbook contacts representing 125 Countries.<br /><br />
-            The journey isn't over—get ready for our final two events of the year:<br /><br />
+            The journey isn&apos;t over—get ready for our final two events of the year:<br /><br />
             <b>K4M – Battle of Kings Mountain</b> (October 6–8)<br />
             <b>K4Y – Battle of Yorktown</b> (October 18–20)<br /><br />
             Stay tuned for more details, and thank you for helping us make history!
