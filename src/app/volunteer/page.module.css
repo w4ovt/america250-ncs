@@ -451,3 +451,48 @@
   margin-bottom: 0.25rem;
   text-transform: uppercase;
 } 
+
+.pinBoxes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 1.2rem;
+  position: relative;
+  min-width: 220px;
+}
+
+.pinDigitBox {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  font-family: 'librebaskerville-bold', serif;
+  color: var(--mahogany);
+  background: var(--parchment);
+  border: 2px solid var(--mahogany);
+  border-radius: 8px;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(104, 63, 27, 0.08);
+  transition: border 0.2s;
+  user-select: none;
+}
+
+.pinDigitBox:focus {
+  outline: 2px solid var(--bronze);
+  border-color: var(--bronze);
+}
+
+.pinHiddenInput {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
+
+.pinInput, .pinUnderlines {
+  display: none !important;
+} 

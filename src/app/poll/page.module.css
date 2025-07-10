@@ -1,0 +1,406 @@
+.pollPage {
+  min-height: 100vh;
+  /* Allow global parchment texture to show */
+  background: transparent;
+  padding: 2rem 1rem;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  /* Slight translucency so parchment texture subtly shows through */
+  background: rgba(247, 236, 210, 0.94);
+  border-radius: 0 0 12px 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(75, 30, 14, 0.1);
+  border: 2px solid var(--mahogany);
+  border-top: 0; /* header already has top border */
+  overflow: visible;
+}
+
+.title {
+  background: var(--mahogany);
+  color: var(--parchment);
+  font-family: 'librebaskerville-bold', serif;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 1.25rem;
+  margin: 0 auto; /* center within viewport */
+  max-width: 800px;
+  border: 2px solid var(--mahogany);
+  border-bottom: 0;
+  border-radius: 12px 12px 0 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.subtitle {
+  color: #6b2c0f;
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* PIN Form Styles */
+.pinForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.pinInput {
+  width: 100%;
+  max-width: 300px;
+}
+
+.pinField {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.5rem;
+  text-align: center;
+  border: 2px solid #4b1e0e;
+  border-radius: 8px;
+  background: white;
+  color: #4b1e0e;
+  font-weight: bold;
+}
+
+.pinField:focus {
+  outline: none;
+  border-color: #6b2c0f;
+  box-shadow: 0 0 0 3px rgba(75, 30, 14, 0.1);
+}
+
+/* Poll Form Styles */
+.pollForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0; /* spacing controlled by sectionHeader margin-top */
+}
+
+.section {
+  background: var(--linen);
+  padding: 1rem 1.5rem 1.5rem 1.5rem; /* slight top padding for spacing */
+  border-radius: 0 0 8px 8px;
+  border: 2px solid var(--mahogany);
+  border-top: 2px solid var(--mahogany); /* visible top border */
+}
+
+.section h2 {
+  background: var(--mahogany);
+  color: var(--parchment);
+  font-family: 'librebaskerville-bold', serif;
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-align: center;
+  padding: 0.75rem 1rem;
+  /* Extend over section side padding (1.5rem) plus 1px border */
+  margin: calc(-1.5rem - 1px) calc(-1.5rem - 1px) 1.5rem calc(-1.5rem - 1px);
+  border-radius: 0;
+}
+
+/* Likert Scale Styles */
+.likertQuestion {
+  margin-bottom: 1.5rem;
+}
+
+.questionLabel {
+  display: block;
+  color: #4b1e0e;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.likertScale {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.likertOption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  flex: 1;
+  min-width: 50px;
+  max-width: calc(14.28% - 0.5rem);
+}
+
+.likertInput {
+  display: none;
+}
+
+.likertLabel {
+  padding: 10px 8px;
+  border: 2px solid #4b1e0e;
+  border-radius: 6px;
+  background: white;
+  color: #4b1e0e;
+  font-weight: bold;
+  text-align: center;
+  transition: all 0.2s ease;
+  width: 100%;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.likertInput:checked + .likertLabel {
+  background-color: #4b1e0e;
+  color: #fdf5e6;
+  font-weight: bold;
+}
+
+.likertLabel:hover {
+  background-color: #6b2c0f;
+  color: #fdf5e6;
+}
+
+/* Availability Options */
+.availabilityOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.availabilityOption {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 0.75rem;
+  border: 2px solid #4b1e0e;
+  border-radius: 6px;
+  background: white;
+  transition: all 0.2s ease;
+}
+
+.availabilityOption:hover {
+  background: #f5f1e8;
+}
+
+.availabilityInput {
+  width: 20px;
+  height: 20px;
+  accent-color: #4b1e0e;
+}
+
+.availabilityLabel {
+  color: #4b1e0e;
+  font-weight: bold;
+}
+
+/* Text Fields */
+.textField {
+  margin-bottom: 1.5rem;
+}
+
+.textLabel {
+  display: block;
+  color: #4b1e0e;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #4b1e0e;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 1rem;
+  resize: vertical;
+  min-height: 80px;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: #6b2c0f;
+  box-shadow: 0 0 0 3px rgba(75, 30, 14, 0.1);
+}
+
+.charCount {
+  display: block;
+  text-align: right;
+  font-size: 0.9rem;
+  color: #6b2c0f;
+  margin-top: 0.25rem;
+}
+
+/* Submit Button */
+.submitButton {
+  background-color: #4b1e0e !important;
+  color: #fdf5e6 !important;
+  font-weight: bold !important;
+  padding: 1rem 2rem !important;
+  border-radius: 8px !important;
+  border: none !important;
+  cursor: pointer !important;
+  font-size: 1.1rem !important;
+  transition: all 0.2s ease !important;
+  align-self: center;
+  min-width: 200px;
+  display: block !important;
+  margin: 2rem auto 0 auto !important;
+  background-image: none !important;
+  background: #4b1e0e !important;
+  text-align: center !important;
+  box-sizing: border-box !important;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: #6b2c0f !important;
+  background: #6b2c0f !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 8px rgba(75, 30, 14, 0.2) !important;
+}
+
+.submitButton:disabled {
+  background-color: #999 !important;
+  background: #999 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Error and Success Messages */
+.error {
+  background: #ffebee;
+  color: #c62828;
+  padding: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ef5350;
+  text-align: center;
+  font-weight: bold;
+}
+
+.successMessage {
+  text-align: center;
+  color: #4b1e0e;
+}
+
+.successMessage p {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.returnMessage {
+  background: #e8f5e8;
+  color: #2e7d32;
+  padding: 1rem;
+  border-radius: 6px;
+  border: 1px solid #4caf50;
+  font-weight: bold;
+  margin-top: 1.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .pollPage {
+    padding: 1rem 0.5rem;
+  }
+  
+  .container {
+    padding: 0 1rem 1rem 1rem;
+  }
+  
+  .title {
+    font-size: 1.8rem;
+    max-width: 800px;
+  }
+  
+  .likertScale {
+    gap: 0.25rem;
+    max-width: 100%;
+  }
+  
+  .likertOption {
+    min-width: 40px;
+    flex: 0 0 calc(14.28% - 0.25rem);
+    max-width: calc(14.28% - 0.25rem);
+  }
+  
+  .likertLabel {
+    padding: 8px 4px;
+    font-size: 0.9rem;
+  }
+  
+  .availabilityOptions {
+    gap: 0.75rem;
+  }
+  
+  .availabilityOption {
+    padding: 0.75rem;
+    font-size: 0.95rem;
+  }
+  
+  .submitButton {
+    min-width: 150px;
+    padding: 0.875rem 1.5rem !important;
+    font-size: 1rem !important;
+  }
+  .section h2 {
+    font-size: 1rem;
+    margin: calc(-1rem - 1px) calc(-1rem - 1px) 1rem calc(-1rem - 1px);
+    padding: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.5rem;
+  }
+  
+  .likertScale {
+    gap: 0.2rem;
+  }
+  
+  .likertOption {
+    flex: 0 0 calc(14.28% - 0.2rem);
+    min-width: 28px;
+    max-width: calc(14.28% - 0.2rem);
+  }
+  
+  .likertLabel {
+    padding: 6px 2px;
+    font-size: 0.8rem;
+  }
+  
+  .questionLabel {
+    font-size: 0.95rem;
+  }
+  
+  .availabilityOption {
+    padding: 0.625rem;
+    font-size: 0.9rem;
+  }
+  
+  .textarea {
+    font-size: 0.95rem;
+  }
+  .section h2 {
+    font-size: 0.95rem;
+  }
+} 
+
+/* Section top header */
+.sectionHeader {
+  background: var(--mahogany);
+  color: var(--parchment);
+  font-family: 'librebaskerville-bold', serif;
+  font-weight: bold;
+  text-align: center;
+  padding: 0.75rem 1rem 0.5rem 1rem; /* trimmed bottom padding */
+  margin: 2rem auto 0 auto;
+  margin-bottom: 10px;
+  max-width: 800px;
+  border: 2px solid var(--mahogany);
+  border-bottom: 0; /* allow card's top border to show */
+  border-radius: 8px 8px 0 0;
+  font-size: 1.4rem;
+} 

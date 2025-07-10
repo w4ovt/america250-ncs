@@ -1,4 +1,5 @@
 import { pgTable, serial, varchar, integer, timestamp, decimal, text, boolean, jsonb, pgEnum } from 'drizzle-orm/pg-core';
+import { sql } from 'drizzle-orm';
 
 export const volunteers = pgTable('volunteers', {
   volunteerId: serial('volunteer_id').primaryKey(),
@@ -67,3 +68,32 @@ export const pollResponses = pgTable('poll_responses', {
   userAgent: text('user_agent'), // For visitor responses
   createdAt: timestamp('created_at').defaultNow(),
 }); 
+
+// Volunteer feedback poll responses
+export const volunteer_feedback_responses = pgTable("volunteer_feedback_responses", {
+  responseId: serial("response_id").primaryKey(),
+  volunteerId: integer("volunteer_id").notNull().references(() => volunteers.volunteerId),
+  
+  pinEase: integer("pin_ease").notNull().$type<1 | 2 | 3 | 4 | 5 | 6 | 7>(),
+  guideAccess: integer("guide_access").notNull().$type<1 | 2 | 3 | 4 | 5 | 6 | 7>(),
+  guideUsefulness: integer("guide_usefulness").notNull().$type<1 | 2 | 3 | 4 | 5 | 6 | 7>(),
+  activationEase: integer("activation_ease").notNull().$type<1 | 2 | 3 | 4 | 5 | 6 | 7>(),
+  dropboxUsefulness: integer("dropbox_usefulness").notNull().$type<1 | 2 | 3 | 4 | 5 | 6 | 7>(),
+  techSupport: integer("tech_support").notNull().$type<1 | 2 | 3 | 4 | 5 | 6 | 7>(),
+  
+  returnAvailability: varchar("return_availability", { length: 6 }).notNull().$type<'YES' | 'MAYBE' | 'NO'>(),
+  
+  featuresSuggested: varchar("features_suggested", { length: 250 }),
+  siteImprovementSuggestions: varchar("site_improvement_suggestions", { length: 250 }),
+  additionalComments: varchar("additional_comments", { length: 250 }),
+  
+  submittedAt: timestamp("submitted_at").defaultNow().notNull()
+}, (table) => ({
+  pinEaseCheck: sql`CHECK (${table.pinEase} BETWEEN 1 AND 7)`,
+  guideAccessCheck: sql`CHECK (${table.guideAccess} BETWEEN 1 AND 7)`,
+  guideUsefulnessCheck: sql`CHECK (${table.guideUsefulness} BETWEEN 1 AND 7)`,
+  activationEaseCheck: sql`CHECK (${table.activationEase} BETWEEN 1 AND 7)`,
+  dropboxUsefulnessCheck: sql`CHECK (${table.dropboxUsefulness} BETWEEN 1 AND 7)`,
+  techSupportCheck: sql`CHECK (${table.techSupport} BETWEEN 1 AND 7)`,
+  returnAvailabilityCheck: sql`CHECK (${table.returnAvailability} IN ('YES', 'MAYBE', 'NO'))`
+})); 

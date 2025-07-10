@@ -37,6 +37,24 @@ interface AdiSubmission {
   volunteerState: string;
 }
 
+interface PollResponse {
+  responseId: number;
+  volunteerId: number;
+  name: string;
+  callsign: string;
+  pinEase: number;
+  guideAccess: number;
+  guideUsefulness: number;
+  activationEase: number;
+  dropboxUsefulness: number;
+  techSupport: number;
+  returnAvailability: 'YES' | 'MAYBE' | 'NO';
+  featuresSuggested: string | null;
+  siteImprovementSuggestions: string | null;
+  additionalComments: string | null;
+  submittedAt: string;
+}
+
 interface AdminDashboardProps {
   onLogout?: () => void;
 }
@@ -45,11 +63,13 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [volunteers, setVolunteers] = useState<Volunteer[]>([]);
   const [activations, setActivations] = useState<Activation[]>([]);
   const [adiSubmissions, setAdiSubmissions] = useState<AdiSubmission[]>([]);
+  const [pollResponses, setPollResponses] = useState<PollResponse[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isCreatingActivation, setIsCreatingActivation] = useState(false);
   const [isEndingActivation, setIsEndingActivation] = useState<number | null>(null);
   const [isResettingCounter, setIsResettingCounter] = useState(false);
   const [isDeletingSubmission, setIsDeletingSubmission] = useState<number | null>(null);
+  const [isDeletingPollResponse, setIsDeletingPollResponse] = useState<number | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [submissionSearch, setSubmissionSearch] = useState('');
@@ -161,16 +181,46 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
     }
   }, [submissionSearch, submissionSortBy, submissionSortOrder]);
 
+  const fetchPollResponses = async () => {
+    try {
+      // Get auth data from localStorage as fallback
+      const stored = localStorage.getItem('volunteerAuth');
+      const authData = stored ? JSON.parse(stored) : null;
+      
+      const headers: Record<string, string> = {};
+      
+      // Add auth data to headers as fallback
+      if (authData) {
+        headers['x-volunteer-auth'] = encodeURIComponent(JSON.stringify(authData));
+      }
+      
+      const response = await fetch('/api/poll/responses', { 
+        credentials: 'include',
+        headers
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setPollResponses(data);
+      } else {
+        setErrorMessage('Failed to load poll responses');
+      }
+    } catch {
+      setErrorMessage('Network error loading poll responses');
+    }
+  };
+
   useEffect(() => {
     fetchVolunteers();
     fetchActivations();
     fetchAdiSubmissions();
+    fetchPollResponses();
     
     // Set up real-time updates every 30 seconds (reduced from 10)
     const interval = setInterval(() => {
       fetchVolunteers();
       fetchActivations();
       fetchAdiSubmissions();
+      fetchPollResponses();
     }, 30000);
     
     return () => clearInterval(interval);
@@ -345,6 +395,45 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
       setErrorMessage('Network error deleting ADI submission');
     } finally {
       setIsDeletingSubmission(null);
+    }
+  };
+
+  const handleDeletePollResponse = async (responseId: number) => {
+    if (!confirm('Are you sure you want to delete this poll response?')) {
+      return;
+    }
+
+    setIsDeletingPollResponse(responseId);
+    try {
+      // Get auth data from localStorage as fallback
+      const stored = localStorage.getItem('volunteerAuth');
+      const authData = stored ? JSON.parse(stored) : null;
+      
+      const headers: Record<string, string> = {};
+      
+      // Add auth data to headers as fallback
+      if (authData) {
+        headers['x-volunteer-auth'] = encodeURIComponent(JSON.stringify(authData));
+      }
+
+      const response = await fetch(`/api/poll/${responseId}`, {
+        method: 'DELETE',
+        credentials: 'include',
+        headers
+      });
+
+      if (response.ok) {
+        setSuccessMessage('Poll response deleted successfully');
+        fetchPollResponses();
+        setTimeout(() => setSuccessMessage(''), 3000);
+      } else {
+        const errorData = await response.json();
+        setErrorMessage(errorData.error || 'Failed to delete poll response');
+      }
+    } catch {
+      setErrorMessage('Network error deleting poll response');
+    } finally {
+      setIsDeletingPollResponse(null);
     }
   };
 
@@ -929,6 +1018,115 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
           </div>
         )}
       </div>
+
+      {/* Volunteer Poll Responses Section */}
+      <div className={styles.adminSection}>
+        <h3 className={styles.sectionTitle}>Volunteer Poll Responses</h3>
+        
+        {pollResponses.length === 0 ? (
+          <p style={{ textAlign: 'center', color: '#666', fontStyle: 'italic' }}>
+            No poll responses yet.
+          </p>
+        ) : (
+          <>
+            {/* Poll Responses Table */}
+            <div className={styles.submissionsTableWrapper}>
+              <table className={styles.submissionsTable}>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Callsign</th>
+                    <th>PIN<br/>Ease</th>
+                    <th>Guide<br/>Access</th>
+                    <th>Guide<br/>Useful</th>
+                    <th>Activation<br/>Ease</th>
+                    <th>Dropbox<br/>Useful</th>
+                    <th>Tech<br/>Support</th>
+                    <th>Return<br/>Avail</th>
+                    <th>Submitted</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {pollResponses.map((response) => (
+                    <tr key={response.responseId}>
+                      <td>{response.name}</td>
+                      <td>{response.callsign}</td>
+                      <td style={{ textAlign: 'center' }}>{response.pinEase}</td>
+                      <td style={{ textAlign: 'center' }}>{response.guideAccess}</td>
+                      <td style={{ textAlign: 'center' }}>{response.guideUsefulness}</td>
+                      <td style={{ textAlign: 'center' }}>{response.activationEase}</td>
+                      <td style={{ textAlign: 'center' }}>{response.dropboxUsefulness}</td>
+                      <td style={{ textAlign: 'center' }}>{response.techSupport}</td>
+                      <td style={{ textAlign: 'center' }}>
+                        <span className={`${styles.statusBadge} ${styles[response.returnAvailability.toLowerCase()]}`}>
+                          {response.returnAvailability}
+                        </span>
+                      </td>
+                      <td>
+                        <div>{new Date(response.submittedAt).toLocaleDateString()}</div>
+                        <div style={{fontSize: '0.85em'}}>{new Date(response.submittedAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                      </td>
+                      <td style={{ textAlign: 'center' }}>
+                        <button
+                          onClick={() => handleDeletePollResponse(response.responseId)}
+                          disabled={isDeletingPollResponse === response.responseId}
+                          className={styles.deleteBtn}
+                          title="Delete Response"
+                        >
+                          {isDeletingPollResponse === response.responseId ? 'Deleting...' : '🗑'}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Feedback Cards */}
+            <div style={{ marginTop: '2rem', width: '100%' }}>
+              <h4 className={styles.feedbackHeader}>Written Feedback</h4>
+              <div style={{ display: 'grid', gap: '1rem' }}>
+                {pollResponses.map((response) => {
+                  const hasFeedback = response.featuresSuggested || response.siteImprovementSuggestions || response.additionalComments;
+
+                  if (!hasFeedback) return null;
+
+                  return (
+                    <div key={response.responseId} className={styles.feedbackCardWrapper}>
+                      <div className={styles.feedbackCardHeader}>
+                        {response.name} ({response.callsign})
+                      </div>
+                      <div className={styles.feedbackCardContainer}>
+                        {response.featuresSuggested && (
+                          <div style={{ marginBottom: '0.75rem' }}>
+                            <strong style={{ color: 'var(--mahogany)' }}>Features Suggested:</strong>
+                            <p style={{ margin: '0.25rem 0 0 0', color: '#333' }}>{response.featuresSuggested}</p>
+                          </div>
+                        )}
+
+                        {response.siteImprovementSuggestions && (
+                          <div style={{ marginBottom: '0.75rem' }}>
+                            <strong style={{ color: 'var(--mahogany)' }}>Site Improvement Suggestions:</strong>
+                            <p style={{ margin: '0.25rem 0 0 0', color: '#333' }}>{response.siteImprovementSuggestions}</p>
+                          </div>
+                        )}
+
+                        {response.additionalComments && (
+                          <div style={{ marginBottom: '0.75rem' }}>
+                            <strong style={{ color: 'var(--mahogany)' }}>Additional Comments:</strong>
+                            <p style={{ margin: '0.25rem 0 0 0', color: '#333' }}>{response.additionalComments}</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
-} 
+}

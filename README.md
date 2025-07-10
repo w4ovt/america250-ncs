@@ -8,10 +8,38 @@ A Next.js amateur radio event management application designed for the America250
 
 The America250-NCS (National Communications System) is a special event station initiative celebrating America's 250th anniversary. Amateur radio operators across the nation volunteer to activate special event stations, coordinating through this centralized portal to manage activations, log contacts, and share their contributions to this historic celebration.
 
-## ✨ Features
+## 📅 Current Status & Upcoming Events
+
+### ✅ **K4A Event - COMPLETED**
+The inaugural K4A special event station operation has concluded successfully! This event ran from [start date] to [end date] and featured:
+- **Volunteer Participation**: [X] amateur radio operators
+- **Total Contacts**: [X] QSOs logged
+- **States Activated**: [X] states represented
+- **QRZ Integration**: Automated logbook submissions to QRZ.com
+
+### 🚀 **Chasing Cornwallis Challenge - COMING SOON**
+**New Master Site**: https://history.radio
+
+The Chasing Cornwallis Challenge will be a comprehensive platform hosting six annual historical events, each commemorating key moments in American history:
+
+1. **1775 - Lexington & Concord** (April 19th)
+2. **1776 - Declaration of Independence** (July 4th)
+3. **1777 - Saratoga Campaign** (October 17th)
+4. **1778 - Valley Forge** (December 19th)
+5. **1781 - Yorktown Siege** (October 19th)
+6. **1783 - Treaty of Paris** (September 3rd)
+
+**Features Planned:**
+- **Progress Tracking**: Participant advancement through historical timeline
+- **Certificate System**: Achievement badges for each event completion
+- **Unified Dashboard**: Centralized management for all six events
+- **Historical Education**: Educational content for each event
+- **Volunteer Coordination**: Real-time participant management and communications
+
+## ✨ Current Features
 
 ### 📻 **Amateur Radio Operations**
-- **Special Event Station Management** - K4A station coordination
+- **Special Event Station Management** - K4A station coordination (COMPLETED)
 - **Activation Tracking** - Real-time monitoring of active volunteers
 - **QRZ Logbook Integration** - Automated ADIF upload to QRZ.com
 - **Contact Logging** - ADI file processing and validation
@@ -36,6 +64,7 @@ The America250-NCS (National Communications System) is a special event station i
 
 ## 🏗️ Technology Stack
 
+### Current Stack
 - **Framework**: Next.js 15 with App Router
 - **Language**: TypeScript with strict mode
 - **Database**: Neon PostgreSQL with Drizzle ORM
@@ -43,11 +72,25 @@ The America250-NCS (National Communications System) is a special event station i
 - **Deployment**: Vercel (main app) + Cloudflare Workers (iframe)
 - **Integration**: QRZ.com API for logbook automation
 
+### Planned Migration Stack (Chasing Cornwallis Challenge)
+- **Framework**: SvelteKit (simpler, less linting overhead)
+- **Language**: TypeScript
+- **Database**: Render PostgreSQL (consolidated hosting)
+- **Styling**: Tailwind CSS
+- **Deployment**: Render (unified hosting + database)
+- **DNS/CDN**: Cloudflare
+- **Version Control**: GitHub
+
 ## 🌍 Production Deployment
 
+### Current Deployments
 - **Main Application**: https://america250.radio
 - **QRZ Iframe Worker**: america250-ncs-activations.marc-4b1.workers.dev
 - **Repository**: https://github.com/w4ovt/america250-ncs
+
+### Planned New Deployment
+- **Chasing Cornwallis Challenge**: https://history.radio
+- **Unified Platform**: Single deployment for all six historical events
 
 ## 🚀 Quick Start
 
@@ -134,6 +177,8 @@ The America250-NCS (National Communications System) is a special event station i
 - **Input Validation** - Comprehensive ADIF file verification
 - **Security Headers** - HTTPS enforcement and XSS protection
 - **Rate Limiting** - Protection against brute force attacks
+- **Secret Scanning** - Automated detection of exposed credentials
+- **Git History Cleanup** - Removal of sensitive data from repository history
 
 ## 📻 Amateur Radio Integration
 
@@ -154,6 +199,22 @@ The America250-NCS (National Communications System) is a special event station i
 - **Activation Statistics** - Real-time volunteer participation
 - **Log Processing Stats** - Upload success/failure tracking
 - **Performance Metrics** - Response times and system load
+- **SEO Optimization** - Structured data, sitemaps, and meta tags
+
+## 🔍 SEO & Marketing
+
+### Current SEO Implementation
+- **Structured Data**: Schema.org markup for events and organizations
+- **Sitemap**: Automated XML sitemap generation
+- **Meta Tags**: Open Graph and Twitter Card support
+- **Canonical URLs**: Proper URL canonicalization
+- **Alt Text**: Comprehensive image accessibility
+
+### SEO Strategy
+- **Keyword Focus**: "America250", "amateur radio", "special event station"
+- **Content Depth**: Historical context and educational materials
+- **Internal Linking**: Cross-referencing between related content
+- **Backlink Outreach**: Collaboration with official America250 sites
 
 ## 🤝 Contributing
 
@@ -182,10 +243,17 @@ This project supports the amateur radio community and America's 250th anniversar
 
 ## 🎯 Project Status
 
+### Current Status
+- **K4A Event**: ✅ COMPLETED
 - **Current Version**: 1.0.0
 - **Status**: Production Ready
 - **Last Updated**: December 2024
-- **Go-Live**: America250 Event Launch
+
+### Upcoming Development
+- **Chasing Cornwallis Challenge**: 🚧 IN DEVELOPMENT
+- **Technology Migration**: SvelteKit + Render stack
+- **New Domain**: history.radio
+- **Timeline**: Q1 2025 launch
 
 ---
 

@@ -121,23 +121,34 @@ export default function VolunteerPage() {
         <form onSubmit={handlePinSubmit} className={styles.pinForm}>
           <div className={styles.pinInputGroup}>
             <label htmlFor="pin-input" className="sr-only">PIN</label>
-            <input
-              type="password"
-              id="pin-input"
-              name="pin-input"
-              value={pin}
-              onChange={(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
-              className={styles.pinInput}
-              maxLength={4}
-              pattern="\d{4}"
-              required
-              disabled={attempts >= 3}
-              autoComplete="off"
-              placeholder=""
-            />
-            {pin.length === 0 && (
-              <div className={styles.pinUnderlines}>____</div>
-            )}
+            <div className={styles.pinBoxes}>
+              {[0, 1, 2, 3].map((i) => (
+                <div
+                  key={i}
+                  className={styles.pinDigitBox}
+                  tabIndex={i === 0 ? 0 : -1}
+                  aria-label={`PIN digit ${i + 1}`}
+                  onClick={() => document.getElementById('pin-hidden-input')?.focus()}
+                >
+                  {pin[i] ? pin[i] : '_'}
+                </div>
+              ))}
+              <input
+                type="password"
+                id="pin-hidden-input"
+                name="pin-input"
+                value={pin}
+                onChange={(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                maxLength={4}
+                pattern="\d{4}"
+                required
+                disabled={attempts >= 3}
+                autoComplete="off"
+                className={styles.pinHiddenInput}
+                style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', width: 0, height: 0 }}
+                tabIndex={-1}
+              />
+            </div>
           </div>
           
           {errorMessage && (

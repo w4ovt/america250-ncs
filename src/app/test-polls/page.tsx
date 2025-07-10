@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import PollWidget from '../../components/PollWidget';
 import styles from './TestPolls.module.css';
 
 export default function TestPollsPage() {
@@ -52,21 +51,32 @@ export default function TestPollsPage() {
         {showVisitorPoll && (
           <div>
             <h2 className="text-2xl font-semibold mb-4 text-blue-600">Visitor Poll Test</h2>
-            <PollWidget 
-              pollType="visitor" 
-              onComplete={() => alert('Visitor poll completed!')}
-            />
+            <div>
+              <h3 className="text-lg font-semibold mb-2">Testing Instructions:</h3>
+              <ul className="list-disc list-inside space-y-1 text-sm">
+                <li>Make sure the database migration has been applied (drizzle/0003_poll_system.sql)</li>
+                <li>The migration includes sample polls for both visitor and volunteer types</li>
+                <li>Try submitting responses and check the browser console for any errors</li>
+                <li>Check the database to see if responses are being saved</li>
+                <li>Use the API endpoints directly: GET /api/polls?type=visitor or /api/polls?type=volunteer</li>
+              </ul>
+            </div>
           </div>
         )}
 
         {showVolunteerPoll && (
           <div>
             <h2 className="text-2xl font-semibold mb-4 text-green-600">Volunteer Poll Test</h2>
-            <PollWidget 
-              pollType="volunteer" 
-              volunteerId={volunteerId}
-              onComplete={() => alert('Volunteer poll completed!')}
-            />
+            <div>
+              <h3 className="text-lg font-semibold mb-2">Testing Instructions:</h3>
+              <ul className="list-disc list-inside space-y-1 text-sm">
+                <li>Make sure the database migration has been applied (drizzle/0003_poll_system.sql)</li>
+                <li>The migration includes sample polls for both visitor and volunteer types</li>
+                <li>Try submitting responses and check the browser console for any errors</li>
+                <li>Check the database to see if responses are being saved</li>
+                <li>Use the API endpoints directly: GET /api/polls?type=visitor or /api/polls?type=volunteer</li>
+              </ul>
+            </div>
           </div>
         )}
       </div>
